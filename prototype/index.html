@@ -467,11 +467,42 @@ textarea.inputline:focus{ outline:none; border-color:var(--sea); }
   .phone-wrap{ order:2; }
   .legendrail{ justify-self:center; order:3; max-width:560px; width:100%; }
 }
-@media (max-width: 440px){
-  .stage{ padding:16px 8px 30px; }
-  .phone{ width:100%; max-width:390px; height:min(824px, 88vh); border-radius:44px; padding:9px; }
-  .screenwin{ border-radius:38px; }
-  .brandrail h1{ font-size:26px; }
+/* ---- True full-screen app on phones (no device frame, no rails) ---- */
+@media (max-width: 640px){
+  body{ background:var(--surface-2); min-height:100dvh; }
+  .stage{ display:block; padding:0; gap:0; min-height:100dvh; }
+  .brandrail, .legendrail{ display:none; }
+  .phone-wrap{ display:block; }
+  .phone{
+    width:100vw; height:100dvh; padding:0; border-radius:0;
+    background:none; box-shadow:none;
+  }
+  .phone::before{ display:none; }
+  .screenwin{
+    border-radius:0; height:100dvh; width:100%;
+    padding-top:env(safe-area-inset-top);
+  }
+  .island, .statusbar{ display:none; }
+  .intro{ border-radius:0; }
+  .tabbar{
+    left:10px; right:10px;
+    bottom:calc(10px + env(safe-area-inset-bottom));
+  }
+  .screen{
+    padding-left:16px; padding-right:16px;
+    padding-bottom:calc(102px + env(safe-area-inset-bottom));
+  }
+  .chips{ margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px; }
+  .conditions{ margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px; }
+  .tribe{ margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px; }
+  .themebtn{
+    top:auto; right:auto;
+    bottom:calc(88px + env(safe-area-inset-bottom)); left:14px;
+    width:40px; height:40px; padding:0; border-radius:50%; gap:0;
+    justify-content:center;
+  }
+  .themebtn #themeLbl{ display:none; }
+  .map-overlay-top{ top:calc(8px + env(safe-area-inset-top)); }
 }
 </style>
 
@@ -590,14 +621,36 @@ const AV = {
   face: (seed,c1,c2)=>`data:image/svg+xml;utf8,`+encodeURIComponent(
     `<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><defs><linearGradient id='a' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c1}'/><stop offset='1' stop-color='${c2}'/></linearGradient></defs><rect width='120' height='120' fill='url(#a)'/><circle cx='60' cy='47' r='22' fill='rgba(255,255,255,.9)'/><path d='M18 118c0-26 19-40 42-40s42 14 42 40z' fill='rgba(255,255,255,.9)'/></svg>`)
 };
-const scenery = (seed, from, to, kind)=>`data:image/svg+xml;utf8,`+encodeURIComponent(
-  `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><defs><linearGradient id='s' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='${from}'/><stop offset='1' stop-color='${to}'/></linearGradient></defs><rect width='400' height='260' fill='url(#s)'/>`+
-  (kind==='wave'
-    ? `<path d='M0 150 Q80 120 160 150 T320 150 T480 150 V260 H0 Z' fill='rgba(255,255,255,.14)'/><path d='M0 180 Q90 150 180 180 T360 180 T520 180 V260 H0 Z' fill='rgba(255,255,255,.2)'/><circle cx='320' cy='60' r='34' fill='rgba(255,221,150,.85)'/>`
-    : kind==='mountain'
-    ? `<path d='M0 260 L120 90 L200 170 L300 60 L400 200 V260 Z' fill='rgba(255,255,255,.16)'/><path d='M0 260 L90 150 L180 210 L280 130 L400 230 V260 Z' fill='rgba(255,255,255,.28)'/><circle cx='330' cy='55' r='26' fill='rgba(255,255,255,.7)'/>`
-    : `<path d='M0 200 Q100 170 200 200 T400 200 V260 H0Z' fill='rgba(255,255,255,.18)'/><circle cx='70' cy='60' r='30' fill='rgba(255,235,190,.8)'/>`)+
-  `</svg>`);
+// Postcard-style scenery: each variant carries its OWN full tonal range
+// (bright sky → deep foreground) so it reads as a landscape on light AND dark cards.
+const scenery = (seed, from, to, kind)=>{
+  const grad = (id,stops)=>`<linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">${stops.map(([o,c])=>`<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient>`;
+  let defs='', body='';
+  if(kind==='mountain'){
+    defs = grad('sky',[[0,'#CFE7DE'],[0.55,'#8FC2BE'],[1,'#6FA9AF']]);
+    body = `<rect width="400" height="260" fill="url(#sky)"/>`
+      + `<circle cx="312" cy="58" r="24" fill="#FFF3D6"/>`
+      + `<path d="M-10 200 L70 118 L140 176 L210 96 L300 168 L400 120 V260 H-10Z" fill="#3E8E7E"/>`
+      + `<path d="M-10 260 L60 150 L150 208 L250 128 L340 196 L400 168 V260Z" fill="#1F6A5C"/>`
+      + `<path d="M-10 260 L90 196 L200 236 L320 190 L400 226 V260Z" fill="#0E4C4A"/>`;
+  } else if(kind==='flat'){ // warm sunset over lagoon (pêche)
+    defs = grad('sky',[[0,'#FFE0A8'],[0.5,'#FFB27A'],[1,'#E97C4E']]);
+    body = `<rect width="400" height="260" fill="url(#sky)"/>`
+      + `<circle cx="210" cy="150" r="30" fill="#FFF0CE"/>`
+      + `<rect y="168" width="400" height="92" fill="#C85E38"/>`
+      + `<path d="M0 176 Q100 166 200 176 T400 176 V260 H0Z" fill="#A94A2C"/>`
+      + `<path d="M150 176 h120 M170 190 h80 M185 204 h50" stroke="rgba(255,240,206,.5)" stroke-width="3" fill="none"/>`;
+  } else { // wave / ocean (surf) — default
+    defs = grad('sky',[[0,'#BFEAE4'],[0.4,'#5FBFC0'],[1,'#0E6B66']]);
+    body = `<rect width="400" height="260" fill="url(#sky)"/>`
+      + `<circle cx="320" cy="56" r="22" fill="#FFF3D6"/>`
+      + `<path d="M-10 150 Q80 122 170 150 T360 150 T520 150 V260 H-10Z" fill="#0F7A72"/>`
+      + `<path d="M-10 188 Q90 158 190 188 T380 188 T560 188 V260 H-10Z" fill="#0B4E4A"/>`
+      + `<path d="M40 132 q40 -16 80 0 M170 138 q40 -16 80 0" stroke="rgba(255,255,255,.55)" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  }
+  return `data:image/svg+xml,`+encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><defs>${defs}</defs>${body}</svg>`);
+};
 
 const A_TEAL="#0E4C4A", A_SEA="#12776F", A_SUN="#FF7A45", A_GLA="#6FA9AF", A_SAND="#d8a15f", A_NIGHT="#123a52";
 
@@ -653,7 +706,7 @@ function screenHome(){
     <article class="card adv" onclick="openSheet('surf')">
       <div class="hero" style="background:center/cover url('${scenery(11,'#1a86a8','#0e4c4a','wave')}')">
         <div class="grad"></div>
-        <div class="hero .top top"><span class="badge-live"><span class="dot" style="background:#7CFFB0"></span> Départ dans 2 h</span><span class="pill sun" style="background:rgba(255,255,255,.16);color:#fff">Surf</span></div>
+        <div class="top"><span class="badge-live"><span class="dot" style="background:#7CFFB0"></span> Départ dans 2 h</span><span class="pill sun" style="background:rgba(255,255,255,.16);color:#fff">Surf</span></div>
         <div class="cap">
           <h3>Session matinale · Teahupo'o</h3>
           <div class="meta"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3.4"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z" fill="none" stroke="currentColor" stroke-width="2"/></svg> PK0 · Reef pass — niveau confirmé</div>
@@ -685,7 +738,7 @@ function screenHome(){
     <article class="card adv" onclick="openSheet('hike')">
       <div class="hero" style="background:center/cover url('${scenery(12,'#3f7d6a','#0e3b2f','mountain')}')">
         <div class="grad"></div>
-        <div class="hero top"><span class="badge-live"><span class="dot" style="background:#FFD27C"></span> Samedi · 6 h 00</span><span class="pill sun" style="background:rgba(255,255,255,.16);color:#fff">Rando</span></div>
+        <div class="top"><span class="badge-live"><span class="dot" style="background:#FFD27C"></span> Samedi · 6 h 00</span><span class="pill sun" style="background:rgba(255,255,255,.16);color:#fff">Rando</span></div>
         <div class="cap">
           <h3>Ascension du Mont Aorai</h3>
           <div class="meta">2 066 m · 12 km · dénivelé 1 400 m — endurant</div>
