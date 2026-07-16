@@ -452,7 +452,7 @@ textarea.inputline:focus{ outline:none; border-color:var(--sea); }
 
 /* theme toggle (floating) */
 .themebtn{
-  position:fixed; top:18px; right:18px; z-index:120;
+  position:fixed; top:18px; right:18px; z-index:90;
   height:40px; padding:0 15px; border-radius:999px; font-size:12.5px; font-weight:650;
   background:color-mix(in srgb,var(--surface) 80%,transparent); color:var(--ink);
   backdrop-filter:blur(12px); box-shadow:var(--shadow); border:1px solid var(--line);
@@ -504,6 +504,90 @@ textarea.inputline:focus{ outline:none; border-color:var(--sea); }
   .themebtn #themeLbl{ display:none; }
   .map-overlay-top{ top:calc(8px + env(safe-area-inset-top)); }
 }
+
+/* ---------- Bottom sheet ---------- */
+.sheet-host{ position:absolute; inset:0; z-index:100; display:flex; align-items:flex-end; justify-content:center; visibility:hidden; pointer-events:none; }
+.sheet-host.show{ visibility:visible; pointer-events:auto; }
+.sheet-backdrop{ position:absolute; inset:0; background:rgba(4,16,15,.55); opacity:0; transition:opacity .3s; }
+.sheet-host.show .sheet-backdrop{ opacity:1; }
+.sheet{
+  position:relative; width:100%; max-height:90%; overflow-y:auto;
+  background:var(--surface-2); color:var(--ink);
+  border-radius:28px 28px 0 0; border:1px solid var(--line); border-bottom:none;
+  box-shadow:0 -12px 44px rgba(4,16,15,.34);
+  transform:translateY(101%); transition:transform .36s cubic-bezier(.2,.85,.25,1);
+  padding:8px 18px calc(22px + env(safe-area-inset-bottom));
+}
+.sheet-host.show .sheet{ transform:none; }
+.sheet::-webkit-scrollbar{ width:0; }
+.sheet-handle{ width:42px; height:5px; border-radius:3px; background:var(--line); margin:6px auto 4px; }
+@media (prefers-reduced-motion: reduce){ .sheet{ transition:transform .2s ease; } }
+.sheet-hero{ height:150px; border-radius:18px; margin:10px 0 4px; position:relative; overflow:hidden; }
+.sheet-hero .g{ position:absolute; inset:0; background:linear-gradient(180deg,transparent 45%,rgba(4,16,15,.66)); }
+.sheet-hero .cap{ position:absolute; left:14px; right:14px; bottom:12px; color:#fff; }
+.sheet-title{ font-size:22px; font-weight:750; letter-spacing:-.01em; margin:12px 0 3px; text-wrap:balance; }
+.sheet-sub{ color:var(--ink-mute); font-size:13.5px; }
+.sheet-sec{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); font-weight:700; margin:18px 0 10px; }
+.sheet-desc{ font-size:14.5px; line-height:1.55; color:var(--ink-soft); }
+.chiprow{ display:flex; gap:8px; flex-wrap:wrap; }
+.mini{ display:flex; gap:8px; }
+.mini .b{ flex:1; background:var(--surface); border:1px solid var(--line-2); border-radius:14px; padding:11px; text-align:center; }
+.mini .b .v{ font-size:16px; font-weight:750; font-variant-numeric:tabular-nums; }
+.mini .b .l{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-mute); margin-top:2px; }
+.plist{ display:flex; flex-direction:column; gap:2px; }
+.prow{ display:flex; align-items:center; gap:11px; padding:9px 0; }
+.prow .nm{ font-size:14px; font-weight:650; }
+.prow .rl{ font-size:12px; color:var(--ink-mute); }
+.sheet-actions{ display:flex; gap:10px; margin-top:20px; }
+
+/* ---------- Toast ---------- */
+.toast-host{ position:absolute; left:0; right:0; bottom:calc(92px + env(safe-area-inset-bottom)); z-index:120; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; padding:0 22px; }
+.toast{ background:var(--ink); color:var(--surface); padding:11px 16px; border-radius:14px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow-lg); display:flex; gap:9px; align-items:center; opacity:0; transform:translateY(12px) scale(.96); transition:.3s cubic-bezier(.2,.85,.25,1); max-width:100%; }
+.toast.show{ opacity:1; transform:none; }
+.toast .ic{ display:grid; place-items:center; color:var(--sun); }
+
+/* ---------- Switch ---------- */
+.switch{ width:46px; height:28px; border-radius:999px; background:var(--surface-3); position:relative; transition:.22s; flex:none; border:1px solid var(--line); cursor:pointer; }
+.switch[aria-checked="true"]{ background:var(--good); border-color:transparent; }
+.switch::after{ content:""; position:absolute; top:2px; left:2px; width:22px; height:22px; border-radius:50%; background:#fff; transition:.22s cubic-bezier(.2,.85,.25,1); box-shadow:0 1px 3px rgba(0,0,0,.3); }
+.switch[aria-checked="true"]::after{ transform:translateX(18px); }
+.setrow{ display:flex; align-items:center; gap:13px; padding:14px 2px; border-bottom:1px solid var(--line); }
+.setrow:last-child{ border-bottom:none; }
+.setrow .tx{ flex:1; }
+.setrow .tx b{ display:block; font-size:14.5px; }
+.setrow .tx span{ font-size:12.5px; color:var(--ink-mute); }
+
+/* ---------- Editable inputs ---------- */
+.tinput{ width:100%; background:var(--surface); border:1.5px solid var(--line); border-radius:13px; padding:13px 14px; font-size:15px; color:var(--ink); font-family:inherit; }
+.tinput:focus{ outline:none; border-color:var(--sea); }
+textarea.tinput{ resize:none; min-height:96px; line-height:1.5; }
+.tlabel{ font-size:12.5px; font-weight:700; color:var(--ink-soft); margin:14px 2px 8px; display:block; }
+.optlist{ display:flex; flex-direction:column; gap:9px; }
+.optbtn{ display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px; border-radius:14px; border:1.5px solid var(--line); background:var(--surface); font-size:14.5px; font-weight:600; color:var(--ink); transition:.15s; }
+.optbtn[aria-pressed="true"]{ border-color:var(--sea); background:color-mix(in srgb,var(--sea) 8%,var(--surface)); color:var(--sea-bright); }
+.optbtn .em{ font-size:19px; }
+.optbtn .ck{ margin-left:auto; opacity:0; color:var(--sea-bright); }
+.optbtn[aria-pressed="true"] .ck{ opacity:1; }
+
+/* real chat input */
+.chat-real{ flex:1; height:44px; background:var(--surface-3); border-radius:14px; padding:0 15px; font-size:14px; color:var(--ink); border:1px solid transparent; font-family:inherit; }
+.chat-real:focus{ outline:none; border-color:var(--sea); background:var(--surface); }
+
+/* notification item */
+.notif{ display:flex; gap:12px; padding:13px 2px; border-bottom:1px solid var(--line); align-items:flex-start; }
+.notif:last-child{ border-bottom:none; }
+.notif .ico{ width:38px; height:38px; border-radius:12px; display:grid; place-items:center; font-size:17px; flex:none; background:var(--surface-3); }
+.notif .c{ flex:1; }
+.notif .c .t{ font-size:14px; line-height:1.35; }
+.notif .c .t b{ font-weight:700; }
+.notif .c .tm{ font-size:11.5px; color:var(--ink-mute); margin-top:3px; }
+.notif.unread{ position:relative; }
+.notif.unread::after{ content:""; position:absolute; top:16px; right:2px; width:8px; height:8px; border-radius:50%; background:var(--sun); }
+
+/* clickable affordances */
+.tribe .p, .badge, .adv, .entry, .cond, .avail .d, .prow, .tribe .ring{ cursor:pointer; }
+.tap{ transition:transform .12s ease; }
+.tap:active{ transform:scale(.97); }
 </style>
 
 <button class="themebtn" id="themeBtn" aria-label="Changer de thème">
@@ -564,6 +648,16 @@ textarea.inputline:focus{ outline:none; border-color:var(--sea); }
               <span class="lb">Passeport</span>
             </button>
           </nav>
+
+          <!-- Bottom sheet + toasts -->
+          <div class="sheet-host" id="sheetHost" aria-hidden="true">
+            <div class="sheet-backdrop" onclick="closeSheet()"></div>
+            <div class="sheet" id="sheetPanel" role="dialog" aria-modal="true">
+              <div class="sheet-handle"></div>
+              <div id="sheetBody"></div>
+            </div>
+          </div>
+          <div class="toast-host" id="toastHost"></div>
 
           <!-- Intro overlay -->
           <div class="intro" id="intro">
@@ -676,101 +770,38 @@ function screenHome(){
         <div class="name">Ia ora na, Manea 🤙</div>
       </div>
       <span class="spacer"></span>
-      <button class="iconbtn" onclick="alert('Notifications — non implémenté dans le prototype')" aria-label="Notifications">
+      <button class="iconbtn tap" onclick="notifSheet()" aria-label="Notifications">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
-        <span style="position:absolute;top:8px;right:9px;width:8px;height:8px;background:var(--sun);border-radius:50%;border:2px solid var(--surface)"></span>
+        <span id="notifDot" style="position:absolute;top:8px;right:9px;width:8px;height:8px;background:var(--sun);border-radius:50%;border:2px solid var(--surface)"></span>
       </button>
     </div>
 
     <div class="conditions">
-      <div class="cond">
+      <div class="cond tap" onclick="conditionsSheet()">
         <div class="lbl">Houle</div><div class="big">1,6 m</div>
         <div class="sub">SO · 14 s</div><div class="bar"><i style="width:72%"></i></div>
       </div>
-      <div class="cond">
+      <div class="cond tap" onclick="conditionsSheet()">
         <div class="lbl">Vent</div><div class="big">8 nds</div>
         <div class="sub">Offshore · idéal</div><div class="bar"><i style="width:35%"></i></div>
       </div>
-      <div class="cond">
+      <div class="cond tap" onclick="conditionsSheet()">
         <div class="lbl">Marée</div><div class="big">↑ 1,1 m</div>
         <div class="sub">Montante · 15 h 20</div><div class="bar"><i style="width:55%"></i></div>
       </div>
-      <div class="cond">
+      <div class="cond tap" onclick="conditionsSheet()">
         <div class="lbl">Eau</div><div class="big">27°</div>
         <div class="sub">Boardshort</div><div class="bar"><i style="width:88%"></i></div>
       </div>
     </div>
 
     <div class="sec"><span class="h-md">Aventures près de toi</span><a onclick="go('map')">Voir la carte</a></div>
-
-    <article class="card adv" onclick="openSheet('surf')">
-      <div class="hero" style="background:center/cover url('${scenery(11,'#1a86a8','#0e4c4a','wave')}')">
-        <div class="grad"></div>
-        <div class="top"><span class="badge-live"><span class="dot" style="background:#7CFFB0"></span> Départ dans 2 h</span><span class="pill sun" style="background:rgba(255,255,255,.16);color:#fff">Surf</span></div>
-        <div class="cap">
-          <h3>Session matinale · Teahupo'o</h3>
-          <div class="meta"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3.4"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z" fill="none" stroke="currentColor" stroke-width="2"/></svg> PK0 · Reef pass — niveau confirmé</div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="row">
-          <div class="who">
-            <img class="avatar" src="${people.leilani}" width="30" height="30" alt="">
-            <div><div class="n"><b>Leilani</b> organise</div></div>
-          </div>
-          <span class="spacer"></span>
-          <span class="slots">3/5 places</span>
-        </div>
-        <div class="progress"><i style="width:60%"></i></div>
-        <div class="row" style="margin-top:13px">
-          <div class="stackav">
-            <img class="avatar" src="${people.leilani}" width="26" height="26" alt="">
-            <img class="avatar" src="${people.teiki}" width="26" height="26" alt="">
-            <img class="avatar" src="${people.moana}" width="26" height="26" alt="">
-          </div>
-          <span class="tag">Teiki, Moana + toi ?</span>
-          <span class="spacer"></span>
-          <button class="btn sm sun" onclick="event.stopPropagation();joinBtn(this)">Rejoindre</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="card adv" onclick="openSheet('hike')">
-      <div class="hero" style="background:center/cover url('${scenery(12,'#3f7d6a','#0e3b2f','mountain')}')">
-        <div class="grad"></div>
-        <div class="top"><span class="badge-live"><span class="dot" style="background:#FFD27C"></span> Samedi · 6 h 00</span><span class="pill sun" style="background:rgba(255,255,255,.16);color:#fff">Rando</span></div>
-        <div class="cap">
-          <h3>Ascension du Mont Aorai</h3>
-          <div class="meta">2 066 m · 12 km · dénivelé 1 400 m — endurant</div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="row">
-          <div class="who">
-            <img class="avatar" src="${people.raihau}" width="30" height="30" alt="">
-            <div><div class="n"><b>Raihau</b> organise</div></div>
-          </div>
-          <span class="spacer"></span>
-          <span class="slots">5/8 places</span>
-        </div>
-        <div class="progress"><i style="width:62%"></i></div>
-        <div class="row" style="margin-top:13px">
-          <div class="stackav">
-            <img class="avatar" src="${people.raihau}" width="26" height="26" alt="">
-            <img class="avatar" src="${people.hina}" width="26" height="26" alt="">
-            <img class="avatar" src="${people.vaite}" width="26" height="26" alt="">
-          </div>
-          <span class="tag">+ 3 aventuriers</span>
-          <span class="spacer"></span>
-          <button class="btn sm sun" onclick="event.stopPropagation();joinBtn(this)">Rejoindre</button>
-        </div>
-      </div>
-    </article>
+    <div id="homeFeed"></div>
 
     <div class="sec"><span class="h-md">Ta tribu bouge</span><a onclick="go('journal')">Le carnet</a></div>
     <div class="tribe">
       ${['moana','teiki','hina','vaite','leilani','raihau'].map(p=>`
-        <div class="p"><div class="ring"><img src="${people[p]}" alt=""></div><div class="nm">${p[0].toUpperCase()+p.slice(1)}</div></div>`).join('')}
+        <div class="p tap" onclick="profileSheet('${p}')"><div class="ring"><img src="${people[p]}" alt=""></div><div class="nm">${p[0].toUpperCase()+p.slice(1)}</div></div>`).join('')}
     </div>
   </section>`;
 }
@@ -805,43 +836,43 @@ function screenMap(){
         Rechercher un spot, une sortie…
       </div>
       <div class="map-chips" id="mapChips">
-        <button class="chip" aria-pressed="true" onclick="toggleChip(this)"><span class="ic">🌊</span> Sorties</button>
-        <button class="chip" aria-pressed="true" onclick="toggleChip(this)"><span class="ic">📍</span> Spots</button>
-        <button class="chip" aria-pressed="false" onclick="toggleChip(this)"><span class="ic">🧭</span> Aventuriers</button>
-        <button class="chip" aria-pressed="false" onclick="toggleChip(this)">Aujourd'hui</button>
-        <button class="chip" aria-pressed="false" onclick="toggleChip(this)">Mon niveau</button>
+        <button class="chip" data-filter="adv" aria-pressed="true" onclick="toggleChip(this)"><span class="ic">🌊</span> Sorties</button>
+        <button class="chip" data-filter="spot" aria-pressed="true" onclick="toggleChip(this)"><span class="ic">📍</span> Spots</button>
+        <button class="chip" data-filter="user" aria-pressed="true" onclick="toggleChip(this)"><span class="ic">🧭</span> Aventuriers</button>
+        <button class="chip" data-filter="today" aria-pressed="false" onclick="toggleChip(this)">Aujourd'hui</button>
+        <button class="chip" data-filter="level" aria-pressed="false" onclick="toggleChip(this)">Mon niveau</button>
       </div>
     </div>
 
     <!-- pins -->
-    <div class="pin adv" style="left:52%;top:46%" onclick="openSheet('surf')">
+    <div class="pin adv tap" data-type="adv" data-today="1" style="left:52%;top:46%" onclick="mapPin('a1')">
       <div class="head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 16c3 0 3-3 6-3s3 3 6 3 3-3 4-3"/><path d="M14 4c3 3 4 8 1 12"/></svg></div>
       <span class="lbl">Surf · 2 h</span>
     </div>
-    <div class="pin spot" style="left:66%;top:62%" onclick="openSheet('spot')">
+    <div class="pin spot tap" data-type="spot" style="left:66%;top:62%" onclick="spotSheet('reef')">
       <div class="head"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></div>
       <span class="lbl">Reef pass</span>
     </div>
-    <div class="pin adv" style="left:36%;top:36%" onclick="openSheet('hike')">
+    <div class="pin adv tap" data-type="adv" data-today="0" style="left:36%;top:36%" onclick="mapPin('a2')">
       <div class="head"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M4 20 L11 7 L15 14 L18 9 L21 20 Z"/></svg></div>
       <span class="lbl">Rando · Sam</span>
     </div>
-    <div class="pin user" style="left:47%;top:56%" onclick="openSheet('user')">
+    <div class="pin user tap" data-type="user" style="left:47%;top:56%" onclick="profileSheet('teiki')">
       <div class="head"><img src="${people.teiki}" alt=""></div>
     </div>
-    <div class="pin user" style="left:58%;top:38%" onclick="openSheet('user')">
+    <div class="pin user tap" data-type="user" style="left:58%;top:38%" onclick="profileSheet('hina')">
       <div class="head"><img src="${people.hina}" alt=""></div>
     </div>
 
-    <!-- sheet -->
-    <div class="card mapsheet" id="mapsheet">
+    <!-- mini sheet -->
+    <div class="card mapsheet tap" id="mapsheet" onclick="if(window._mapSheetId)advDetail(window._mapSheetId)">
       <img class="thumb" id="sheetThumb" src="" alt="">
       <div style="flex:1;min-width:0">
         <div class="row" style="gap:7px"><span class="pill sun" id="sheetTag">Surf</span><span class="tag" id="sheetWhen">Départ 8 h 30</span></div>
         <div class="h-md" id="sheetTitle" style="margin-top:6px;font-size:16px">Session matinale</div>
         <div class="muted" id="sheetSub" style="font-size:12.5px;margin-top:2px">Teahupo'o · 3/5 places</div>
       </div>
-      <button class="btn sm sun" style="flex:none" onclick="joinBtn(this)">Voir</button>
+      <button class="btn sm sun" style="flex:none">Voir</button>
     </div>
   </section>`;
 }
@@ -861,12 +892,12 @@ function screenCreate(){
 
     <div class="field">
       <label>Quand ?</label>
-      <div class="inputline"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sea-bright)" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 9h18M8 3v4M16 3v4"/></svg><span class="val">Demain · 6 h 30</span><span class="spacer"></span><span class="muted" style="font-size:13px">Modifier</span></div>
+      <button class="inputline tap" style="width:100%" onclick="dateSheet()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sea-bright)" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 9h18M8 3v4M16 3v4"/></svg><span class="val" id="cWhen">Demain · 6 h 30</span><span class="spacer"></span><span class="muted" style="font-size:13px">Modifier</span></button>
     </div>
 
     <div class="field">
       <label>Où ?</label>
-      <div class="inputline"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sun)" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" stroke-linejoin="round"/></svg><span class="val">Teahupo'o — Reef pass</span></div>
+      <button class="inputline tap" style="width:100%" onclick="placeSheet()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sun)" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" stroke-linejoin="round"/></svg><span class="val" id="cPlace">Teahupo'o — Reef pass</span><span class="spacer"></span><span class="muted" style="font-size:13px">Modifier</span></button>
     </div>
 
     <div class="field">
@@ -880,7 +911,7 @@ function screenCreate(){
 
     <div class="field">
       <label>Décris la sortie</label>
-      <textarea class="inputline" placeholder="Niveau requis, matériel, point de rendez-vous… Sois clair, ça rassure ta tribu.">Session tranquille au line-up. Niveau confirmé (reef, courant). RDV parking PK0, on check la houle ensemble ☕</textarea>
+      <textarea class="inputline" id="cDesc" placeholder="Niveau requis, matériel, point de rendez-vous… Sois clair, ça rassure ta tribu.">Session tranquille au line-up. Niveau confirmé (reef, courant). RDV parking PK0, on check la houle ensemble ☕</textarea>
     </div>
 
     <div class="field">
@@ -942,27 +973,27 @@ function screenPassport(){
       </div>
     </div>
 
-    <div class="sec"><span class="h-md">Badges</span><a onclick="alert('12 badges au total')">12 obtenus</a></div>
+    <div class="sec"><span class="h-md">Badges</span><a onclick="badgeSheet()">12 obtenus</a></div>
     <div class="badges">
-      <div class="badge"><div class="medal">🌅</div><div class="cap">100 aubes</div></div>
-      <div class="badge"><div class="medal">🌊</div><div class="cap">Reef master</div></div>
-      <div class="badge"><div class="medal">🧭</div><div class="cap">Guide local</div></div>
-      <div class="badge"><div class="medal">🤝</div><div class="cap">Fiable ×50</div></div>
-      <div class="badge"><div class="medal">🏔️</div><div class="cap">Sommet 2k</div></div>
-      <div class="badge locked"><div class="medal">❄️</div><div class="cap">1re neige</div></div>
-      <div class="badge locked"><div class="medal">🪁</div><div class="cap">Kite 25 nds</div></div>
-      <div class="badge locked"><div class="medal">🌍</div><div class="cap">Globe-trotter</div></div>
+      <div class="badge tap" onclick="badgeSheet('aubes')"><div class="medal">🌅</div><div class="cap">100 aubes</div></div>
+      <div class="badge tap" onclick="badgeSheet('reef')"><div class="medal">🌊</div><div class="cap">Reef master</div></div>
+      <div class="badge tap" onclick="badgeSheet('guide')"><div class="medal">🧭</div><div class="cap">Guide local</div></div>
+      <div class="badge tap" onclick="badgeSheet('fiable')"><div class="medal">🤝</div><div class="cap">Fiable ×50</div></div>
+      <div class="badge tap" onclick="badgeSheet('sommet')"><div class="medal">🏔️</div><div class="cap">Sommet 2k</div></div>
+      <div class="badge locked tap" onclick="badgeSheet('neige')"><div class="medal">❄️</div><div class="cap">1re neige</div></div>
+      <div class="badge locked tap" onclick="badgeSheet('kite')"><div class="medal">🪁</div><div class="cap">Kite 25 nds</div></div>
+      <div class="badge locked tap" onclick="badgeSheet('globe')"><div class="medal">🌍</div><div class="cap">Globe-trotter</div></div>
     </div>
 
     <div class="sec"><span class="h-md">Disponibilités</span></div>
     <div class="card" style="padding:14px">
-      <div class="avail">
-        ${[['L',0],['M',1],['M',0],['J',0],['V',1],['S',1],['D',1]].map(([d,on])=>`<div class="d ${on?'on':''}">${d}</div>`).join('')}
+      <div class="avail" id="availRow">
+        ${[['Lun',0],['Mar',1],['Mer',0],['Jeu',0],['Ven',1],['Sam',1],['Dim',1]].map(([d,on])=>`<div class="d tap ${on?'on':''}" onclick="toggleAvail(this)">${d[0]}</div>`).join('')}
       </div>
-      <p class="muted" style="font-size:12.5px;margin:12px 0 0">Généralement dispo <b style="color:var(--ink)">tôt le matin</b> et le week-end. Ta tribu voit tes créneaux avant de proposer.</p>
+      <p class="muted" style="font-size:12.5px;margin:12px 0 0">Touche un jour pour l'activer. Ta tribu voit tes créneaux avant de proposer une sortie.</p>
     </div>
 
-    <button class="btn ghost" style="margin-top:16px" onclick="alert('Édition du profil — non implémenté')">Modifier mon passeport</button>
+    <button class="btn ghost" style="margin-top:16px" onclick="editProfileSheet()">Modifier mon passeport</button>
   </section>`;
 }
 
@@ -971,10 +1002,10 @@ function screenJournal(){
   <section class="screen" data-screen="journal" id="s-journal">
     <div class="topbar"><div class="greet"><span class="eyebrow">Le carnet</span><div class="name">Vos aventures</div></div>
       <span class="spacer"></span>
-      <button class="iconbtn" aria-label="Filtrer" onclick="alert('Filtrer par sport / tribu / lieu')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h18M6 12h12M10 19h4"/></svg></button>
+      <button class="iconbtn tap" aria-label="Filtrer" onclick="filterSheet()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h18M6 12h12M10 19h4"/></svg></button>
     </div>
 
-    <article class="card entry">
+    <article class="card entry tap" onclick="storySheet('surf')">
       <div class="ph" style="background:center/cover url('${scenery(21,'#1a86a8','#0b3d47','wave')}')">
         <span class="stamp pill" style="background:rgba(4,16,15,.5);color:#fff;backdrop-filter:blur(6px)">🏄 Surf</span>
       </div>
@@ -990,7 +1021,7 @@ function screenJournal(){
       </div>
     </article>
 
-    <article class="card entry">
+    <article class="card entry tap" onclick="storySheet('peche')">
       <div class="ph" style="background:center/cover url('${scenery(22,'#e0a25a','#a85a2f','flat')}')">
         <span class="stamp pill" style="background:rgba(4,16,15,.5);color:#fff;backdrop-filter:blur(6px)">🎣 Pêche</span>
       </div>
@@ -1016,12 +1047,12 @@ function screenChat(){
     <div class="chat">
       <div class="chat-head">
         <button class="iconbtn" onclick="go('home')" style="box-shadow:none;border:none;background:var(--surface-3)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-        <img class="avatar" src="${people.leilani}" width="38" height="38" alt="">
-        <div style="flex:1"><div style="font-weight:700;font-size:15px">Session matinale · Teahupo'o</div><div class="muted" style="font-size:12px">Leilani, Teiki, Moana · 4 membres</div></div>
-        <button class="iconbtn" onclick="alert('Détails de la sortie')" style="box-shadow:none;background:var(--surface-3);border:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg></button>
+        <img class="avatar" src="${people.leilani}" width="38" height="38" alt="" id="chatAvatar">
+        <div style="flex:1"><div style="font-weight:700;font-size:15px" id="chatTitle">Session matinale · Teahupo'o</div><div class="muted" style="font-size:12px" id="chatMembers">Leilani, Teiki, Moana · 4 membres</div></div>
+        <button class="iconbtn tap" onclick="advDetail(window._chatAdv||'a1')" style="box-shadow:none;background:var(--surface-3);border:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg></button>
       </div>
       <div class="chat-scroll" id="chatScroll">
-        <div class="msg pinned">📍 <b>RDV</b> demain 6 h 30 · Parking PK0. Houle 1,6 m SO, offshore léger. Emmenez de l'eau ☀️</div>
+        <div class="msg pinned" id="chatPinned">📍 <b>RDV</b> demain 6 h 30 · Parking PK0. Houle 1,6 m SO, offshore léger. Emmenez de l'eau ☀️</div>
         <div class="daysep">Aujourd'hui</div>
         <div class="msg them"><div class="au">Leilani</div>La houle rentre bien pour demain, ça va être propre 🤙</div>
         <div class="msg them"><div class="au">Teiki</div>Je ramène la GoPro. Quelqu'un a de la wax 3X ?</div>
@@ -1029,10 +1060,10 @@ function screenChat(){
         <div class="msg them"><div class="au">Moana</div>Parfait. On check le line-up ensemble avant de se lancer, le courant est fort à marée montante.</div>
         <div class="msg me">Ça marche. À demain la tribu 🌊</div>
       </div>
-      <div class="chat-input">
-        <div class="box">Message à la tribu…</div>
-        <button class="iconbtn" style="background:var(--sea);color:#fff;border:none" onclick="sendFakeMsg()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
-      </div>
+      <form class="chat-input" onsubmit="event.preventDefault();sendMsg()">
+        <input class="chat-real" id="chatInput" placeholder="Message à la tribu…" autocomplete="off">
+        <button class="iconbtn tap" type="submit" style="background:var(--sea);color:#fff;border:none" aria-label="Envoyer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+      </form>
     </div>
   </section>`;
 }
@@ -1045,14 +1076,14 @@ function screenSettings(){
       <div class="name" style="font-size:20px;font-weight:700">Réglages</div>
     </div>
     ${[
-      ['🔔','Notifications','Sorties, messages, tribu'],
-      ['🛡️','Confidentialité & RGPD','Données, localisation, export'],
-      ['🚫','Bloqués & signalements','Gérer la sécurité'],
-      ['✦','Passer Premium','Carte, filtres illimités, badges'],
-      ['🌓','Apparence','Système · Clair · Sombre'],
-      ['❓','Aide & contact','FAQ, nous écrire'],
-    ].map(([e,t,s])=>`
-      <button class="card" style="width:100%;text-align:left;display:flex;align-items:center;gap:13px;padding:15px;margin-bottom:10px" onclick="${t.includes('Premium')?"go('premium')":"alert('"+t+"')"}">
+      ['🔔','Notifications','Sorties, messages, tribu','notifPrefsSheet()'],
+      ['🛡️','Confidentialité & RGPD','Données, localisation, export','privacySheet()'],
+      ['🚫','Bloqués & signalements','Gérer la sécurité','blockedSheet()'],
+      ['✦','Passer Premium','Carte, filtres illimités, badges',"go('premium')"],
+      ['🌓','Apparence','Système · Clair · Sombre','appearanceSheet()'],
+      ['❓','Aide & contact','FAQ, nous écrire','helpSheet()'],
+    ].map(([e,t,s,fn])=>`
+      <button class="card tap" style="width:100%;text-align:left;display:flex;align-items:center;gap:13px;padding:15px;margin-bottom:10px" onclick="${fn}">
         <span style="font-size:20px;width:26px;text-align:center">${e}</span>
         <span style="flex:1"><b style="display:block;font-size:15px">${t}</b><span class="muted" style="font-size:12.5px">${s}</span></span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>
@@ -1088,77 +1119,373 @@ function screenPremium(){
           <span style="flex:1"><b style="display:block;font-size:14.5px">${t}</b><span class="muted" style="font-size:12.5px">${s}</span></span>
         </div>`).join('')}
     </div>
-    <div class="row" style="gap:10px;margin-top:14px">
-      <button class="btn ghost" style="flex-direction:column;height:auto;padding:14px" onclick="alert('Plan mensuel sélectionné')"><b>Mensuel</b><span class="muted" style="font-size:12px">7,99 € / mois</span></button>
-      <button class="btn" style="flex-direction:column;height:auto;padding:14px;position:relative" onclick="alert('Plan annuel sélectionné')"><span class="pill sun" style="position:absolute;top:-10px;right:10px">-40%</span><b style="color:#fff">Annuel</b><span style="font-size:12px;opacity:.85">4,90 € / mois</span></button>
+    <div class="row" style="gap:10px;margin-top:14px" id="planRow">
+      <button class="btn ghost tap" data-plan="Mensuel" aria-pressed="false" style="flex-direction:column;height:auto;padding:14px;border:2px solid transparent" onclick="pickPlan(this)"><b>Mensuel</b><span class="muted" style="font-size:12px">7,99 € / mois</span></button>
+      <button class="btn ghost tap" data-plan="Annuel" aria-pressed="true" style="flex-direction:column;height:auto;padding:14px;position:relative;border:2px solid var(--sun)" onclick="pickPlan(this)"><span class="pill sun" style="position:absolute;top:-10px;right:10px">-40%</span><b>Annuel</b><span class="muted" style="font-size:12px">4,90 € / mois</span></button>
     </div>
-    <p class="muted" style="text-align:center;font-size:11.5px;margin-top:12px">Sans engagement · Annulable à tout moment · 7 jours d'essai</p>
+    <button class="btn sun tap" style="margin-top:14px;height:52px" onclick="subscribePremium()">Démarrer l'essai gratuit de 7 jours</button>
+    <p class="muted" style="text-align:center;font-size:11.5px;margin-top:12px">Sans engagement · Annulable à tout moment</p>
   </section>`;
 }
 
 /* ============================================================
-   Router + interactions
+   Data model
    ============================================================ */
-const APP_TABS = ['home','map','create','journal','passport'];
+const profiles = {
+  manea:  {name:'Manea T.', loc:'Papara, Tahiti', out:'128', rel:'4,9', tags:['🏄 Surf · Expert','🎣 Pêche · Confirmé','🥾 Rando'], bio:"Né dans le lagon. Le surf le matin, la pêche au coucher. Toujours partant pour montrer les meilleurs spots."},
+  leilani:{name:'Leilani', loc:"Teahupo'o", out:'96', rel:'4,8', tags:['🏄 Surf · Expert'], bio:"À l'eau au premier rayon. Le reef n'a plus de secret."},
+  teiki:  {name:'Teiki', loc:'Papara', out:'74', rel:'4,7', tags:['🏄 Surf · Confirmé','🎣 Pêche'], bio:"La GoPro toujours prête. On repart jamais sans une image."},
+  hina:   {name:'Hina', loc:'Moorea', out:'52', rel:'4,9', tags:['🥾 Rando','🏂 Snow'], bio:"Multi-outdoor, partout où il y a du relief et du vent."},
+  moana:  {name:'Moana', loc:"Teahupo'o", out:'61', rel:'4,6', tags:['🏄 Surf · Confirmé'], bio:"Connaît chaque courant du reef. Sécurité d'abord."},
+  raihau: {name:'Raihau', loc:'Pirae', out:'140', rel:'5,0', tags:['🥾 Rando · Guide'], bio:"Guide de montagne diplômé. Le sommet se mérite, en sécurité."},
+  vaite:  {name:'Vaite', loc:'Papeete', out:'48', rel:'4,8', tags:['🥾 Rando','🤿 Plongée'], bio:"Curieuse de tout, sous l'eau comme au sommet."},
+  me:     {name:'Toi', loc:'', out:'—', rel:'—', tags:[], bio:''},
+};
+const sceneryFor = a => scenery(1,'','',a.kind);
+let ADV = [
+  {id:'a1', sport:'Surf', emoji:'🏄', kind:'wave', title:"Session matinale · Teahupo'o",
+   place:"Teahupo'o · PK0 — Reef pass", meta:'PK0 · Reef pass — niveau confirmé', level:'Confirmé',
+   host:'leilani', when:'Départ dans 2 h', dot:'#7CFFB0',
+   taken:3, total:5, members:['leilani','teiki','moana'], note:'Teiki, Moana + toi ?',
+   desc:"Session tranquille au line-up. Niveau confirmé exigé (reef peu profond, courant fort à marée montante). RDV parking PK0, on check la houle ensemble ☕", joined:false, cond:true},
+  {id:'a2', sport:'Rando', emoji:'🥾', kind:'mountain', title:'Ascension du Mont Aorai',
+   place:'Mont Aorai · 2 066 m', meta:'2 066 m · 12 km · dénivelé 1 400 m — endurant', level:'Endurant',
+   host:'raihau', when:'Samedi · 6 h 00', dot:'#FFD27C',
+   taken:5, total:8, members:['raihau','hina','vaite'], note:'+ 3 aventuriers',
+   desc:"Départ avant l'aube pour attraper le lever de soleil au sommet. Bonnes chaussures, 2 L d'eau, coupe-vent. Rythme soutenu mais on attend tout le monde.", joined:false, cond:false},
+];
+let NOTIFS = [
+  {icon:'🌊', t:"<b>Leilani</b> t'a invité à une session à Teahupo'o.", tm:'il y a 20 min', unread:true},
+  {icon:'💬', t:"<b>Teiki</b> a écrit dans <b>Session matinale</b>.", tm:'il y a 1 h', unread:true},
+  {icon:'🧭', t:"<b>Hina</b> a rejoint ta tribu.", tm:'hier', unread:false},
+];
+
+/* ============================================================
+   App shell : screens, sheet, toast, router
+   ============================================================ */
 const viewport = document.getElementById('viewport');
 viewport.innerHTML = [screenHome(),screenMap(),screenCreate(),screenJournal(),screenPassport(),screenChat(),screenSettings(),screenPremium()].join('');
 
+const sheetHost = document.getElementById('sheetHost');
+const sheetBody = document.getElementById('sheetBody');
+const toastHost = document.getElementById('toastHost');
+function sheet(html){ sheetBody.innerHTML=html; sheetHost.classList.add('show'); sheetHost.setAttribute('aria-hidden','false'); document.getElementById('sheetPanel').scrollTop=0; }
+function closeSheet(){ sheetHost.classList.remove('show'); sheetHost.setAttribute('aria-hidden','true'); }
+function toast(msg, icon){
+  const t=document.createElement('div'); t.className='toast';
+  t.innerHTML=(icon?`<span class="ic">${icon==='check'?'✓':icon}</span>`:'')+`<span>${msg}</span>`;
+  toastHost.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),320); }, 2400);
+}
 function go(name){
+  closeSheet();
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.dataset.screen===name));
   document.querySelectorAll('.tab[data-go]').forEach(t=>t.classList.toggle('active', t.dataset.go===name));
   const sc = document.getElementById('s-'+name); if(sc) sc.scrollTop=0;
-  // hide map sheet when leaving map
   if(name!=='map'){ const sh=document.getElementById('mapsheet'); if(sh) sh.classList.remove('show'); }
 }
 document.querySelectorAll('.tab[data-go]').forEach(t=>t.addEventListener('click',()=>go(t.dataset.go)));
-go('home');
-
 function enterApp(){ document.getElementById('intro').classList.add('hide'); }
 
-/* Join button micro-interaction */
-function joinBtn(btn){
-  if(btn.dataset.done){ go('chat'); return; }
-  btn.dataset.done="1";
-  btn.classList.remove('sun'); btn.style.background="var(--good)";
-  btn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg> Rejoint · Ouvrir le chat';
+/* ---------- Home feed (data-driven) ---------- */
+function renderFeed(){ const el=document.getElementById('homeFeed'); if(el) el.innerHTML=ADV.map(advCard).join(''); }
+function advCard(a){
+  const pct=Math.round(a.taken/a.total*100);
+  const avs=a.members.slice(0,3).map(m=>`<img class="avatar" src="${people[m]||people.manea}" width="26" height="26" alt="">`).join('');
+  const btn = a.joined
+    ? `<button class="btn sm tap" style="background:var(--good)" onclick="event.stopPropagation();openChat('${a.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg> Chat</button>`
+    : `<button class="btn sm sun tap" onclick="event.stopPropagation();joinAdv('${a.id}')">Rejoindre</button>`;
+  return `<article class="card adv tap" onclick="advDetail('${a.id}')">
+    <div class="hero" style="background:center/cover url('${sceneryFor(a)}')">
+      <div class="grad"></div>
+      <div class="top"><span class="badge-live"><span class="dot" style="background:${a.dot}"></span> ${a.when}</span><span class="pill sun" style="background:rgba(255,255,255,.16);color:#fff">${a.sport}</span></div>
+      <div class="cap"><h3>${a.title}</h3><div class="meta">${a.meta}</div></div>
+    </div>
+    <div class="body">
+      <div class="row"><div class="who"><img class="avatar" src="${people[a.host]}" width="30" height="30" alt=""><div class="n"><b>${profiles[a.host].name.split(' ')[0]}</b> organise</div></div><span class="spacer"></span><span class="slots">${a.taken}/${a.total} places</span></div>
+      <div class="progress"><i style="width:${pct}%"></i></div>
+      <div class="row" style="margin-top:13px"><div class="stackav">${avs}</div><span class="tag">${a.note}</span><span class="spacer"></span>${btn}</div>
+    </div>
+  </article>`;
 }
 
-/* Map interactions */
-function toggleChip(c){ c.setAttribute('aria-pressed', c.getAttribute('aria-pressed')==='true'?'false':'true'); }
-const sheetData = {
-  surf:{tag:'🏄 Surf',when:'Départ dans 2 h',title:'Session matinale',sub:"Teahupo'o · 3/5 places",img:scenery(11,'#1a86a8','#0e4c4a','wave')},
-  hike:{tag:'🥾 Rando',when:'Samedi 6 h 00',title:'Mont Aorai',sub:'2 066 m · 5/8 places',img:scenery(12,'#3f7d6a','#0e3b2f','mountain')},
-  spot:{tag:'📍 Spot',when:'Spot légendaire',title:'Reef pass · PK0',sub:'Gauche · reef · expert',img:scenery(13,'#1a86a8','#0b3d47','wave')},
-  user:{tag:'🧭 Aventurier',when:'En ligne',title:'Teiki · Papara',sub:'Surf · Pêche · Confirmé',img:scenery(14,'#4a90a4','#123a52','flat')},
-};
-function openSheet(kind){
-  go('map');
-  const d = sheetData[kind]||sheetData.surf;
-  document.getElementById('sheetThumb').src=d.img;
-  document.getElementById('sheetTag').textContent=d.tag;
-  document.getElementById('sheetWhen').textContent=d.when;
-  document.getElementById('sheetTitle').textContent=d.title;
-  document.getElementById('sheetSub').textContent=d.sub;
-  setTimeout(()=>document.getElementById('mapsheet').classList.add('show'), 60);
+/* ---------- Adventure detail sheet ---------- */
+function advDetail(id){
+  const a=ADV.find(x=>x.id===id); if(!a) return;
+  const parts=a.members.map(m=>{
+    const pf=profiles[m]||profiles.me; const img=people[m]||people.manea;
+    return `<div class="prow tap" onclick="${m==='me'?'':`profileSheet('${m}')`}"><img class="avatar" src="${img}" width="40" height="40" alt=""><div><div class="nm">${pf.name}${m===a.host?' · organise':''}</div><div class="rl">${(pf.tags&&pf.tags[0])||'C\'est toi'}</div></div></div>`;
+  }).join('');
+  const cond = a.cond ? `<div class="sheet-sec">Conditions au spot</div><div class="mini"><div class="b"><div class="v">1,6 m</div><div class="l">Houle</div></div><div class="b"><div class="v">8 nds</div><div class="l">Vent</div></div><div class="b"><div class="v">27°</div><div class="l">Eau</div></div></div>`:'';
+  const left=a.total-a.taken;
+  const action = a.joined
+    ? `<button class="btn ghost tap" style="flex:1" onclick="joinAdv('${a.id}')">Quitter</button><button class="btn tap" style="flex:1.4" onclick="openChat('${a.id}')">Ouvrir le chat</button>`
+    : `<button class="btn sun tap" style="flex:1" onclick="joinAdv('${a.id}')">Rejoindre${left>0?` — ${left} place${left>1?'s':''}`:''}</button>`;
+  sheet(`
+    <div class="sheet-hero" style="background:center/cover url('${sceneryFor(a)}')"><div class="g"></div>
+      <div class="cap"><span class="badge-live"><span class="dot" style="background:${a.dot}"></span> ${a.when}</span></div></div>
+    <div class="chiprow" style="margin-top:12px"><span class="pill sea">${a.emoji} ${a.sport}</span><span class="pill">Niveau ${a.level}</span><span class="pill">${a.taken}/${a.total} places</span></div>
+    <div class="sheet-title">${a.title}</div>
+    <div class="sheet-sub">📍 ${a.place}</div>
+    <div class="sheet-sec">L'organisateur en dit</div>
+    <div class="sheet-desc">${a.desc}</div>
+    ${cond}
+    <div class="sheet-sec">Qui vient (${a.members.length})</div>
+    <div class="plist">${parts}</div>
+    <div class="sheet-actions">${action}</div>
+    <button class="btn ghost tap" style="margin-top:10px;height:42px;font-size:12.5px;color:var(--ink-mute)" onclick="reportSheet()">Signaler cette sortie</button>
+  `);
+}
+function joinAdv(id){
+  const a=ADV.find(x=>x.id===id); if(!a) return;
+  if(!a.joined){
+    a.joined=true; if(!a.members.includes('me')) a.members=[...a.members,'me']; a.taken=Math.min(a.total,a.taken+1);
+    a.note='Toi + '+(a.members.length-1)+' autres';
+    toast("Tu as rejoint l'aventure",'check');
+    pushNotif('🎉', `Bienvenue dans <b>${a.title.split('·')[0].trim()}</b> — ouvre le chat pour dire bonjour.`);
+  } else {
+    a.joined=false; a.members=a.members.filter(m=>m!=='me'); a.taken=Math.max(0,a.taken-1);
+    toast("Tu as quitté l'aventure");
+  }
+  renderFeed();
+  if(sheetHost.classList.contains('show')) advDetail(id);
+}
+function openChat(id){
+  const a=ADV.find(x=>x.id===id)||ADV[0]; window._chatAdv=id; closeSheet();
+  document.getElementById('chatTitle').textContent=a.title;
+  document.getElementById('chatMembers').textContent=a.members.map(m=>(profiles[m]||profiles.me).name.split(' ')[0]).join(', ')+' · '+a.members.length+' membres';
+  document.getElementById('chatAvatar').src=people[a.host];
+  document.getElementById('chatPinned').innerHTML=`📍 <b>RDV</b> ${a.when} · ${a.place}. Sois à l'heure 🤙`;
+  go('chat');
 }
 
-/* Create interactions */
+/* ---------- Map ---------- */
+function toggleChip(c){
+  c.setAttribute('aria-pressed', c.getAttribute('aria-pressed')==='true'?'false':'true');
+  if(c.dataset.filter==='level') toast(c.getAttribute('aria-pressed')==='true'?'Filtré sur ton niveau':'Filtre niveau retiré');
+  filterMap();
+}
+function filterMap(){
+  const on = t => document.querySelector(`.chip[data-filter="${t}"]`)?.getAttribute('aria-pressed')==='true';
+  const today=on('today');
+  document.querySelectorAll('.pin').forEach(p=>{
+    let vis = on(p.dataset.type);
+    if(vis && p.dataset.type==='adv' && today && p.dataset.today==='0') vis=false;
+    p.style.display = vis?'':'none';
+  });
+}
+function mapPin(id){
+  const a=ADV.find(x=>x.id===id); if(!a) return;
+  window._mapSheetId=id;
+  document.getElementById('sheetThumb').src=sceneryFor(a);
+  document.getElementById('sheetTag').textContent=`${a.emoji} ${a.sport}`;
+  document.getElementById('sheetWhen').textContent=a.when;
+  document.getElementById('sheetTitle').textContent=a.title.split('·')[0].trim();
+  document.getElementById('sheetSub').textContent=`${a.place.split('·')[0].trim()} · ${a.taken}/${a.total} places`;
+  document.getElementById('mapsheet').classList.add('show');
+}
+function spotSheet(){
+  sheet(`
+    <div class="sheet-hero" style="background:center/cover url('${scenery(1,'','','wave')}')"><div class="g"></div><div class="cap"><span class="badge-live">📍 Spot légendaire</span></div></div>
+    <div class="chiprow" style="margin-top:12px"><span class="pill sea">🏄 Surf</span><span class="pill">Gauche · Reef</span><span class="pill">Expert</span></div>
+    <div class="sheet-title">Reef pass · PK0 — Teahupo'o</div>
+    <div class="sheet-sub">📍 Presqu'île de Tahiti</div>
+    <div class="sheet-sec">Conditions du jour</div>
+    <div class="mini"><div class="b"><div class="v">1,6 m</div><div class="l">Houle</div></div><div class="b"><div class="v">8 nds</div><div class="l">Vent</div></div><div class="b"><div class="v">14 s</div><div class="l">Période</div></div></div>
+    <div class="sheet-sec">À savoir</div>
+    <div class="sheet-desc">L'une des vagues les plus lourdes du monde. Reef peu profond, courant fort à marée montante. Réservé aux surfeurs experts accompagnés.</div>
+    <div class="sheet-actions"><button class="btn tap" style="flex:1" onclick="closeSheet();go('create');toast('Crée une sortie sur ce spot')">Organiser une sortie ici</button></div>
+  `);
+}
+function profileSheet(key){
+  const p=profiles[key]; if(!p) return;
+  sheet(`
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 0 2px">
+      <img class="avatar" src="${people[key]}" width="88" height="88" alt="" style="box-shadow:0 0 0 4px var(--surface-3)">
+      <div class="sheet-title" style="margin:14px 0 2px">${p.name}</div>
+      <div class="sheet-sub">📍 ${p.loc}</div>
+    </div>
+    <div class="mini" style="margin-top:8px"><div class="b"><div class="v">${p.out}</div><div class="l">Sorties</div></div><div class="b"><div class="v">${p.rel}</div><div class="l">Fiabilité</div></div><div class="b"><div class="v">${p.tags.length}</div><div class="l">Sports</div></div></div>
+    <div class="sheet-sec">Sports pratiqués</div>
+    <div class="chiprow">${p.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div>
+    ${p.bio?`<div class="sheet-sec">Bio</div><div class="sheet-desc" style="font-family:var(--ff-serif);font-style:italic">« ${p.bio} »</div>`:''}
+    <div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="toast('Message envoyé à ${p.name.split(' ')[0]}','check')">Message</button><button class="btn tap" style="flex:1" onclick="closeSheet();go('create');toast('Propose une sortie à ${p.name.split(' ')[0]}')">Proposer une sortie</button></div>
+  `);
+}
+
+/* ---------- Create ---------- */
 function pickSport(el){ el.parentElement.querySelectorAll('.sportopt').forEach(o=>o.setAttribute('aria-pressed','false')); el.setAttribute('aria-pressed','true'); }
 function pickPrivacy(el){ el.parentElement.querySelectorAll('.opt').forEach(o=>o.setAttribute('aria-pressed','false')); el.setAttribute('aria-pressed','true'); }
 let places=5;
 function stepPlaces(d){ places=Math.max(1,Math.min(20,places+d)); document.getElementById('placesCount').textContent=places; }
+function optionSheet(title, opts, targetId){
+  const cur=document.getElementById(targetId).textContent;
+  sheet(`<div class="sheet-title" style="margin-top:6px">${title}</div><div class="optlist" style="margin-top:14px">${opts.map(o=>`<button class="optbtn tap" aria-pressed="${o===cur?'true':'false'}" onclick="setOption('${targetId}',this)"><span>${o}</span><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg></span></button>`).join('')}</div>`);
+}
+function setOption(targetId, btn){ document.getElementById(targetId).textContent=btn.querySelector('span').textContent; closeSheet(); toast('Mis à jour','check'); }
+function dateSheet(){ optionSheet('Quand pars-tu ?', ["Aujourd'hui · 16 h 00","Demain · 6 h 30","Demain · 16 h 00","Samedi · 6 h 00","Dimanche · 7 h 00"], 'cWhen'); }
+function placeSheet(){ optionSheet('Où ça ?', ["Teahupo'o — Reef pass","Papara — Beach break","Mont Aorai — 2 066 m","Lagon de Moorea","Presqu'île — Vairao"], 'cPlace'); }
 function publishAdv(btn){
-  btn.style.background="var(--good)";
-  btn.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg> Publiée ! Ta tribu est prévenue';
-  setTimeout(()=>go('home'), 1100);
+  const sportBtn=document.querySelector('#sportGrid .sportopt[aria-pressed="true"]');
+  const sport = sportBtn?sportBtn.textContent.trim():'Surf';
+  const map={'Surf':['🏄','wave'],'Pêche':['🎣','flat'],'Rando':['🥾','mountain'],'Snow':['🏂','mountain'],'Kite':['🪁','wave'],'Plongée':['🤿','flat']};
+  const [emoji,kind]=map[sport]||['🏄','wave'];
+  const when=document.getElementById('cWhen').textContent;
+  const place=document.getElementById('cPlace').textContent;
+  const desc=(document.getElementById('cDesc').value||'Sortie entre passionnés.').trim();
+  const spotName=place.split('—')[0].split('·')[0].trim();
+  ADV.unshift({id:'u'+Date.now(), sport, emoji, kind, title:`${sport} · ${spotName}`, place, meta:place,
+    level:'Ouvert', host:'manea', when, dot:'#7CFFB0', taken:1, total:places, members:['manea'],
+    note:'Toi · organise', desc, joined:true, cond:kind==='wave'});
+  pushNotif('📣', `Ta sortie <b>${sport} · ${spotName}</b> est en ligne. Ta tribu proche est prévenue.`);
+  renderFeed();
+  btn.style.background='var(--good)';
+  btn.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg> Publiée !';
+  setTimeout(()=>{
+    btn.style.background='';
+    btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg> Publier l\'aventure';
+    go('home'); toast('Ton aventure est en ligne ✦','check');
+  }, 900);
 }
 
-/* Chat */
-function sendFakeMsg(){
-  const s=document.getElementById('chatScroll');
-  const m=document.createElement('div'); m.className='msg me'; m.textContent='On se retrouve là-bas 🤙';
-  s.appendChild(m); s.scrollTop=s.scrollHeight;
+/* ---------- Notifications ---------- */
+function pushNotif(icon,t){ NOTIFS.unshift({icon,t,tm:"à l'instant",unread:true}); const d=document.getElementById('notifDot'); if(d) d.style.display=''; }
+function notifSheet(){
+  sheet(`<div class="sheet-title" style="margin-top:6px">Notifications</div>${NOTIFS.map(n=>`<div class="notif ${n.unread?'unread':''}"><div class="ico">${n.icon}</div><div class="c"><div class="t">${n.t}</div><div class="tm">${n.tm}</div></div></div>`).join('')}<button class="btn ghost tap" style="margin-top:16px" onclick="closeSheet()">Tout marquer comme lu</button>`);
+  NOTIFS.forEach(n=>n.unread=false); const d=document.getElementById('notifDot'); if(d) d.style.display='none';
 }
+function conditionsSheet(){
+  sheet(`<div class="sheet-title" style="margin-top:6px">Conditions · Teahupo'o</div><div class="sheet-sub">Mardi · mise à jour il y a 10 min</div>
+    <div class="sheet-sec">Aujourd'hui</div>
+    <div class="mini"><div class="b"><div class="v">1,6 m</div><div class="l">Houle SO</div></div><div class="b"><div class="v">8 nds</div><div class="l">Vent</div></div><div class="b"><div class="v">27°</div><div class="l">Eau</div></div></div>
+    <div class="mini" style="margin-top:9px"><div class="b"><div class="v">14 s</div><div class="l">Période</div></div><div class="b"><div class="v">↑ 1,1 m</div><div class="l">Marée</div></div><div class="b"><div class="v">6:12</div><div class="l">Lever</div></div></div>
+    <div class="sheet-sec">Verdict</div>
+    <div class="sheet-desc">Conditions idéales : houle propre, vent offshore léger. Attention au courant à marée montante (15 h 20).</div>
+    <div class="sheet-actions"><button class="btn tap" style="flex:1" onclick="closeSheet();go('create')">Organiser une session</button></div>`);
+}
+
+/* ---------- Passport ---------- */
+const BADGES={aubes:['🌅','100 aubes','Surfer 100 sessions au lever du jour.',true],reef:['🌊','Reef master','20 sessions sur un spot de reef expert.',true],guide:['🧭','Guide local','Faire découvrir un spot à 10 aventuriers.',true],fiable:['🤝','Fiable ×50','50 sorties honorées sans annulation de dernière minute.',true],sommet:['🏔️','Sommet 2k','Atteindre un sommet de plus de 2 000 m.',true],neige:['❄️','1re neige','Faire ta première sortie snow ou ski.',false],kite:['🪁','Kite 25 nds','Naviguer par plus de 25 nœuds de vent.',false],globe:['🌍','Globe-trotter','Vivre des aventures dans 3 régions différentes.',false]};
+function badgeSheet(key){
+  if(!key){
+    sheet(`<div class="sheet-title" style="margin-top:6px">Badges · 12 obtenus</div><div class="sheet-desc">Les badges récompensent l'expérience réelle, jamais les likes. Ils renforcent la confiance dans ta tribu.</div><div class="badges" style="margin-top:16px">${Object.keys(BADGES).map(k=>{const b=BADGES[k];return `<div class="badge ${b[3]?'':'locked'} tap" onclick="badgeSheet('${k}')"><div class="medal">${b[0]}</div><div class="cap">${b[1]}</div></div>`;}).join('')}</div>`);
+    return;
+  }
+  const b=BADGES[key];
+  sheet(`<div style="text-align:center;padding:14px 0 4px"><div style="font-size:60px;${b[3]?'':'filter:grayscale(1);opacity:.5'}">${b[0]}</div><div class="sheet-title" style="margin:8px 0 2px">${b[1]}</div><div class="sheet-sub">${b[3]?'✓ Obtenu':'🔒 À débloquer'}</div></div><div class="sheet-sec">Comment l'obtenir</div><div class="sheet-desc">${b[2]}</div><div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="badgeSheet()">Voir tous les badges</button></div>`);
+}
+function toggleAvail(el){ el.classList.toggle('on'); toast(el.classList.contains('on')?'Créneau ajouté':'Créneau retiré'); }
+function editProfileSheet(){
+  const nm=(document.querySelector('#s-passport .pp-id .nm')||{}).textContent||'Manea T.';
+  const bio=((document.querySelector('#s-passport .pp-bio')||{}).textContent||'').replace(/^«\s*/,'').replace(/\s*»$/,'');
+  sheet(`<div class="sheet-title" style="margin-top:6px">Modifier le passeport</div>
+    <label class="tlabel">Nom affiché</label><input class="tinput" id="edName" value="${nm.replace(/"/g,'&quot;')}">
+    <label class="tlabel">Bio</label><textarea class="tinput" id="edBio">${bio}</textarea>
+    <label class="tlabel">Ville</label><input class="tinput" id="edCity" value="Papara, Tahiti">
+    <div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="closeSheet()">Annuler</button><button class="btn tap" style="flex:1" onclick="saveProfile()">Enregistrer</button></div>`);
+}
+function saveProfile(){
+  const n=document.getElementById('edName').value.trim();
+  const b=document.getElementById('edBio').value.trim();
+  const c=document.getElementById('edCity').value.trim();
+  if(n) document.querySelector('#s-passport .pp-id .nm').textContent=n;
+  if(b) document.querySelector('#s-passport .pp-bio').textContent='« '+b+' »';
+  const lo=document.querySelector('#s-passport .pp-id .lo');
+  if(lo&&c) lo.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" fill="none" stroke="currentColor" stroke-width="2"/></svg> ${c}`;
+  closeSheet(); toast('Passeport mis à jour','check');
+}
+
+/* ---------- Journal ---------- */
+const STORIES={
+  surf:{sport:'🏄 Surf',who:'leilani',loc:"Teahupo'o · hier",kind:'wave',title:"Le mur d'eau, enfin dompté",body:"On est arrivés au lever du jour, l'océan encore violet. Teiki a pris la première, moi j'ai hésité — puis la houle a parlé.\n\nTrois heures plus tard, les bras morts et le sourire idiot. Merci la tribu d'avoir insisté. Sans eux, je serais restée sur le sable.",chap:'Chapitre 128',members:'4 aventuriers'},
+  peche:{sport:'🎣 Pêche',who:'teiki',loc:'Lagon de Moorea · il y a 3 jours',kind:'flat',title:'Le coucher de soleil valait le mahi-mahi',body:"Pas une seule prise pendant deux heures. On allait rentrer quand la ligne a plié d'un coup.\n\nUn mahi-mahi magnifique — relâché après la photo. Certains souvenirs pèsent plus que le poisson.",chap:'Chapitre 127',members:'avec Manea'},
+};
+function storySheet(key){
+  const s=STORIES[key]; if(!s) return;
+  sheet(`<div class="sheet-hero" style="background:center/cover url('${scenery(1,'','',s.kind)}')"><div class="g"></div><div class="cap"><span class="badge-live">${s.sport}</span></div></div>
+    <div class="prow" style="margin-top:8px"><img class="avatar" src="${people[s.who]}" width="36" height="36" alt=""><div><div class="nm">${profiles[s.who].name}</div><div class="rl">${s.loc}</div></div></div>
+    <div class="sheet-title" style="font-family:var(--ff-serif);font-weight:600">${s.title}</div>
+    <div class="sheet-desc" style="font-family:var(--ff-serif);font-size:15.5px;white-space:pre-line">${s.body}</div>
+    <div class="sheet-sec">${s.chap} · ${s.members}</div>
+    <div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="toast('Souvenir gardé','check')">Garder ce souvenir</button></div>`);
+}
+function filterSheet(){
+  const seg=(arr)=>arr.map((s,i)=>`<button class="chip tap" aria-pressed="${i===0?'true':'false'}" onclick="this.parentElement.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));this.setAttribute('aria-pressed','true')">${s}</button>`).join('');
+  sheet(`<div class="sheet-title" style="margin-top:6px">Filtrer le carnet</div>
+    <label class="tlabel">Par sport</label><div class="chiprow">${seg(['Tous','🏄 Surf','🎣 Pêche','🥾 Rando','🏂 Snow'])}</div>
+    <label class="tlabel">Période</label><div class="chiprow">${seg(['Tout','Cette semaine','Ce mois','Cette année'])}</div>
+    <div class="sheet-actions"><button class="btn tap" style="flex:1" onclick="closeSheet();toast('Filtres appliqués','check')">Appliquer</button></div>`);
+}
+
+/* ---------- Settings sub-sheets ---------- */
+function switchRow(label,sub,on){ return `<div class="setrow"><div class="tx"><b>${label}</b><span>${sub}</span></div><div class="switch" role="switch" aria-checked="${on?'true':'false'}" tabindex="0" onclick="toggleSwitch(this)"></div></div>`; }
+function toggleSwitch(el){ el.setAttribute('aria-checked', el.getAttribute('aria-checked')==='true'?'false':'true'); }
+function notifPrefsSheet(){
+  sheet(`<div class="sheet-title" style="margin-top:6px">Notifications</div><div style="margin-top:6px">
+    ${switchRow('Sorties près de moi','Quand une aventure est créée dans ta zone',true)}
+    ${switchRow('Messages','Nouveaux messages de tes tribus',true)}
+    ${switchRow('Nouveaux membres','Quand quelqu’un rejoint ta sortie',true)}
+    ${switchRow('Résumé hebdo','Les meilleures conditions de la semaine',false)}
+    </div><button class="btn tap" style="margin-top:18px" onclick="closeSheet();toast('Préférences enregistrées','check')">Enregistrer</button>`);
+}
+function privacySheet(){
+  sheet(`<div class="sheet-title" style="margin-top:6px">Confidentialité &amp; RGPD</div><div style="margin-top:6px">
+    ${switchRow('Position approximative','On ne partage jamais ta position exacte',true)}
+    ${switchRow('Profil visible sur la carte','Les aventuriers proches peuvent te voir',true)}
+    ${switchRow('Autoriser les invitations','Recevoir des propositions de sorties',true)}
+    </div>
+    <div class="sheet-sec">Tes données</div>
+    <button class="optbtn tap" onclick="toast('Export envoyé par email','check')"><span class="em">📥</span> Exporter mes données</button>
+    <button class="optbtn tap" style="margin-top:9px;color:var(--crit);border-color:color-mix(in srgb,var(--crit) 30%,transparent)" onclick="confirmSheet('Supprimer ton compte ?','Cette action est définitive : tes aventures et ton carnet seront effacés.','Supprimer',function(){toast('Compte programmé pour suppression');})"><span class="em">🗑️</span> Supprimer mon compte</button>`);
+}
+function blockedSheet(){
+  sheet(`<div class="sheet-title" style="margin-top:6px">Bloqués &amp; signalements</div>
+    <div class="sheet-sec">Personnes bloquées</div>
+    <div class="setrow"><div class="tx"><b>Personne n'est bloqué</b><span>Tu peux bloquer depuis n'importe quel profil</span></div></div>
+    <div class="sheet-sec">Sécurité</div>
+    <div class="sheet-desc">Signale une sortie ou un message inapproprié depuis le bouton « Signaler ». Notre équipe intervient sous 24 h, en toute confidentialité.</div>`);
+}
+function appearanceSheet(){
+  const cur=document.documentElement.getAttribute('data-theme');
+  const opt=(v,l)=>`<button class="optbtn tap" aria-pressed="${(v==='system'&&!cur)||cur===v?'true':'false'}" onclick="setTheme('${v}');appearanceSheet()"><span>${l}</span><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg></span></button>`;
+  sheet(`<div class="sheet-title" style="margin-top:6px">Apparence</div><div class="optlist" style="margin-top:14px">${opt('system','🌓 Système')}${opt('light','☀️ Clair')}${opt('dark','🌙 Sombre')}</div>`);
+}
+function helpSheet(){
+  const q=['Comment rejoindre une aventure ?','Comment fonctionne le score de fiabilité ?','Que voit-on de ma position ?','Comment passer Premium ?'];
+  sheet(`<div class="sheet-title" style="margin-top:6px">Aide &amp; contact</div><div class="sheet-sec">Questions fréquentes</div>
+    ${q.map(x=>`<button class="optbtn tap" style="margin-bottom:9px" onclick="toast('Réponse ouverte')"><span>${x}</span><span class="ck" style="opacity:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></span></button>`).join('')}
+    <button class="btn tap" style="margin-top:8px" onclick="closeSheet();toast('Formulaire de contact ouvert')">Nous écrire</button>`);
+}
+function confirmSheet(title,msg,label,cb){
+  sheet(`<div class="sheet-title" style="margin-top:6px">${title}</div><div class="sheet-desc">${msg}</div><div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="closeSheet()">Annuler</button><button class="btn tap" style="flex:1;background:var(--crit)" onclick="closeSheet();(${cb.toString()})()">${label}</button></div>`);
+}
+function reportSheet(){ confirmSheet('Signaler cette sortie ?','Notre équipe examinera ce signalement de façon confidentielle.','Signaler',function(){toast('Signalement envoyé, merci');}); }
+
+/* ---------- Premium ---------- */
+function pickPlan(btn){ document.querySelectorAll('#planRow [data-plan]').forEach(b=>{b.setAttribute('aria-pressed','false');b.style.border='2px solid transparent';}); btn.setAttribute('aria-pressed','true'); btn.style.border='2px solid var(--sun)'; }
+function subscribePremium(){ const plan=(document.querySelector('#planRow [data-plan][aria-pressed="true"]')||{}).dataset; toast('Bienvenue en Premium ✦ — essai '+((plan&&plan.plan)||'annuel').toLowerCase()+' activé','check'); go('passport'); }
+
+/* ---------- Chat ---------- */
+function sendMsg(){
+  const inp=document.getElementById('chatInput'); const v=(inp.value||'').trim(); if(!v) return;
+  const s=document.getElementById('chatScroll');
+  const m=document.createElement('div'); m.className='msg me'; m.textContent=v; s.appendChild(m);
+  inp.value=''; s.scrollTop=s.scrollHeight;
+  setTimeout(()=>{ const r=document.createElement('div'); r.className='msg them'; r.innerHTML='<div class="au">Leilani</div>Bien reçu ! 🤙'; s.appendChild(r); s.scrollTop=s.scrollHeight; }, 1000);
+}
+
+/* ---------- Theme ---------- */
+function setTheme(v){
+  const r=document.documentElement;
+  if(v==='system') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', v);
+  const tl=document.getElementById('themeLbl'); if(tl) tl.textContent=(v==='dark')?'Sombre':(v==='light'?'Clair':'Thème');
+  toast('Thème : '+(v==='system'?'système':v==='dark'?'sombre':'clair'),'check');
+}
+
+/* ---------- Boot ---------- */
+renderFeed();
+go('home');
 
 /* Theme toggle */
 const root=document.documentElement, tb=document.getElementById('themeBtn'), tl=document.getElementById('themeLbl');
