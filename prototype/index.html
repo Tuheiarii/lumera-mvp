@@ -1,1498 +1,1236 @@
-<title>Outdoor Freedom — Prototype</title>
+<title>TaxPilot — Les impôts deviennent simples</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="TaxPilot — Remplissez votre déclaration d'impôts grâce à une IA conversationnelle. Plus simple que jamais.">
 <style>
 /* ============================================================
-   OUTDOOR FREEDOM — Design System + Clickable Prototype
-   Identity: "Deep Water & Sunrise"
+   TAXPILOT — Design System + Clickable Prototype
+   Identity: "Calm Blue & Paper"
+   Inspirations: Stripe · Linear · Notion · Apple · Raycast
+   Single file · no dependencies · light/dark · responsive
    ============================================================ */
 
 :root{
-  /* Brand + neutrals (green-biased, chosen not defaulted) */
-  --bg:        #E7EBE3;
-  --env-1:     #DCE6DE;   /* dawn foam */
-  --env-2:     #C6D6D2;   /* horizon */
-  --env-3:     #9FBFBE;   /* water */
+  /* Neutrals (paper) */
+  --bg:        #F7F8FA;
   --surface:   #FFFFFF;
-  --surface-2: #F4F7F2;
-  --surface-3: #ECF1EC;
-  --ink:       #0C1B1A;
-  --ink-soft:  #475855;
-  --ink-mute:  #7B8B87;
-  --line:      rgba(12,27,26,.09);
-  --line-2:    rgba(12,27,26,.05);
-  --sea:       #0E4C4A;
-  --sea-bright:#12776F;
-  --sun:       #FF7A45;
-  --sun-2:     #F0913B;
-  --sun-soft:  #FFE7DC;
-  --glacier:   #6FA9AF;
-  --good:      #1E9E6A;
-  --warn:      #E4A93B;
-  --crit:      #E2543B;
-  --shadow:    0 1px 2px rgba(12,27,26,.06), 0 8px 24px rgba(12,27,26,.08);
-  --shadow-lg: 0 24px 70px rgba(9,30,29,.28);
-  --r-sm: 10px; --r: 16px; --r-lg: 22px; --r-xl: 30px;
-  --ff: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --ff-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, ui-serif, serif;
-}
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#070F0E; --env-1:#0A1615; --env-2:#0B1E1D; --env-3:#0E2A28;
-    --surface:#101F1D; --surface-2:#16302C; --surface-3:#1B3A35;
-    --ink:#EAF1EC; --ink-soft:#A7B9B4; --ink-mute:#6E827D;
-    --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.05);
-    --sea:#159089; --sea-bright:#22B0A4; --sun:#FF875B; --sun-2:#F6A24E;
-    --sun-soft:rgba(255,122,69,.16); --glacier:#79B4BA;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.5);
-    --shadow-lg:0 30px 80px rgba(0,0,0,.6);
-  }
-}
-:root[data-theme="light"]{
-  --bg:#E7EBE3; --env-1:#DCE6DE; --env-2:#C6D6D2; --env-3:#9FBFBE;
-  --surface:#FFFFFF; --surface-2:#F4F7F2; --surface-3:#ECF1EC;
-  --ink:#0C1B1A; --ink-soft:#475855; --ink-mute:#7B8B87;
-  --line:rgba(12,27,26,.09); --line-2:rgba(12,27,26,.05);
-  --sea:#0E4C4A; --sea-bright:#12776F; --sun:#FF7A45; --sun-2:#F0913B;
-  --sun-soft:#FFE7DC; --glacier:#6FA9AF;
-  --shadow:0 1px 2px rgba(12,27,26,.06), 0 8px 24px rgba(12,27,26,.08);
-  --shadow-lg:0 24px 70px rgba(9,30,29,.28);
+  --surface-2: #F2F4F7;
+  --surface-3: #E9EDF3;
+  --line:      #E4E8EF;
+  --line-soft: #EEF1F6;
+
+  /* Ink */
+  --ink:       #0B1524;
+  --ink-soft:  #47526A;
+  --ink-mute:  #8A93A6;
+
+  /* Brand — calm blue */
+  --brand:     #2E6BFF;
+  --brand-600: #1F57E6;
+  --brand-700: #1846BE;
+  --brand-050: #EAF1FF;
+  --brand-100: #D8E4FF;
+  --brand-ink: #FFFFFF;
+
+  /* Semantic */
+  --good:      #17A673;
+  --good-050:  #E6F7F0;
+  --warn:      #E1920A;
+  --warn-050:  #FEF4E2;
+  --crit:      #E0453B;
+  --crit-050:  #FDECEA;
+  --info:      #6C5CE7;
+
+  /* Radius + shadow */
+  --r-sm: 8px; --r: 12px; --r-lg: 16px; --r-xl: 22px; --r-2xl: 28px;
+  --sh-1: 0 1px 2px rgba(12,22,40,.06), 0 1px 1px rgba(12,22,40,.04);
+  --sh-2: 0 4px 16px rgba(12,22,40,.08), 0 1px 3px rgba(12,22,40,.05);
+  --sh-3: 0 18px 48px rgba(12,22,40,.14), 0 4px 12px rgba(12,22,40,.08);
+  --sh-brand: 0 8px 24px rgba(46,107,255,.28);
+
+  --ff: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  --ff-mono: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+  --maxw: 1160px;
+  --ease: cubic-bezier(.22,.61,.36,1);
 }
 :root[data-theme="dark"]{
-  --bg:#070F0E; --env-1:#0A1615; --env-2:#0B1E1D; --env-3:#0E2A28;
-  --surface:#101F1D; --surface-2:#16302C; --surface-3:#1B3A35;
-  --ink:#EAF1EC; --ink-soft:#A7B9B4; --ink-mute:#6E827D;
-  --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.05);
-  --sea:#159089; --sea-bright:#22B0A4; --sun:#FF875B; --sun-2:#F6A24E;
-  --sun-soft:rgba(255,122,69,.16); --glacier:#79B4BA;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.5);
-  --shadow-lg:0 30px 80px rgba(0,0,0,.6);
+  --bg:        #0A0E17;
+  --surface:   #121826;
+  --surface-2: #171F30;
+  --surface-3: #1E2942;
+  --line:      #263149;
+  --line-soft: #1C2740;
+  --ink:       #EAF0FA;
+  --ink-soft:  #A9B6CE;
+  --ink-mute:  #6E7C97;
+  --brand:     #5B8CFF;
+  --brand-600: #4C7DF5;
+  --brand-050: #16233F;
+  --brand-100: #1B2C4E;
+  --good-050:  #10261E;
+  --warn-050:  #2A2110;
+  --crit-050:  #2A1513;
+  --sh-1: 0 1px 2px rgba(0,0,0,.5);
+  --sh-2: 0 6px 20px rgba(0,0,0,.5);
+  --sh-3: 0 22px 54px rgba(0,0,0,.6);
+  --sh-brand: 0 8px 26px rgba(46,107,255,.4);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme]){
+    --bg:#0A0E17;--surface:#121826;--surface-2:#171F30;--surface-3:#1E2942;--line:#263149;--line-soft:#1C2740;
+    --ink:#EAF0FA;--ink-soft:#A9B6CE;--ink-mute:#6E7C97;--brand:#5B8CFF;--brand-600:#4C7DF5;--brand-050:#16233F;--brand-100:#1B2C4E;
+    --good-050:#10261E;--warn-050:#2A2110;--crit-050:#2A1513;
+    --sh-1:0 1px 2px rgba(0,0,0,.5);--sh-2:0 6px 20px rgba(0,0,0,.5);--sh-3:0 22px 54px rgba(0,0,0,.6);--sh-brand:0 8px 26px rgba(46,107,255,.4);
+  }
 }
 
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{
-  font-family:var(--ff);
-  color:var(--ink);
-  background:
-    radial-gradient(120% 80% at 50% -10%, var(--env-1), transparent 60%),
-    radial-gradient(140% 90% at 15% 110%, var(--env-3), transparent 55%),
-    linear-gradient(180deg, var(--env-1), var(--env-2) 55%, var(--env-3));
-  background-attachment:fixed;
-  min-height:100vh;
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-img{max-width:100%}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--ff);background:var(--bg);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.55;letter-spacing:-.01em;
+  transition:background .4s var(--ease), color .4s var(--ease);}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+img{max-width:100%;display:block}
+::selection{background:var(--brand-100);color:var(--ink)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px}
 
-/* ---------- Stage (desktop chrome around the phone) ---------- */
-.stage{
-  min-height:100vh;
-  display:grid;
-  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
-  align-items:center;
-  gap:40px;
-  padding:48px 40px;
-}
-.brandrail{ justify-self:end; max-width:340px; text-align:right; }
-.legendrail{ justify-self:start; max-width:300px; }
-.wordmark{
-  display:flex; align-items:center; gap:12px; justify-content:flex-end;
-  font-weight:700; letter-spacing:-.02em; font-size:19px;
-}
-.wordmark .glyph{ width:34px;height:34px; flex:none; filter:drop-shadow(0 4px 10px rgba(14,76,74,.35)); }
-.brandrail h1{
-  font-family:var(--ff-serif);
-  font-weight:600; font-size:clamp(30px,3.4vw,46px); line-height:1.04;
-  letter-spacing:-.015em; margin:26px 0 14px; text-wrap:balance;
-}
-.brandrail h1 em{ color:var(--sea-bright); font-style:italic; }
-.brandrail p{ color:var(--ink-soft); font-size:15px; line-height:1.55; margin:0 0 10px; }
-.tagline{
-  display:inline-block; margin-top:6px; font-size:12px; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--sea-bright); font-weight:600;
-}
+/* ---------- Primitives ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;
+  border:none;cursor:pointer;font-weight:600;font-size:14.5px;letter-spacing:-.01em;
+  padding:11px 18px;border-radius:11px;background:var(--brand);color:var(--brand-ink);
+  box-shadow:var(--sh-brand);transition:transform .18s var(--ease), box-shadow .2s, filter .2s;}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.btn:active{transform:translateY(0)}
+.btn.ghost{background:var(--surface);color:var(--ink);box-shadow:var(--sh-1);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.subtle{background:var(--surface-2);color:var(--ink);box-shadow:none}
+.btn.subtle:hover{background:var(--surface-3)}
+.btn.sm{padding:8px 13px;font-size:13px;border-radius:9px}
+.btn.lg{padding:14px 24px;font-size:16px;border-radius:13px}
+.btn.block{width:100%}
+.btn.danger{background:var(--crit);box-shadow:0 8px 22px rgba(224,69,59,.28)}
 
-/* legend / tokens */
-.legend-title{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-mute); font-weight:700; margin:0 0 12px; }
-.swatches{ display:flex; gap:8px; margin:0 0 18px; flex-wrap:wrap; }
-.sw{ width:38px;height:38px;border-radius:10px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08); }
-.legend p{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; margin:0 0 8px; }
-.legend .k{ color:var(--ink); font-weight:600; }
-.hint{ margin-top:18px; font-size:12px; color:var(--ink-mute); display:flex; align-items:center; gap:7px; }
-.hint svg{flex:none}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;
+  font-size:12.5px;font-weight:600;background:var(--surface-2);color:var(--ink-soft);border:1px solid var(--line)}
+.chip.brand{background:var(--brand-050);color:var(--brand-600);border-color:transparent}
+.chip.good{background:var(--good-050);color:var(--good);border-color:transparent}
+.chip.warn{background:var(--warn-050);color:var(--warn);border-color:transparent}
+.chip.crit{background:var(--crit-050);color:var(--crit);border-color:transparent}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-1)}
+.muted{color:var(--ink-mute)}
+.soft{color:var(--ink-soft)}
+.mono{font-family:var(--ff-mono)}
+.hidden{display:none!important}
 
-/* ---------- Phone ---------- */
-.phone-wrap{ justify-self:center; }
-.phone{
-  position:relative;
-  width:390px; height:min(844px, 90vh);
-  background:#05100f;
-  border-radius:54px;
-  padding:12px;
-  box-shadow:var(--shadow-lg), 0 0 0 2px rgba(255,255,255,.05) inset;
-}
-.phone::before{ /* side buttons */
-  content:""; position:absolute; left:-3px; top:150px; width:3px; height:64px;
-  border-radius:3px; background:linear-gradient(#2a3b39,#0d1a19);
-}
-.screenwin{
-  position:relative; width:100%; height:100%;
-  background:var(--surface-2);
-  border-radius:44px; overflow:hidden;
-  display:flex; flex-direction:column;
-}
-.island{
-  position:absolute; top:11px; left:50%; transform:translateX(-50%);
-  width:112px; height:32px; background:#05100f; border-radius:20px; z-index:60;
-}
-.statusbar{
-  position:relative; z-index:55; flex:none;
-  height:52px; padding:0 30px; display:flex; align-items:flex-end; justify-content:space-between;
-  padding-bottom:6px; font-size:14px; font-weight:600; color:var(--ink);
-  pointer-events:none;
-}
-.statusbar .right{display:flex; gap:6px; align-items:center}
+/* ---------- Brand mark ---------- */
+.brandmark{display:inline-flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.03em;font-size:18px}
+.brandmark .glyph{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--brand),#7CA6FF);box-shadow:var(--sh-brand);color:#fff;flex:none}
+.brandmark .glyph svg{width:17px;height:17px}
 
-/* ---------- App shell ---------- */
-.app{ position:relative; flex:1; min-height:0; display:flex; flex-direction:column; }
-.viewport{ position:relative; flex:1; min-height:0; }
-.screen{
-  position:absolute; inset:0; overflow-y:auto; overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  opacity:0; visibility:hidden; transform:translateY(8px);
-  transition:opacity .34s ease, transform .34s ease, visibility .34s;
-  padding:6px 18px 108px;
-}
-.screen::-webkit-scrollbar{width:0}
-.screen.active{ opacity:1; visibility:visible; transform:none; }
-@media (prefers-reduced-motion: reduce){
-  .screen{transition:opacity .2s ease}
-  .screen.active{transform:none}
-}
+/* ============================================================
+   MARKETING (LANDING)
+   ============================================================ */
+.mkt{display:block}
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.4) blur(14px);
+  background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line-soft)}
+.nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:24px;padding:14px 22px}
+.nav-links{display:flex;gap:4px;margin-left:8px}
+.nav-links a{padding:8px 12px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink-soft);cursor:pointer}
+.nav-links a:hover{background:var(--surface-2);color:var(--ink)}
+.nav-cta{margin-left:auto;display:flex;align-items:center;gap:10px}
+.iconbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);
+  display:grid;place-items:center;cursor:pointer;color:var(--ink-soft);box-shadow:var(--sh-1)}
+.iconbtn:hover{background:var(--surface-2);color:var(--ink)}
 
-/* ---------- Shared UI atoms ---------- */
-.eyebrow{ font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-mute); font-weight:700; }
-.h-lg{ font-size:28px; font-weight:700; letter-spacing:-.02em; line-height:1.08; margin:2px 0; }
-.h-md{ font-size:19px; font-weight:700; letter-spacing:-.01em; margin:0; }
-.muted{ color:var(--ink-mute); }
-.soft{ color:var(--ink-soft); }
-.card{
-  background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--shadow);
-  border:1px solid var(--line-2);
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.hero{text-align:center;padding:82px 22px 40px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-40% 0 auto;height:560px;z-index:-1;
+  background:radial-gradient(60% 60% at 50% 0,var(--brand-050),transparent 70%)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--brand-600);
+  background:var(--brand-050);padding:6px 13px;border-radius:999px;margin-bottom:22px}
+.h1{font-size:clamp(38px,6.4vw,66px);line-height:1.03;letter-spacing:-.035em;font-weight:800;margin:0 auto;max-width:14ch}
+.h1 .grad{background:linear-gradient(120deg,var(--brand),#8AB0FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(17px,2.2vw,20px);color:var(--ink-soft);max-width:56ch;margin:22px auto 0;line-height:1.55}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.hero-note{margin-top:16px;font-size:13px;color:var(--ink-mute)}
+.hero-note b{color:var(--ink-soft)}
+
+/* Product shot */
+.shot{max-width:940px;margin:52px auto 0;border-radius:var(--r-2xl);overflow:hidden;
+  border:1px solid var(--line);box-shadow:var(--sh-3);background:var(--surface)}
+.shot-bar{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:var(--surface-2)}
+.dot{width:11px;height:11px;border-radius:50%}
+.shot-body{display:grid;grid-template-columns:210px 1fr;min-height:380px}
+.shot-side{border-right:1px solid var(--line-soft);padding:16px 12px;background:var(--surface)}
+.shot-side .si{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:9px;font-size:13.5px;color:var(--ink-soft);font-weight:500}
+.shot-side .si.on{background:var(--brand-050);color:var(--brand-600)}
+.shot-side .si .d{width:16px;height:16px;border-radius:5px;background:var(--surface-3)}
+.shot-side .si.on .d{background:var(--brand)}
+.shot-main{padding:22px;display:flex;flex-direction:column;gap:14px}
+.shot-msg{max-width:78%;padding:12px 15px;border-radius:15px;font-size:14px;line-height:1.5}
+.shot-msg.them{background:var(--surface-2);border:1px solid var(--line-soft);align-self:flex-start;border-bottom-left-radius:5px}
+.shot-msg.me{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.shot-conf{font-size:11px;font-weight:600;margin-top:7px;display:inline-flex;gap:5px;align-items:center;color:var(--good)}
+
+.trust{display:flex;gap:34px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:36px 22px;opacity:.8;font-weight:700;color:var(--ink-mute);font-size:15px;letter-spacing:.02em}
+
+.section{padding:72px 0}
+.sec-head{text-align:center;max-width:60ch;margin:0 auto 44px}
+.sec-tag{font-size:13px;font-weight:700;color:var(--brand-600);text-transform:uppercase;letter-spacing:.08em}
+.h2{font-size:clamp(28px,4vw,42px);letter-spacing:-.03em;font-weight:800;margin:12px 0 0;line-height:1.1}
+.sec-sub{font-size:17px;color:var(--ink-soft);margin-top:14px}
+
+/* Comparison */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto}
+.compare .col{padding:26px;border-radius:var(--r-xl)}
+.compare .old{background:var(--surface-2);border:1px solid var(--line)}
+.compare .new{background:linear-gradient(180deg,var(--brand-050),var(--surface));border:1px solid var(--brand-100)}
+.compare h3{margin:0 0 4px;font-size:19px;letter-spacing:-.02em}
+.compare .cl{display:flex;gap:11px;padding:11px 0;border-top:1px solid var(--line-soft);font-size:14.5px;color:var(--ink-soft)}
+.compare .cl:first-of-type{border-top:none}
+.compare .cl .ic{flex:none;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:13px;font-weight:800}
+.compare .old .ic{background:var(--crit-050);color:var(--crit)}
+.compare .new .ic{background:var(--good-050);color:var(--good)}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{padding:26px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);position:relative}
+.step .num{width:34px;height:34px;border-radius:10px;background:var(--brand);color:#fff;font-weight:800;display:grid;place-items:center;margin-bottom:16px;box-shadow:var(--sh-brand)}
+.step h3{margin:0 0 6px;font-size:18px;letter-spacing:-.02em}
+.step p{margin:0;color:var(--ink-soft);font-size:14.5px}
+
+/* Features */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.fcard{padding:24px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);transition:transform .2s var(--ease),box-shadow .2s}
+.fcard:hover{transform:translateY(-3px);box-shadow:var(--sh-2)}
+.fcard .fi{width:44px;height:44px;border-radius:12px;background:var(--brand-050);color:var(--brand-600);display:grid;place-items:center;margin-bottom:15px}
+.fcard .fi svg{width:22px;height:22px}
+.fcard h3{margin:0 0 6px;font-size:17px;letter-spacing:-.02em}
+.fcard p{margin:0;color:var(--ink-soft);font-size:14px}
+
+/* Testimonials */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.quote{padding:24px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1)}
+.quote .stars{color:#F5B400;font-size:14px;letter-spacing:2px;margin-bottom:12px}
+.quote p{margin:0 0 16px;font-size:15px;line-height:1.6}
+.quote .who{display:flex;align-items:center;gap:11px}
+.quote .av{width:38px;height:38px;border-radius:50%;background:linear-gradient(140deg,var(--brand),#8AB0FF);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.quote .who b{font-size:14px}
+.quote .who span{font-size:12.5px;color:var(--ink-mute);display:block}
+
+/* Pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;margin:0 auto;align-items:stretch}
+.plan{padding:28px 24px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);display:flex;flex-direction:column}
+.plan.pop{border:2px solid var(--brand);box-shadow:var(--sh-2);position:relative}
+.plan.pop::before{content:"Le plus choisi";position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--brand);color:#fff;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:999px}
+.plan h3{margin:0;font-size:17px}
+.plan .price{font-size:40px;font-weight:800;letter-spacing:-.03em;margin:14px 0 2px}
+.plan .price small{font-size:15px;font-weight:600;color:var(--ink-mute)}
+.plan .pdesc{color:var(--ink-soft);font-size:14px;min-height:40px}
+.plan ul{list-style:none;padding:0;margin:18px 0 22px;display:flex;flex-direction:column;gap:11px;flex:1}
+.plan li{display:flex;gap:10px;font-size:14px;color:var(--ink-soft)}
+.plan li svg{flex:none;color:var(--good);width:18px;height:18px;margin-top:1px}
+.billing-toggle{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:4px;margin:0 auto 30px;gap:2px}
+.billing-toggle button{border:none;background:transparent;padding:8px 18px;border-radius:999px;font-weight:600;font-size:13.5px;color:var(--ink-soft);cursor:pointer}
+.billing-toggle button.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-1)}
+
+/* FAQ */
+.faq{max-width:760px;margin:0 auto}
+.faq details{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);margin-bottom:12px;box-shadow:var(--sh-1);overflow:hidden}
+.faq summary{padding:18px 20px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:15.5px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .plus{flex:none;width:24px;height:24px;border-radius:7px;background:var(--surface-2);display:grid;place-items:center;transition:transform .25s var(--ease);font-weight:700;color:var(--ink-mute)}
+.faq details[open] summary .plus{transform:rotate(45deg);background:var(--brand-050);color:var(--brand-600)}
+.faq .fa-body{padding:0 20px 18px;color:var(--ink-soft);font-size:14.5px;line-height:1.6}
+
+/* CTA band */
+.ctaband{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.ctaband .inner{border-radius:var(--r-2xl);padding:56px 40px;text-align:center;color:#fff;
+  background:linear-gradient(130deg,var(--brand-700),var(--brand) 60%,#6C93FF);box-shadow:var(--sh-3);position:relative;overflow:hidden}
+.ctaband .inner h2{font-size:clamp(26px,4vw,38px);margin:0 0 12px;letter-spacing:-.02em}
+.ctaband .inner p{margin:0 auto 26px;max-width:48ch;opacity:.92;font-size:17px}
+.ctaband .btn.ghost{background:#fff;color:var(--brand-700);border:none}
+
+/* Footer */
+.footer{border-top:1px solid var(--line-soft);margin-top:72px;padding:52px 0 40px}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px;max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.foot-grid h4{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-mute);margin:0 0 14px}
+.foot-grid a{display:block;color:var(--ink-soft);font-size:14px;padding:5px 0;cursor:pointer}
+.foot-grid a:hover{color:var(--brand-600)}
+.foot-bottom{max-width:var(--maxw);margin:34px auto 0;padding:22px 22px 0;border-top:1px solid var(--line-soft);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--ink-mute);font-size:13px}
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+.app{display:none;grid-template-columns:250px 1fr;min-height:100vh}
+.app.on{display:grid}
+.side{border-right:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh}
+.side-top{padding:18px 16px 12px}
+.side-nav{padding:6px 12px;flex:1;overflow:auto;display:flex;flex-direction:column;gap:2px}
+.side-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-mute);padding:16px 10px 6px;font-weight:700}
+.nlink{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;cursor:pointer;
+  color:var(--ink-soft);font-size:14px;font-weight:500;transition:background .15s,color .15s}
+.nlink:hover{background:var(--surface-2);color:var(--ink)}
+.nlink.on{background:var(--brand-050);color:var(--brand-600);font-weight:600}
+.nlink svg{width:18px;height:18px;flex:none}
+.nlink .tag{margin-left:auto;font-size:10.5px;font-weight:700;background:var(--brand);color:#fff;border-radius:999px;padding:1px 7px}
+.side-foot{padding:12px;border-top:1px solid var(--line-soft)}
+.userbox{display:flex;align-items:center;gap:10px;padding:9px;border-radius:11px;cursor:pointer}
+.userbox:hover{background:var(--surface-2)}
+.userbox .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,var(--brand),#8AB0FF);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.userbox .nm{font-size:13.5px;font-weight:600;line-height:1.2}
+.userbox .em{font-size:11.5px;color:var(--ink-mute)}
+
+.main{min-width:0;display:flex;flex-direction:column;max-height:100vh;overflow:auto}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;padding:14px 26px;
+  background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
+.topbar h1{font-size:19px;letter-spacing:-.02em;margin:0}
+.topbar .sub{font-size:13px;color:var(--ink-mute)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:10px;padding:8px 12px;color:var(--ink-mute);font-size:13px;cursor:pointer;min-width:180px}
+.search kbd{margin-left:auto;font-family:var(--ff-mono);font-size:11px;background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+.page{padding:26px;max-width:1080px;width:100%;margin:0 auto}
+.hamburger{display:none}
+
+/* Progress ring */
+.ring-wrap{display:flex;align-items:center;gap:20px}
+.ring{--p:0;width:96px;height:96px;border-radius:50%;flex:none;
+  background:conic-gradient(var(--brand) calc(var(--p)*1%), var(--surface-3) 0);
+  display:grid;place-items:center;position:relative}
+.ring::before{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--surface)}
+.ring b{position:relative;font-size:24px;font-weight:800;letter-spacing:-.02em}
+
+/* Grid helpers */
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g-main{grid-template-columns:1.6fr 1fr}
+.stat{padding:18px 20px}
+.stat .l{font-size:12.5px;color:var(--ink-mute);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.stat .v{font-size:30px;font-weight:800;letter-spacing:-.03em;margin-top:6px}
+.stat .d{font-size:12.5px;margin-top:4px}
+
+.cardpad{padding:20px}
+.cardhd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.cardhd h3{margin:0;font-size:16px;letter-spacing:-.02em}
+.cardhd .link{font-size:13px;color:var(--brand-600);cursor:pointer;font-weight:600}
+
+/* Checklist */
+.check{display:flex;align-items:center;gap:13px;padding:13px 0;border-top:1px solid var(--line-soft)}
+.check:first-child{border-top:none}
+.check .box{width:24px;height:24px;border-radius:7px;flex:none;display:grid;place-items:center;font-size:13px;font-weight:800}
+.check .box.done{background:var(--good-050);color:var(--good)}
+.check .box.verify{background:var(--warn-050);color:var(--warn)}
+.check .box.miss{background:var(--surface-2);color:var(--ink-mute);border:1.5px dashed var(--line)}
+.check .tx{flex:1;min-width:0}
+.check .tx b{font-size:14px;font-weight:600;display:block}
+.check .tx span{font-size:12.5px;color:var(--ink-mute)}
+
+/* Doc list */
+.doc{display:flex;align-items:center;gap:13px;padding:13px;border-radius:12px;border:1px solid var(--line-soft);margin-bottom:10px;cursor:pointer;transition:background .15s}
+.doc:hover{background:var(--surface-2)}
+.doc .ic{width:40px;height:40px;border-radius:10px;background:var(--brand-050);color:var(--brand-600);display:grid;place-items:center;font-weight:800;font-size:12px;flex:none}
+.doc .ic.pdf{background:var(--crit-050);color:var(--crit)}
+.doc .ic.img{background:var(--info);color:#fff;opacity:.9}
+.doc .tx{flex:1;min-width:0}
+.doc .tx b{font-size:14px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc .tx span{font-size:12px;color:var(--ink-mute)}
+
+/* Dropzone */
+.drop{border:2px dashed var(--line);border-radius:var(--r-lg);padding:40px 24px;text-align:center;
+  background:var(--surface-2);cursor:pointer;transition:border-color .2s,background .2s}
+.drop:hover{border-color:var(--brand);background:var(--brand-050)}
+.drop .di{width:56px;height:56px;border-radius:16px;background:var(--surface);box-shadow:var(--sh-1);display:grid;place-items:center;margin:0 auto 14px;color:var(--brand-600)}
+
+/* OCR extract table */
+.extract{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.extract .er{display:grid;grid-template-columns:1fr 1.2fr auto;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--line-soft)}
+.extract .er:first-child{border-top:none;background:var(--surface-2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-mute);font-weight:700}
+.extract .er .k{font-size:13.5px;color:var(--ink-soft);font-weight:600}
+.extract .er input{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 10px;font-size:14px;color:var(--ink);width:100%;font-family:inherit}
+.confbar{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;white-space:nowrap}
+.confbar .track{width:52px;height:6px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+.confbar .fill{height:100%;border-radius:999px}
+
+/* Chat (assistant) */
+.chatpage{display:flex;flex-direction:column;height:calc(100vh - 57px)}
+.chatscroll{flex:1;overflow:auto;padding:26px;display:flex;flex-direction:column;gap:16px;max-width:820px;width:100%;margin:0 auto}
+.bubble{max-width:80%;padding:13px 16px;border-radius:16px;font-size:14.5px;line-height:1.55;position:relative}
+.bubble.them{background:var(--surface);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:5px;box-shadow:var(--sh-1)}
+.bubble.me{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.bubble .conf{margin-top:9px;padding-top:9px;border-top:1px solid var(--line-soft);font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:7px}
+.conf-dot{width:8px;height:8px;border-radius:50%}
+.ai-ava{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ink-mute);margin-bottom:-6px;align-self:flex-start}
+.ai-ava .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(150deg,var(--brand),#7CA6FF);display:grid;place-items:center;color:#fff;font-size:11px}
+.suggest{display:flex;gap:8px;flex-wrap:wrap;padding:0 26px 12px;max-width:820px;width:100%;margin:0 auto}
+.suggest .s{padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:13px;color:var(--ink-soft);cursor:pointer;box-shadow:var(--sh-1)}
+.suggest .s:hover{background:var(--brand-050);color:var(--brand-600);border-color:transparent}
+.chatbar{border-top:1px solid var(--line);padding:14px 26px;background:var(--surface)}
+.chatbar .in{max-width:820px;margin:0 auto;display:flex;align-items:flex-end;gap:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:8px 8px 8px 16px}
+.chatbar textarea{flex:1;border:none;background:transparent;resize:none;font-family:inherit;font-size:14.5px;color:var(--ink);padding:6px 0;max-height:120px;line-height:1.5}
+.chatbar textarea:focus{outline:none}
+.sendbtn{width:40px;height:40px;border-radius:11px;border:none;background:var(--brand);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none;box-shadow:var(--sh-brand)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px;border:1px solid var(--line);margin-bottom:20px;overflow:auto}
+.tabs button{border:none;background:transparent;padding:9px 15px;border-radius:9px;font-weight:600;font-size:13.5px;color:var(--ink-soft);cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-1)}
+
+/* Field rows */
+.field{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line-soft)}
+.field:first-child{border-top:none}
+.field label{font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.field .val{font-size:14.5px}
+.input{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:9px 12px;font-size:14px;color:var(--ink);width:100%;font-family:inherit}
+.input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-050)}
+
+/* Timeline */
+.tl{position:relative;padding-left:26px}
+.tl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tli{position:relative;padding:0 0 22px}
+.tli::before{content:"";position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--brand);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.tli b{font-size:14px;display:block}
+.tli .tm{font-size:12px;color:var(--ink-mute)}
+.tli p{margin:5px 0 0;font-size:13.5px;color:var(--ink-soft)}
+
+/* Alert */
+.alert{display:flex;gap:12px;padding:14px 16px;border-radius:12px;font-size:13.5px;align-items:flex-start}
+.alert .ai{flex:none;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-weight:800;font-size:13px}
+.alert.warn{background:var(--warn-050);color:#8a5a06}
+.alert.warn .ai{background:var(--warn);color:#fff}
+.alert.crit{background:var(--crit-050);color:#a12f27}
+.alert.crit .ai{background:var(--crit);color:#fff}
+.alert.good{background:var(--good-050);color:#0d6b4a}
+.alert.good .ai{background:var(--good);color:#fff}
+:root[data-theme="dark"] .alert.warn{color:#f0c274}
+:root[data-theme="dark"] .alert.crit{color:#f0a49d}
+:root[data-theme="dark"] .alert.good{color:#7ad9b3}
+
+/* Admin table */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;padding:11px 14px;color:var(--ink-mute);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line)}
+.tbl td{padding:13px 14px;border-bottom:1px solid var(--line-soft)}
+.tbl tr:hover td{background:var(--surface-2)}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-size:13.5px;font-weight:600;
+  box-shadow:var(--sh-3);z-index:200;display:flex;align-items:center;gap:9px;transition:transform .3s var(--ease),opacity .3s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* Modal */
+.scrim{position:fixed;inset:0;background:rgba(8,14,26,.5);backdrop-filter:blur(3px);z-index:100;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.modal{position:fixed;z-index:110;left:50%;top:50%;transform:translate(-50%,-46%);opacity:0;pointer-events:none;
+  width:min(440px,92vw);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--sh-3);
+  padding:30px;transition:opacity .25s,transform .25s var(--ease)}
+.modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.modal h2{margin:0 0 6px;font-size:22px;letter-spacing:-.02em}
+.modal p.sub{margin:0 0 22px;color:var(--ink-soft);font-size:14px}
+.authbtns{display:flex;flex-direction:column;gap:10px}
+.oauth{display:flex;align-items:center;gap:10px;justify-content:center;padding:11px;border-radius:11px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer}
+.oauth:hover{background:var(--surface-2)}
+.divider{display:flex;align-items:center;gap:12px;color:var(--ink-mute);font-size:12px;margin:16px 0}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+.flabel{font-size:13px;font-weight:600;color:var(--ink-soft);display:block;margin:14px 0 6px}
+.modal-x{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:9px;border:none;background:var(--surface-2);cursor:pointer;color:var(--ink-mute);display:grid;place-items:center}
+
+/* Responsive */
+@media(max-width:920px){
+  .steps,.feat,.quotes,.plans,.g3{grid-template-columns:1fr}
+  .compare,.g2,.g-main{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .shot-body{grid-template-columns:1fr}
+  .shot-side{display:none}
 }
-.row{ display:flex; align-items:center; gap:12px; }
-.spacer{flex:1}
-.pill{
-  display:inline-flex; align-items:center; gap:6px;
-  padding:6px 11px; border-radius:999px; font-size:12.5px; font-weight:600;
-  background:var(--surface-3); color:var(--ink-soft);
+@media(max-width:780px){
+  .app.on{grid-template-columns:1fr}
+  .side{position:fixed;left:0;top:0;z-index:80;width:250px;transform:translateX(-100%);transition:transform .28s var(--ease);box-shadow:var(--sh-3)}
+  .side.open{transform:translateX(0)}
+  .hamburger{display:grid}
+  .field{grid-template-columns:1fr;gap:6px}
+  .field label{color:var(--ink-mute)}
+  .page{padding:18px}
+  .foot-grid{grid-template-columns:1fr 1fr}
 }
-.pill.sea{ background:color-mix(in srgb, var(--sea) 14%, transparent); color:var(--sea-bright); }
-.pill.sun{ background:var(--sun-soft); color:var(--sun); }
-.tag{ font-size:11.5px; font-weight:600; color:var(--ink-mute); }
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  height:50px; padding:0 22px; border-radius:15px; font-size:15.5px; font-weight:650;
-  background:var(--sea); color:#fff; transition:transform .12s ease, filter .2s ease, background .2s;
-  width:100%;
-}
-.btn:active{ transform:scale(.975) }
-.btn.sun{ background:var(--sun); }
-.btn.ghost{ background:var(--surface-3); color:var(--ink); }
-.btn.sm{ height:40px; padding:0 16px; font-size:14px; border-radius:12px; width:auto; }
-.iconbtn{
-  width:40px;height:40px;border-radius:13px;background:var(--surface);
-  box-shadow:var(--shadow); display:grid;place-items:center; color:var(--ink);
-  border:1px solid var(--line-2); flex:none; transition:transform .12s;
-}
-.iconbtn:active{transform:scale(.92)}
-.avatar{ border-radius:50%; object-fit:cover; background:var(--surface-3); flex:none;
-  box-shadow:0 0 0 2px var(--surface), 0 2px 6px rgba(0,0,0,.15); }
-.dot{ width:8px;height:8px;border-radius:50%; }
-.stackav{ display:flex; }
-.stackav img{ margin-left:-9px; }
-.stackav img:first-child{margin-left:0}
-
-/* segmented / chips */
-.chips{ display:flex; gap:8px; overflow-x:auto; padding:2px 0 4px; margin:0 -18px; padding-left:18px; padding-right:18px; }
-.chips::-webkit-scrollbar{height:0}
-.chip{
-  flex:none; padding:9px 15px; border-radius:999px; font-size:13px; font-weight:600;
-  background:var(--surface); color:var(--ink-soft); border:1px solid var(--line);
-  display:inline-flex; align-items:center; gap:7px; transition:.18s;
-}
-.chip[aria-pressed="true"]{ background:var(--ink); color:var(--surface); border-color:var(--ink); }
-.chip .ic{font-size:14px}
-
-/* ---------- Header (home) ---------- */
-.topbar{ display:flex; align-items:center; gap:12px; padding:8px 0 14px; }
-.greet .eyebrow{display:block}
-.greet .name{ font-size:20px; font-weight:700; letter-spacing:-.01em; }
-
-/* condition strip */
-.conditions{ display:flex; gap:10px; overflow-x:auto; margin:0 -18px 4px; padding:2px 18px 12px; }
-.conditions::-webkit-scrollbar{height:0}
-.cond{
-  flex:none; width:118px; padding:13px; border-radius:var(--r); background:var(--surface);
-  border:1px solid var(--line-2); box-shadow:var(--shadow);
-}
-.cond .lbl{ font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-mute); }
-.cond .big{ font-size:22px; font-weight:700; margin-top:6px; font-variant-numeric:tabular-nums; }
-.cond .sub{ font-size:12px; color:var(--ink-soft); margin-top:2px; }
-.cond .bar{ height:5px; border-radius:3px; margin-top:9px; background:var(--surface-3); overflow:hidden;}
-.cond .bar > i{ display:block; height:100%; border-radius:3px; background:linear-gradient(90deg,var(--sea-bright),var(--glacier)); }
-
-/* adventure card */
-.adv{
-  overflow:hidden; margin-bottom:14px;
-}
-.adv .hero{ position:relative; height:150px; }
-.adv .hero .grad{ position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(4,16,15,.72)); }
-.adv .hero .top{ position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; }
-.adv .hero .cap{ position:absolute; left:14px; right:14px; bottom:12px; color:#fff; }
-.adv .hero .cap h3{ margin:0; font-size:18px; font-weight:700; letter-spacing:-.01em; text-shadow:0 1px 8px rgba(0,0,0,.4); }
-.adv .hero .cap .meta{ font-size:12.5px; opacity:.92; margin-top:3px; display:flex; align-items:center; gap:6px; }
-.adv .body{ padding:13px 14px 14px; }
-.adv .body .who{ display:flex; align-items:center; gap:9px; }
-.adv .body .who .n{ font-size:13px; }
-.badge-live{ background:rgba(255,255,255,.16); backdrop-filter:blur(8px); color:#fff; padding:5px 10px; border-radius:999px; font-size:11.5px; font-weight:700; display:inline-flex; gap:6px; align-items:center; }
-.slots{ font-size:12.5px; font-weight:650; color:var(--sea-bright); }
-.progress{ height:6px;border-radius:4px;background:var(--surface-3);overflow:hidden;margin:10px 0 0; }
-.progress > i{ display:block;height:100%;background:var(--sun); border-radius:4px; }
-
-/* section head */
-.sec{ display:flex; align-items:baseline; justify-content:space-between; margin:20px 2px 12px; }
-.sec a{ color:var(--sea-bright); font-size:13px; font-weight:650; text-decoration:none; }
-
-/* tribe activity */
-.tribe{ display:flex; gap:14px; overflow-x:auto; margin:0 -18px; padding:2px 18px 6px; }
-.tribe::-webkit-scrollbar{height:0}
-.tribe .p{ width:66px; text-align:center; flex:none; }
-.tribe .ring{ width:64px;height:64px;border-radius:50%; padding:3px; background:conic-gradient(var(--sun),var(--sea-bright),var(--glacier),var(--sun)); }
-.tribe .ring img{ width:100%;height:100%;border-radius:50%; border:2px solid var(--surface-2); }
-.tribe .p .nm{ font-size:11px; margin-top:5px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-
-/* ---------- Map ---------- */
-.mapscreen{ padding:0; }
-.mapcanvas{ position:absolute; inset:0; }
-.mapcanvas svg{ width:100%; height:100%; display:block; }
-.mapsea-d{ display:none; }
-@media (prefers-color-scheme: dark){ .mapsea{display:none} .mapsea-d{display:block} }
-:root[data-theme="light"] .mapsea{display:block} :root[data-theme="light"] .mapsea-d{display:none}
-:root[data-theme="dark"] .mapsea{display:none} :root[data-theme="dark"] .mapsea-d{display:block}
-.map-overlay-top{ position:absolute; top:8px; left:0; right:0; z-index:5; padding:0 16px; }
-.searchbar{
-  height:46px; background:var(--surface); border-radius:14px; box-shadow:var(--shadow);
-  display:flex; align-items:center; gap:10px; padding:0 14px; border:1px solid var(--line-2);
-  font-size:14px; color:var(--ink-mute);
-}
-.map-chips{ margin-top:10px; display:flex; gap:8px; overflow-x:auto; }
-.map-chips::-webkit-scrollbar{height:0}
-.pin{
-  position:absolute; transform:translate(-50%,-100%); z-index:4;
-  display:flex; flex-direction:column; align-items:center; cursor:pointer;
-  transition:transform .15s;
-}
-.pin:active{ transform:translate(-50%,-100%) scale(.9); }
-.pin .head{
-  width:44px;height:44px;border-radius:50% 50% 50% 4px; transform:rotate(45deg);
-  display:grid;place-items:center; box-shadow:0 6px 16px rgba(4,16,15,.35); border:2px solid #fff;
-}
-.pin .head > *{ transform:rotate(-45deg); }
-.pin.spot .head{ background:var(--sea); color:#fff; }
-.pin.adv .head{ background:var(--sun); color:#fff; }
-.pin.user .head{ border-radius:50%; overflow:hidden; padding:0; }
-.pin.user .head img{ transform:rotate(0); width:100%;height:100%;object-fit:cover; }
-.pin .lbl{ margin-top:6px; font-size:11px; font-weight:700; background:var(--surface); color:var(--ink);
-  padding:3px 8px; border-radius:8px; box-shadow:var(--shadow); white-space:nowrap; }
-.mapsheet{
-  position:absolute; left:12px; right:12px; bottom:14px; z-index:6;
-  padding:14px; display:flex; gap:13px; align-items:center;
-  transform:translateY(140%); opacity:0; transition:transform .34s cubic-bezier(.2,.8,.2,1), opacity .3s;
-}
-.mapsheet.show{ transform:none; opacity:1; }
-.mapsheet .thumb{ width:64px;height:64px;border-radius:14px;object-fit:cover; flex:none; }
-
-/* ---------- Create ---------- */
-.create h2{ margin:14px 2px 4px; }
-.field{ margin-bottom:14px; }
-.field > label{ display:block; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin:0 2px 8px; }
-.sportgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
-.sportopt{
-  aspect-ratio:1; border-radius:var(--r); background:var(--surface); border:1.5px solid var(--line);
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px;
-  font-size:12px; font-weight:650; color:var(--ink-soft); transition:.16s;
-}
-.sportopt .em{ font-size:26px; line-height:1; }
-.sportopt[aria-pressed="true"]{ border-color:var(--sea); background:color-mix(in srgb,var(--sea) 8%,var(--surface)); color:var(--sea-bright); box-shadow:0 6px 18px rgba(14,76,74,.14); }
-.inputline{
-  background:var(--surface); border:1.5px solid var(--line); border-radius:14px;
-  padding:14px 15px; font-size:15px; display:flex; align-items:center; gap:10px; color:var(--ink);
-}
-.inputline .val{ font-weight:600; }
-.stepper{ display:flex; align-items:center; gap:0; background:var(--surface); border:1.5px solid var(--line); border-radius:14px; overflow:hidden; }
-.stepper button{ width:52px; height:52px; font-size:22px; color:var(--sea-bright); font-weight:600; }
-.stepper .count{ flex:1; text-align:center; font-size:17px; font-weight:700; font-variant-numeric:tabular-nums; }
-textarea.inputline{ width:100%; resize:none; min-height:84px; font-family:inherit; }
-textarea.inputline:focus{ outline:none; border-color:var(--sea); }
-.privacy{ display:flex; gap:8px; }
-.privacy .opt{ flex:1; padding:12px; border-radius:14px; border:1.5px solid var(--line); background:var(--surface); text-align:center; font-size:13px; font-weight:650; color:var(--ink-soft); transition:.16s; }
-.privacy .opt[aria-pressed="true"]{ border-color:var(--sea); color:var(--sea-bright); background:color-mix(in srgb,var(--sea) 8%,var(--surface)); }
-
-/* ---------- Passport ---------- */
-.passport{
-  margin:12px 0 0; border-radius:26px; overflow:hidden; position:relative; color:#fff;
-  box-shadow:var(--shadow-lg);
-}
-.passport .bg{ position:absolute; inset:0; background:
-  radial-gradient(120% 120% at 80% -20%, #1c8b7f, transparent 60%),
-  linear-gradient(155deg,#0e4c4a,#07302f 70%); }
-.passport .grain{ position:absolute; inset:0; opacity:.5; mix-blend-mode:overlay;
-  background-image:radial-gradient(rgba(255,255,255,.25) .5px, transparent .5px); background-size:4px 4px; }
-.passport .inner{ position:relative; padding:20px; }
-.pp-top{ display:flex; justify-content:space-between; align-items:flex-start; }
-.pp-brand{ font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; opacity:.8; font-weight:700; }
-.pp-id{ display:flex; gap:14px; align-items:center; margin:16px 0 4px; }
-.pp-id img{ width:74px;height:74px;border-radius:20px; object-fit:cover; border:2px solid rgba(255,255,255,.25); }
-.pp-id .nm{ font-size:23px; font-weight:750; letter-spacing:-.01em; }
-.pp-id .lo{ font-size:13px; opacity:.85; display:flex; align-items:center; gap:5px; margin-top:3px; }
-.pp-bio{ font-family:var(--ff-serif); font-size:14.5px; line-height:1.5; opacity:.94; margin:14px 0 16px; font-style:italic; }
-.pp-stats{ display:flex; gap:0; border-top:1px solid rgba(255,255,255,.16); padding-top:14px; }
-.pp-stats .s{ flex:1; text-align:center; }
-.pp-stats .s + .s{ border-left:1px solid rgba(255,255,255,.16); }
-.pp-stats .v{ font-size:20px; font-weight:750; font-variant-numeric:tabular-nums; }
-.pp-stats .l{ font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; opacity:.75; margin-top:2px; }
-.sportlvl{ margin-top:16px; }
-.lvl-row{ display:flex; align-items:center; gap:11px; margin-bottom:12px; }
-.lvl-row .em{ font-size:20px; width:26px; text-align:center; }
-.lvl-row .nm{ font-size:14px; font-weight:650; width:88px; }
-.lvl-row .track{ flex:1; height:7px; border-radius:4px; background:var(--surface-3); overflow:hidden; }
-.lvl-row .track > i{ display:block; height:100%; border-radius:4px; background:linear-gradient(90deg,var(--sea-bright),var(--glacier)); }
-.lvl-row .lv{ font-size:11.5px; font-weight:700; color:var(--ink-mute); width:64px; text-align:right; }
-.badges{ display:grid; grid-template-columns:repeat(4,1fr); gap:11px; }
-.badge{ text-align:center; }
-.badge .medal{ width:100%; aspect-ratio:1; border-radius:18px; display:grid; place-items:center; font-size:26px;
-  background:var(--surface); border:1px solid var(--line-2); box-shadow:var(--shadow); }
-.badge.locked .medal{ opacity:.4; filter:grayscale(1); }
-.badge .cap{ font-size:10.5px; margin-top:6px; color:var(--ink-soft); font-weight:600; line-height:1.2; }
-.avail{ display:flex; gap:7px; flex-wrap:wrap; }
-.avail .d{ flex:1; min-width:38px; text-align:center; padding:9px 4px; border-radius:11px; font-size:12px; font-weight:700; background:var(--surface-3); color:var(--ink-mute); }
-.avail .d.on{ background:color-mix(in srgb,var(--good) 16%,transparent); color:var(--good); }
-
-/* ---------- Journal (Carnet) ---------- */
-.entry{ margin-bottom:20px; overflow:hidden; }
-.entry .ph{ height:200px; position:relative; }
-.entry .ph .stamp{ position:absolute; top:12px; right:12px; }
-.entry .txt{ padding:16px 16px 18px; }
-.entry .txt .meta{ display:flex; align-items:center; gap:9px; margin-bottom:11px; }
-.entry .txt .meta .n{ font-size:13px; font-weight:650; }
-.entry .txt .meta .d{ font-size:12px; color:var(--ink-mute); }
-.entry .txt h3{ font-family:var(--ff-serif); font-size:21px; font-weight:600; letter-spacing:-.01em; margin:0 0 8px; line-height:1.15; }
-.entry .txt p{ font-family:var(--ff-serif); font-size:15px; line-height:1.62; color:var(--ink-soft); margin:0; }
-.entry .foot{ display:flex; align-items:center; gap:16px; margin-top:15px; padding-top:14px; border-top:1px solid var(--line); }
-.entry .foot .item{ display:flex; align-items:center; gap:7px; font-size:13px; color:var(--ink-mute); font-weight:600; }
-.entry .foot .sport{ margin-left:auto; }
-.nolikes{ text-align:center; font-size:12px; color:var(--ink-mute); padding:6px 0 18px; }
-
-/* ---------- Chat ---------- */
-.chat{ display:flex; flex-direction:column; height:100%; padding:0; }
-.chat-head{ flex:none; display:flex; align-items:center; gap:11px; padding:6px 4px 12px; border-bottom:1px solid var(--line); }
-.chat-scroll{ flex:1; overflow-y:auto; padding:14px 2px; display:flex; flex-direction:column; gap:10px; }
-.chat-scroll::-webkit-scrollbar{width:0}
-.daysep{ text-align:center; font-size:11px; color:var(--ink-mute); font-weight:600; margin:4px 0; }
-.msg{ max-width:78%; padding:10px 14px; border-radius:18px; font-size:14px; line-height:1.4; }
-.msg.them{ align-self:flex-start; background:var(--surface); border:1px solid var(--line-2); border-bottom-left-radius:5px; }
-.msg.me{ align-self:flex-end; background:var(--sea); color:#fff; border-bottom-right-radius:5px; }
-.msg .au{ font-size:11px; font-weight:700; color:var(--sea-bright); margin-bottom:2px; }
-.msg.pinned{ align-self:stretch; max-width:100%; background:var(--sun-soft); color:var(--ink); border:1px dashed color-mix(in srgb,var(--sun) 45%,transparent); font-size:13px; }
-.chat-input{ flex:none; display:flex; gap:9px; align-items:center; padding:10px 2px 4px; border-top:1px solid var(--line); }
-.chat-input .box{ flex:1; height:44px; background:var(--surface-3); border-radius:14px; display:flex; align-items:center; padding:0 15px; font-size:14px; color:var(--ink-mute); }
-
-/* ---------- Tab bar ---------- */
-.tabbar{
-  position:absolute; left:12px; right:12px; bottom:12px; z-index:40; height:66px;
-  background:color-mix(in srgb, var(--surface) 82%, transparent);
-  backdrop-filter:blur(22px) saturate(1.4); -webkit-backdrop-filter:blur(22px) saturate(1.4);
-  border:1px solid var(--line); border-radius:24px; box-shadow:var(--shadow);
-  display:flex; align-items:center; justify-content:space-around; padding:0 6px;
-}
-.tab{ flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; color:var(--ink-mute); transition:color .2s; padding:8px 0; }
-.tab .lb{ font-size:10px; font-weight:600; letter-spacing:.01em; }
-.tab.active{ color:var(--sea-bright); }
-.tab.create{ flex:none; }
-.tab.create .plus{
-  width:50px;height:50px;border-radius:17px;margin-top:-16px;
-  background:var(--sun); color:#fff; display:grid;place-items:center;
-  box-shadow:0 10px 22px rgba(255,122,69,.4); transition:transform .14s;
-}
-.tab.create:active .plus{ transform:scale(.92); }
-
-/* ---------- Intro overlay ---------- */
-.intro{
-  position:absolute; inset:0; z-index:80; border-radius:44px; overflow:hidden;
-  display:flex; flex-direction:column; justify-content:flex-end;
-  color:#fff; transition:opacity .6s ease, visibility .6s;
-}
-.intro.hide{ opacity:0; visibility:hidden; pointer-events:none; }
-.intro .bg{ position:absolute; inset:0; background:
-  radial-gradient(120% 90% at 70% 10%, #1a7d73, transparent 55%),
-  linear-gradient(180deg,#0c3d3b 0%, #06211f 100%); }
-.intro .waves{ position:absolute; inset:0; opacity:.9; }
-.intro .content{ position:relative; padding:34px 30px 40px; }
-.intro .lg{ display:flex; align-items:center; gap:10px; margin-bottom:auto; }
-.intro .lg .glyph{ width:30px;height:30px; }
-.intro .lg .wm{ font-weight:700; letter-spacing:-.01em; font-size:17px; }
-.intro h2{ font-family:var(--ff-serif); font-size:34px; line-height:1.08; font-weight:600; letter-spacing:-.01em; margin:0 0 12px; text-wrap:balance; }
-.intro h2 em{ color:#ffd0bd; font-style:italic; }
-.intro p{ font-size:14.5px; line-height:1.55; opacity:.85; margin:0 0 24px; max-width:30ch; }
-.intro .btn{ background:#fff; color:var(--sea); }
-.intro .alt{ text-align:center; margin-top:14px; font-size:13px; opacity:.85; }
-.intro-top{ position:absolute; top:30px; left:30px; right:30px; z-index:2; display:flex; }
-
-/* theme toggle (floating) */
-.themebtn{
-  position:fixed; top:18px; right:18px; z-index:90;
-  height:40px; padding:0 15px; border-radius:999px; font-size:12.5px; font-weight:650;
-  background:color-mix(in srgb,var(--surface) 80%,transparent); color:var(--ink);
-  backdrop-filter:blur(12px); box-shadow:var(--shadow); border:1px solid var(--line);
-  display:flex; align-items:center; gap:8px;
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 1080px){
-  .stage{ grid-template-columns:1fr; gap:26px; padding:34px 20px 46px; }
-  .brandrail{ justify-self:center; text-align:center; max-width:560px; order:1; }
-  .wordmark{ justify-content:center; }
-  .phone-wrap{ order:2; }
-  .legendrail{ justify-self:center; order:3; max-width:560px; width:100%; }
-}
-/* ---- True full-screen app on phones (no device frame, no rails) ---- */
-@media (max-width: 640px){
-  body{ background:var(--surface-2); min-height:100dvh; }
-  .stage{ display:block; padding:0; gap:0; min-height:100dvh; }
-  .brandrail, .legendrail{ display:none; }
-  .phone-wrap{ display:block; }
-  .phone{
-    width:100vw; height:100dvh; padding:0; border-radius:0;
-    background:none; box-shadow:none;
-  }
-  .phone::before{ display:none; }
-  .screenwin{
-    border-radius:0; height:100dvh; width:100%;
-    padding-top:env(safe-area-inset-top);
-  }
-  .island, .statusbar{ display:none; }
-  .intro{ border-radius:0; }
-  .tabbar{
-    left:10px; right:10px;
-    bottom:calc(10px + env(safe-area-inset-bottom));
-  }
-  .screen{
-    padding-left:16px; padding-right:16px;
-    padding-bottom:calc(102px + env(safe-area-inset-bottom));
-  }
-  .chips{ margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px; }
-  .conditions{ margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px; }
-  .tribe{ margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px; }
-  .themebtn{
-    top:auto; right:auto;
-    bottom:calc(88px + env(safe-area-inset-bottom)); left:14px;
-    width:40px; height:40px; padding:0; border-radius:50%; gap:0;
-    justify-content:center;
-  }
-  .themebtn #themeLbl{ display:none; }
-  .map-overlay-top{ top:calc(8px + env(safe-area-inset-top)); }
-}
-
-/* ---------- Bottom sheet ---------- */
-.sheet-host{ position:absolute; inset:0; z-index:100; display:flex; align-items:flex-end; justify-content:center; visibility:hidden; pointer-events:none; }
-.sheet-host.show{ visibility:visible; pointer-events:auto; }
-.sheet-backdrop{ position:absolute; inset:0; background:rgba(4,16,15,.55); opacity:0; transition:opacity .3s; }
-.sheet-host.show .sheet-backdrop{ opacity:1; }
-.sheet{
-  position:relative; width:100%; max-height:90%; overflow-y:auto;
-  background:var(--surface-2); color:var(--ink);
-  border-radius:28px 28px 0 0; border:1px solid var(--line); border-bottom:none;
-  box-shadow:0 -12px 44px rgba(4,16,15,.34);
-  transform:translateY(101%); transition:transform .36s cubic-bezier(.2,.85,.25,1);
-  padding:8px 18px calc(22px + env(safe-area-inset-bottom));
-}
-.sheet-host.show .sheet{ transform:none; }
-.sheet::-webkit-scrollbar{ width:0; }
-.sheet-handle{ width:42px; height:5px; border-radius:3px; background:var(--line); margin:6px auto 4px; }
-@media (prefers-reduced-motion: reduce){ .sheet{ transition:transform .2s ease; } }
-.sheet-hero{ height:150px; border-radius:18px; margin:10px 0 4px; position:relative; overflow:hidden; }
-.sheet-hero .g{ position:absolute; inset:0; background:linear-gradient(180deg,transparent 45%,rgba(4,16,15,.66)); }
-.sheet-hero .cap{ position:absolute; left:14px; right:14px; bottom:12px; color:#fff; }
-.sheet-title{ font-size:22px; font-weight:750; letter-spacing:-.01em; margin:12px 0 3px; text-wrap:balance; }
-.sheet-sub{ color:var(--ink-mute); font-size:13.5px; }
-.sheet-sec{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); font-weight:700; margin:18px 0 10px; }
-.sheet-desc{ font-size:14.5px; line-height:1.55; color:var(--ink-soft); }
-.chiprow{ display:flex; gap:8px; flex-wrap:wrap; }
-.mini{ display:flex; gap:8px; }
-.mini .b{ flex:1; background:var(--surface); border:1px solid var(--line-2); border-radius:14px; padding:11px; text-align:center; }
-.mini .b .v{ font-size:16px; font-weight:750; font-variant-numeric:tabular-nums; }
-.mini .b .l{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-mute); margin-top:2px; }
-.plist{ display:flex; flex-direction:column; gap:2px; }
-.prow{ display:flex; align-items:center; gap:11px; padding:9px 0; }
-.prow .nm{ font-size:14px; font-weight:650; }
-.prow .rl{ font-size:12px; color:var(--ink-mute); }
-.sheet-actions{ display:flex; gap:10px; margin-top:20px; }
-
-/* ---------- Toast ---------- */
-.toast-host{ position:absolute; left:0; right:0; bottom:calc(92px + env(safe-area-inset-bottom)); z-index:120; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; padding:0 22px; }
-.toast{ background:var(--ink); color:var(--surface); padding:11px 16px; border-radius:14px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow-lg); display:flex; gap:9px; align-items:center; opacity:0; transform:translateY(12px) scale(.96); transition:.3s cubic-bezier(.2,.85,.25,1); max-width:100%; }
-.toast.show{ opacity:1; transform:none; }
-.toast .ic{ display:grid; place-items:center; color:var(--sun); }
-
-/* ---------- Switch ---------- */
-.switch{ width:46px; height:28px; border-radius:999px; background:var(--surface-3); position:relative; transition:.22s; flex:none; border:1px solid var(--line); cursor:pointer; }
-.switch[aria-checked="true"]{ background:var(--good); border-color:transparent; }
-.switch::after{ content:""; position:absolute; top:2px; left:2px; width:22px; height:22px; border-radius:50%; background:#fff; transition:.22s cubic-bezier(.2,.85,.25,1); box-shadow:0 1px 3px rgba(0,0,0,.3); }
-.switch[aria-checked="true"]::after{ transform:translateX(18px); }
-.setrow{ display:flex; align-items:center; gap:13px; padding:14px 2px; border-bottom:1px solid var(--line); }
-.setrow:last-child{ border-bottom:none; }
-.setrow .tx{ flex:1; }
-.setrow .tx b{ display:block; font-size:14.5px; }
-.setrow .tx span{ font-size:12.5px; color:var(--ink-mute); }
-
-/* ---------- Editable inputs ---------- */
-.tinput{ width:100%; background:var(--surface); border:1.5px solid var(--line); border-radius:13px; padding:13px 14px; font-size:15px; color:var(--ink); font-family:inherit; }
-.tinput:focus{ outline:none; border-color:var(--sea); }
-textarea.tinput{ resize:none; min-height:96px; line-height:1.5; }
-.tlabel{ font-size:12.5px; font-weight:700; color:var(--ink-soft); margin:14px 2px 8px; display:block; }
-.optlist{ display:flex; flex-direction:column; gap:9px; }
-.optbtn{ display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px; border-radius:14px; border:1.5px solid var(--line); background:var(--surface); font-size:14.5px; font-weight:600; color:var(--ink); transition:.15s; }
-.optbtn[aria-pressed="true"]{ border-color:var(--sea); background:color-mix(in srgb,var(--sea) 8%,var(--surface)); color:var(--sea-bright); }
-.optbtn .em{ font-size:19px; }
-.optbtn .ck{ margin-left:auto; opacity:0; color:var(--sea-bright); }
-.optbtn[aria-pressed="true"] .ck{ opacity:1; }
-
-/* real chat input */
-.chat-real{ flex:1; height:44px; background:var(--surface-3); border-radius:14px; padding:0 15px; font-size:14px; color:var(--ink); border:1px solid transparent; font-family:inherit; }
-.chat-real:focus{ outline:none; border-color:var(--sea); background:var(--surface); }
-
-/* notification item */
-.notif{ display:flex; gap:12px; padding:13px 2px; border-bottom:1px solid var(--line); align-items:flex-start; }
-.notif:last-child{ border-bottom:none; }
-.notif .ico{ width:38px; height:38px; border-radius:12px; display:grid; place-items:center; font-size:17px; flex:none; background:var(--surface-3); }
-.notif .c{ flex:1; }
-.notif .c .t{ font-size:14px; line-height:1.35; }
-.notif .c .t b{ font-weight:700; }
-.notif .c .tm{ font-size:11.5px; color:var(--ink-mute); margin-top:3px; }
-.notif.unread{ position:relative; }
-.notif.unread::after{ content:""; position:absolute; top:16px; right:2px; width:8px; height:8px; border-radius:50%; background:var(--sun); }
-
-/* clickable affordances */
-.tribe .p, .badge, .adv, .entry, .cond, .avail .d, .prow, .tribe .ring{ cursor:pointer; }
-.tap{ transition:transform .12s ease; }
-.tap:active{ transform:scale(.97); }
 </style>
 
-<button class="themebtn" id="themeBtn" aria-label="Changer de thème">
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
-  <span id="themeLbl">Thème</span>
-</button>
-
-<div class="stage">
-  <!-- LEFT: brand -->
-  <aside class="brandrail">
-    <div class="wordmark">
-      <span>Outdoor&nbsp;Freedom</span>
-      <svg class="glyph" viewBox="0 0 40 40" fill="none"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12776F"/><stop offset="1" stop-color="#0E4C4A"/></linearGradient></defs><rect width="40" height="40" rx="11" fill="url(#g1)"/><path d="M8 26c3.4 0 3.4-4 6.8-4s3.4 4 6.8 4 3.4-4 6.8-4 3.4 4 6.8 4" stroke="#9FE0D6" stroke-width="2.4" stroke-linecap="round" fill="none"/><path d="M20 8l6.5 11.5h-13L20 8z" fill="#FF7A45"/></svg>
+<!-- ============================================================ MARKETING ============================================================ -->
+<div class="mkt" id="mkt">
+  <nav class="nav">
+    <div class="nav-in">
+      <div class="brandmark" onclick="scrollTop()">
+        <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></span>
+        TaxPilot
+      </div>
+      <div class="nav-links">
+        <a onclick="scrollTo2('sec-feat')">Fonctionnalités</a>
+        <a onclick="scrollTo2('sec-how')">Fonctionnement</a>
+        <a onclick="scrollTo2('sec-price')">Tarifs</a>
+        <a onclick="scrollTo2('sec-faq')">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <button class="iconbtn" id="themeBtn" title="Thème" aria-label="Changer de thème"></button>
+        <button class="btn subtle sm" onclick="openAuth('login')">Connexion</button>
+        <button class="btn sm" onclick="openAuth('signup')">Commencer</button>
+      </div>
     </div>
-    <h1>Trouve ta tribu.<br><em>Vis ton aventure.</em></h1>
-    <p>La plateforme qui réunit les passionnés d'outdoor : trouver des partenaires, organiser ses sorties, et vivre plus d'expériences — sans jongler entre dix applis.</p>
-    <span class="tagline">Surf · Pêche · Rando · Snowboard · Kite</span>
-  </aside>
+  </nav>
 
-  <!-- CENTER: phone -->
-  <div class="phone-wrap">
-    <div class="phone">
-      <div class="screenwin">
-        <div class="island"></div>
-        <div class="statusbar">
-          <span>9:41</span>
-          <span class="right">
-            <svg width="17" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4" width="3" height="8" rx="1"/><rect x="10" y="1.5" width="3" height="10.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".4"/></svg>
-            <svg width="22" height="12" viewBox="0 0 24 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.5" y="2.5" width="15" height="7" rx="1.6" fill="currentColor"/><rect x="22" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg>
-          </span>
+  <header class="hero">
+    <span class="eyebrow">✦ Nouveau · Déclaration 2026 assistée par IA</span>
+    <h1 class="h1">Les impôts deviennent <span class="grad">simples.</span></h1>
+    <p class="lead">TaxPilot remplit votre déclaration à votre place. Discutez avec une IA, importez vos documents,
+      et laissez-la construire votre dossier fiscal. Plus jamais de formulaire indigeste.</p>
+    <div class="hero-cta">
+      <button class="btn lg" onclick="openAuth('signup')">Commencer gratuitement →</button>
+      <button class="btn ghost lg" onclick="enterApp('dashboard')">Voir la démo</button>
+    </div>
+    <div class="hero-note">✓ Essai gratuit &nbsp;·&nbsp; ✓ Sans carte bancaire &nbsp;·&nbsp; <b>Données chiffrées & hébergées en UE</b></div>
+
+    <div class="shot" aria-hidden="true">
+      <div class="shot-bar">
+        <span class="dot" style="background:#FF5F57"></span><span class="dot" style="background:#FEBC2E"></span><span class="dot" style="background:#28C840"></span>
+        <span style="margin-left:12px;font-size:12px;color:var(--ink-mute)">app.taxpilot.eu — Assistant IA</span>
+      </div>
+      <div class="shot-body">
+        <div class="shot-side">
+          <div class="si"><span class="d"></span> Tableau de bord</div>
+          <div class="si on"><span class="d"></span> Assistant IA</div>
+          <div class="si"><span class="d"></span> Mes documents</div>
+          <div class="si"><span class="d"></span> Dossier fiscal</div>
+          <div class="si"><span class="d"></span> Historique</div>
         </div>
-
-        <!-- APP -->
-        <div class="app">
-          <div class="viewport" id="viewport">
-            <!-- Screens injected here by JS -->
-          </div>
-
-          <!-- Tab bar -->
-          <nav class="tabbar" id="tabbar">
-            <button class="tab active" data-go="home">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>
-              <span class="lb">Accueil</span>
-            </button>
-            <button class="tab" data-go="map">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
-              <span class="lb">Carte</span>
-            </button>
-            <button class="tab create" data-go="create" aria-label="Créer une aventure">
-              <span class="plus"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-            </button>
-            <button class="tab" data-go="journal">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 5.5V20.5"/></svg>
-              <span class="lb">Carnet</span>
-            </button>
-            <button class="tab" data-go="passport">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c1-3.6 3.8-5.4 7-5.4s6 1.8 7 5.4"/></svg>
-              <span class="lb">Passeport</span>
-            </button>
-          </nav>
-
-          <!-- Bottom sheet + toasts -->
-          <div class="sheet-host" id="sheetHost" aria-hidden="true">
-            <div class="sheet-backdrop" onclick="closeSheet()"></div>
-            <div class="sheet" id="sheetPanel" role="dialog" aria-modal="true">
-              <div class="sheet-handle"></div>
-              <div id="sheetBody"></div>
-            </div>
-          </div>
-          <div class="toast-host" id="toastHost"></div>
-
-          <!-- Intro overlay -->
-          <div class="intro" id="intro">
-            <div class="bg"></div>
-            <svg class="waves" viewBox="0 0 390 780" preserveAspectRatio="none" fill="none">
-              <path d="M-20 560c60 0 60-26 120-26s60 26 120 26 60-26 120-26 60 26 120 26v260H-20z" fill="#0a302e" opacity=".55"/>
-              <path d="M-20 620c60 0 60-22 120-22s60 22 120 22 60-22 120-22 60 22 120 22v200H-20z" fill="#082826" opacity=".7"/>
-            </svg>
-            <div class="intro-top">
-              <div class="lg">
-                <svg class="glyph" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="11" fill="rgba(255,255,255,.14)"/><path d="M8 26c3.4 0 3.4-4 6.8-4s3.4 4 6.8 4 3.4-4 6.8-4 3.4 4 6.8 4" stroke="#9FE0D6" stroke-width="2.4" stroke-linecap="round"/><path d="M20 8l6.5 11.5h-13L20 8z" fill="#FF7A45"/></svg>
-                <span class="wm">Outdoor Freedom</span>
-              </div>
-            </div>
-            <div class="content">
-              <h2>Trouve ta tribu.<br><em>Vis ton aventure.</em></h2>
-              <p>Des partenaires près de toi, prêts à partir. Aujourd'hui.</p>
-              <button class="btn" onclick="enterApp()">Commencer l'aventure</button>
-              <div class="alt">Déjà membre ? <b>Se connecter</b></div>
-            </div>
+        <div class="shot-main">
+          <div class="shot-msg them">Bonjour Camille 👋 J'ai lu votre fiche de paie. Avez-vous fait des dons à des associations en 2025 ?</div>
+          <div class="shot-msg me">Oui, 200 € à la Croix-Rouge.</div>
+          <div class="shot-msg them">Parfait. Cela vous donne droit à une réduction d'impôt de <b>132 €</b> (66 %). Je l'ajoute à votre dossier.
+            <div class="shot-conf">● Confiance élevée · règle vérifiée</div>
           </div>
         </div>
       </div>
+    </div>
+  </header>
+
+  <div class="trust">
+    <span>🔒 RGPD</span><span>🇪🇺 Hébergé en UE</span><span>★ 4,9/5</span><span>+12 000 déclarations</span><span>🏦 Chiffrement AES-256</span>
+  </div>
+
+  <!-- Comparison -->
+  <section class="section wrap" id="sec-compare">
+    <div class="sec-head">
+      <span class="sec-tag">La différence</span>
+      <h2 class="h2">La fin de la corvée administrative</h2>
+      <p class="sec-sub">Ce que vous faisiez seul, TaxPilot le fait avec vous — en quelques minutes.</p>
+    </div>
+    <div class="compare">
+      <div class="col old">
+        <h3>😮‍💨 La méthode classique</h3>
+        <div class="cl"><span class="ic">✕</span> Des dizaines de cases obscures à remplir</div>
+        <div class="cl"><span class="ic">✕</span> On ne sait jamais si on oublie une déduction</div>
+        <div class="cl"><span class="ic">✕</span> Chercher chaque justificatif dans ses tiroirs</div>
+        <div class="cl"><span class="ic">✕</span> La peur de se tromper et d'être redressé</div>
+        <div class="cl"><span class="ic">✕</span> Plusieurs heures, souvent reportées au dernier jour</div>
+      </div>
+      <div class="col new">
+        <h3>✨ Avec TaxPilot</h3>
+        <div class="cl"><span class="ic">✓</span> Une conversation naturelle, en français clair</div>
+        <div class="cl"><span class="ic">✓</span> L'IA détecte automatiquement vos crédits & oublis</div>
+        <div class="cl"><span class="ic">✓</span> Photographiez un document, l'OCR fait le reste</div>
+        <div class="cl"><span class="ic">✓</span> Chaque réponse affiche son niveau de confiance</div>
+        <div class="cl"><span class="ic">✓</span> Un dossier prêt en moins de 20 minutes</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section wrap" id="sec-how">
+    <div class="sec-head">
+      <span class="sec-tag">Fonctionnement</span>
+      <h2 class="h2">Trois étapes, zéro jargon</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Importez vos documents</h3><p>Glissez vos fiches de paie, avis, justificatifs. Ou photographiez-les. L'OCR extrait les montants automatiquement.</p></div>
+      <div class="step"><div class="num">2</div><h3>Discutez avec l'IA</h3><p>Elle vous pose uniquement les bonnes questions, dans un langage simple, et complète votre dossier au fil de l'eau.</p></div>
+      <div class="step"><div class="num">3</div><h3>Validez votre déclaration</h3><p>TaxPilot vérifie les incohérences et oublis, calcule votre impôt estimé, et prépare un dossier prêt à déposer.</p></div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section wrap" id="sec-feat">
+    <div class="sec-head">
+      <span class="sec-tag">Fonctionnalités</span>
+      <h2 class="h2">Une équipe fiscale dans votre poche</h2>
+    </div>
+    <div class="feat">
+      <div class="fcard"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 10h8M8 14h5M21 12a9 9 0 1 1-4.5-7.8L21 3v9z"/></svg></div><h3>Assistant conversationnel</h3><p>Une vraie IA avec mémoire et contexte fiscal. Elle explique simplement et n'invente jamais.</p></div>
+      <div class="fcard"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h10l6 6v10H4zM14 4v6h6"/></svg></div><h3>OCR haute précision</h3><p>Nom, salaire, employeur, retenues… extraits de vos documents avec un score de confiance.</p></div>
+      <div class="fcard"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><h3>Checklist intelligente</h3><p>Chaque pièce du dossier : complétée, à vérifier ou manquante. Vous savez toujours où vous en êtes.</p></div>
+      <div class="fcard"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div><h3>Détection d'erreurs</h3><p>Doublons, revenus incohérents, justificatifs manquants : TaxPilot vous alerte avant l'administration.</p></div>
+      <div class="fcard"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5z"/></svg></div><h3>Sécurité bancaire</h3><p>Chiffrement AES-256, RGPD, hébergement UE, export & suppression de vos données à tout moment.</p></div>
+      <div class="fcard"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M12 3v18"/></svg></div><h3>Extensible par pays</h3><p>Moteur fiscal modulaire. La France aujourd'hui, d'autres pays demain — sans changer d'outil.</p></div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section wrap">
+    <div class="sec-head"><span class="sec-tag">Avis</span><h2 class="h2">Ils ont enfin aimé faire leurs impôts</h2></div>
+    <div class="quotes">
+      <div class="quote"><div class="stars">★★★★★</div><p>« J'ai tout fait depuis mon canapé en discutant. L'IA a repéré un crédit d'impôt garde d'enfant que j'oubliais chaque année. »</p><div class="who"><span class="av">CL</span><div><b>Camille L.</b><span>Salariée, Lyon</span></div></div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>« Freelance, je redoutais ma déclaration. Là, j'ai photographié mes documents et c'était réglé en 15 minutes. Bluffant. »</p><div class="who"><span class="av">MB</span><div><b>Marc B.</b><span>Indépendant, Nantes</span></div></div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>« Le niveau de confiance sur chaque réponse me rassure. On sent que l'outil ne bluffe pas quand il n'est pas sûr. »</p><div class="who"><span class="av">SA</span><div><b>Sarah A.</b><span>Propriétaire bailleur, Paris</span></div></div></div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section wrap" id="sec-price">
+    <div class="sec-head"><span class="sec-tag">Tarifs</span><h2 class="h2">Un prix simple, comme le reste</h2><p class="sec-sub">Essai gratuit. Payez seulement quand votre dossier est prêt.</p></div>
+    <div class="billing-toggle" id="billing">
+      <button class="on" data-b="month" onclick="setBilling('month')">Mensuel</button>
+      <button data-b="year" onclick="setBilling('year')">Annuel · -20%</button>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Découverte</h3>
+        <div class="price">0€</div>
+        <div class="pdesc">Pour explorer et importer vos premiers documents.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Import & OCR de 3 documents</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Assistant IA (aperçu)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Checklist personnalisée</li>
+        </ul>
+        <button class="btn ghost block" onclick="openAuth('signup')">Créer un compte</button>
+      </div>
+      <div class="plan pop">
+        <h3>Déclaration</h3>
+        <div class="price"><span data-price="year">39€</span><small>/ déclaration</small></div>
+        <div class="pdesc">Tout pour préparer et déposer une déclaration complète.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Documents & IA illimités</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Détection des oublis & erreurs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Dossier fiscal complet + export</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Estimation d'impôt en temps réel</li>
+        </ul>
+        <button class="btn block" onclick="openAuth('signup')">Commencer l'essai</button>
+      </div>
+      <div class="plan">
+        <h3>Famille</h3>
+        <div class="price"><span data-price="year">69€</span><small>/ an</small></div>
+        <div class="pdesc">Foyer, revenus fonciers, situations multiples.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Tout le plan Déclaration</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Foyer & personnes à charge</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Revenus fonciers & placements</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10"/></svg> Support prioritaire</li>
+        </ul>
+        <button class="btn ghost block" onclick="openAuth('signup')">Choisir Famille</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section wrap" id="sec-faq">
+    <div class="sec-head"><span class="sec-tag">FAQ</span><h2 class="h2">Les questions que tout le monde se pose</h2></div>
+    <div class="faq">
+      <details open><summary>Est-ce que l'IA peut se tromper ?<span class="plus">+</span></summary><div class="fa-body">L'IA affiche un niveau de confiance sur chaque réponse. Quand une information est incertaine, elle vous demande une confirmation plutôt que de deviner. Elle ne remplit jamais une case sans source vérifiable.</div></details>
+      <details><summary>Mes données fiscales sont-elles en sécurité ?<span class="plus">+</span></summary><div class="fa-body">Toutes vos données sont chiffrées (AES-256 au repos, TLS en transit) et hébergées dans l'Union européenne. Vous pouvez exporter ou supprimer définitivement votre compte à tout moment (conformité RGPD).</div></details>
+      <details><summary>TaxPilot dépose-t-il ma déclaration à ma place ?<span class="plus">+</span></summary><div class="fa-body">TaxPilot prépare un dossier fiscal complet et vérifié, prêt à reporter sur le site des impôts. Vous gardez le contrôle final : rien n'est transmis à l'administration sans votre validation.</div></details>
+      <details><summary>Fonctionne-t-il pour les indépendants et propriétaires ?<span class="plus">+</span></summary><div class="fa-body">Oui. Le moteur fiscal gère les salaires, revenus fonciers, dons, crédits immobiliers, personnes à charge et plus. Le plan Famille couvre les situations les plus complètes.</div></details>
+      <details><summary>Et si je veux de l'aide humaine ?<span class="plus">+</span></summary><div class="fa-body">Le support est intégré à l'application. Sur le plan Famille, vous bénéficiez d'un support prioritaire pour toute question sur votre dossier.</div></details>
+    </div>
+  </section>
+
+  <!-- CTA band -->
+  <section class="section"><div class="ctaband"><div class="inner">
+    <h2>Prêt à en finir avec la corvée ?</h2>
+    <p>Créez votre compte, importez un document, et voyez la différence en 2 minutes.</p>
+    <button class="btn ghost lg" onclick="openAuth('signup')">Commencer gratuitement →</button>
+  </div></div></section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="foot-grid">
+      <div>
+        <div class="brandmark" style="margin-bottom:12px"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></span>TaxPilot</div>
+        <p class="muted" style="font-size:13.5px;max-width:34ch">Les impôts deviennent simples. Déclaration fiscale assistée par IA, conçue en Europe.</p>
+      </div>
+      <div><h4>Produit</h4><a onclick="scrollTo2('sec-feat')">Fonctionnalités</a><a onclick="scrollTo2('sec-price')">Tarifs</a><a onclick="enterApp('dashboard')">Démo</a><a onclick="scrollTo2('sec-faq')">FAQ</a></div>
+      <div><h4>Entreprise</h4><a onclick="toast('Page Blog — bientôt')">Blog</a><a onclick="toast('Page À propos — bientôt')">À propos</a><a onclick="enterApp('support')">Support</a><a onclick="toast('Nous recrutons !')">Carrières</a></div>
+      <div><h4>Légal</h4><a onclick="toast('Politique de confidentialité')">Confidentialité</a><a onclick="toast('CGU')">Conditions</a><a onclick="toast('Politique RGPD')">RGPD</a><a onclick="toast('Cookies')">Cookies</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 TaxPilot SAS · Hébergé dans l'UE 🇪🇺</span>
+      <span>Fait avec soin · Conforme RGPD</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================================================ APP ============================================================ -->
+<div class="app" id="app">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <div class="brandmark" onclick="exitApp()" style="cursor:pointer"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></span>TaxPilot</div>
+    </div>
+    <nav class="side-nav" id="sideNav"></nav>
+    <div class="side-foot">
+      <div class="userbox" onclick="route('settings')">
+        <span class="av">CL</span>
+        <div style="flex:1;min-width:0"><div class="nm">Camille Lefevre</div><div class="em">camille@email.fr</div></div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="iconbtn hamburger" onclick="toggleSide()" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <div><h1 id="pageTitle">Tableau de bord</h1><div class="sub" id="pageSub">Bonjour Camille, voici votre déclaration 2025.</div></div>
+      <div class="top-actions">
+        <div class="search" onclick="toast('Recherche globale ⌘K')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Rechercher… <kbd>⌘K</kbd></div>
+        <button class="iconbtn" onclick="toast('3 nouvelles notifications')" style="position:relative" aria-label="Notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span style="position:absolute;top:7px;right:8px;width:8px;height:8px;background:var(--crit);border-radius:50%;border:2px solid var(--surface)"></span></button>
+        <button class="iconbtn" id="themeBtn2" title="Thème" aria-label="Thème"></button>
+      </div>
+    </div>
+    <div id="pageHost"></div>
+  </div>
+</div>
+
+<!-- Auth modal -->
+<div class="scrim" id="scrim" onclick="closeAuth()"></div>
+<div class="modal" id="authModal" role="dialog" aria-modal="true">
+  <button class="modal-x" onclick="closeAuth()" aria-label="Fermer">✕</button>
+  <h2 id="authTitle">Créer un compte</h2>
+  <p class="sub" id="authSub">Gratuit, sans carte bancaire. 2 minutes.</p>
+  <div class="authbtns">
+    <button class="oauth" onclick="doAuth('Google')"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.2c0-.7-.1-1.4-.2-2H12v4h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2-1.9 3.3-4.7 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.5-2.7c-1 .7-2.3 1-3.8 1-2.9 0-5.4-2-6.3-4.6H2.1v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.7 14c-.2-.7-.4-1.4-.4-2.1s.2-1.4.4-2.1V7H2.1a11 11 0 0 0 0 9.9z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3 .6 4.2 1.6l3.1-3.1A11 11 0 0 0 12 1 11 11 0 0 0 2.1 7l3.6 2.8C6.6 7.3 9.1 5.4 12 5.4z"/></svg> Continuer avec Google</button>
+    <button class="oauth" onclick="doAuth('Apple')"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.8-1.7 0-3.2 1-4.1 2.5-1.7 3-.4 7.5 1.3 10 .8 1.2 1.8 2.5 3 2.5 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.1.8 1.3 0 2.1-1.2 2.9-2.4.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.4-1-2.4-3.7zM14 5.4c.7-.8 1.1-2 1-3.1-1 0-2.1.7-2.8 1.5-.6.7-1.1 1.9-1 3 1.1 0 2.2-.6 2.8-1.4z"/></svg> Continuer avec Apple</button>
+  </div>
+  <div class="divider">ou</div>
+  <label class="flabel">Email</label>
+  <input class="input" id="authEmail" type="email" placeholder="camille@email.fr" value="camille@email.fr">
+  <label class="flabel" id="pwLabel">Mot de passe</label>
+  <input class="input" id="authPw" type="password" placeholder="••••••••" value="motdepasse">
+  <button class="btn block" style="margin-top:20px" onclick="doAuth('Email')" id="authGo">Créer mon compte</button>
+  <p style="text-align:center;margin:16px 0 0;font-size:13px" class="muted">
+    <span id="authSwitchTxt">Déjà un compte ?</span> <a onclick="toggleAuth()" style="color:var(--brand-600);font-weight:600;cursor:pointer" id="authSwitch">Se connecter</a>
+  </p>
+  <p style="text-align:center;margin:10px 0 0;font-size:12px" class="muted">🔗 Ou par <a onclick="doAuth('Magic Link')" style="color:var(--brand-600);cursor:pointer">lien magique</a></p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================ CORE ============================================================ */
+const $ = s => document.querySelector(s);
+function toast(msg, ok){
+  const t=$('#toast');
+  t.innerHTML=(ok?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg>':'')+msg;
+  t.classList.add('on'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'),2400);
+}
+function scrollTop(){window.scrollTo({top:0,behavior:'smooth'});}
+function scrollTo2(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ---------- Theme ---------- */
+function currentTheme(){return document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}
+function setTheme(v){document.documentElement.setAttribute('data-theme',v);paintThemeBtns();}
+function toggleTheme(){setTheme(currentTheme()==='dark'?'light':'dark');}
+function paintThemeBtns(){
+  const dark=currentTheme()==='dark';
+  const ic=dark
+    ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></svg>'
+    : '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  ['#themeBtn','#themeBtn2'].forEach(s=>{const b=$(s);if(b)b.innerHTML=ic;});
+}
+['#themeBtn','#themeBtn2'].forEach(()=>{});
+document.addEventListener('click',e=>{const b=e.target.closest('#themeBtn,#themeBtn2');if(b)toggleTheme();});
+
+/* ---------- Auth ---------- */
+let authMode='signup';
+function openAuth(mode){authMode=mode;renderAuth();$('#scrim').classList.add('on');$('#authModal').classList.add('on');}
+function closeAuth(){$('#scrim').classList.remove('on');$('#authModal').classList.remove('on');}
+function toggleAuth(){authMode=authMode==='signup'?'login':'signup';renderAuth();}
+function renderAuth(){
+  const s=authMode==='signup';
+  $('#authTitle').textContent=s?'Créer un compte':'Bon retour 👋';
+  $('#authSub').textContent=s?'Gratuit, sans carte bancaire. 2 minutes.':'Connectez-vous pour reprendre votre déclaration.';
+  $('#authGo').textContent=s?'Créer mon compte':'Se connecter';
+  $('#authSwitchTxt').textContent=s?'Déjà un compte ?':'Pas encore de compte ?';
+  $('#authSwitch').textContent=s?'Se connecter':'Créer un compte';
+}
+function doAuth(method){
+  closeAuth();
+  toast((method==='Magic Link'?'Lien magique envoyé par email':'Bienvenue, Camille ✦'),true);
+  setTimeout(()=>enterApp('dashboard'),650);
+}
+
+/* ---------- App enter/exit ---------- */
+function enterApp(view){
+  $('#mkt').style.display='none';
+  $('#app').classList.add('on');
+  document.body.style.background='var(--bg)';
+  buildNav();
+  route(view||'dashboard');
+  window.scrollTo(0,0);
+}
+function exitApp(){$('#app').classList.remove('on');$('#mkt').style.display='block';scrollTop();}
+function toggleSide(){$('#side').classList.toggle('open');}
+
+/* ---------- Navigation ---------- */
+const NAV=[
+  {sec:'Principal'},
+  {id:'dashboard',label:'Tableau de bord',icon:'M3 13h8V3H3zM13 21h8V11h-8zM13 3v6h8V3zM3 21h8v-6H3z'},
+  {id:'assistant',label:'Assistant IA',icon:'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',tag:'IA'},
+  {id:'documents',label:'Mes documents',icon:'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6'},
+  {id:'dossier',label:'Dossier fiscal',icon:'M20 7 12 3 4 7v10l8 4 8-4zM4 7l8 4 8-4M12 11v10'},
+  {sec:'Suivi'},
+  {id:'history',label:'Historique',icon:'M3 3v5h5M3.05 13A9 9 0 1 0 6 5.3L3 8'},
+  {id:'settings',label:'Paramètres',icon:'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 2.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H7a1.6 1.6 0 0 0 1-1.5V1a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V7a1.6 1.6 0 0 0 1.5 1H23a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z'},
+  {id:'support',label:'Support',icon:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01'},
+  {sec:'Administration'},
+  {id:'admin',label:'Admin',icon:'M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5z'},
+];
+function buildNav(){
+  $('#sideNav').innerHTML=NAV.map(n=>{
+    if(n.sec)return `<div class="side-lbl">${n.sec}</div>`;
+    return `<div class="nlink" data-id="${n.id}" onclick="route('${n.id}')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="${n.icon}"/></svg>
+      <span>${n.label}</span>${n.tag?`<span class="tag">${n.tag}</span>`:''}</div>`;
+  }).join('');
+}
+const TITLES={
+  dashboard:['Tableau de bord','Bonjour Camille, voici votre déclaration 2025.'],
+  assistant:['Assistant IA','Votre copilote fiscal — mémoire & contexte activés.'],
+  documents:['Mes documents','Importez, laissez l\'OCR extraire, corrigez si besoin.'],
+  dossier:['Dossier fiscal','Toutes vos données, modifiables à tout moment.'],
+  history:['Historique','Vos déclarations et l\'audit de vos modifications.'],
+  settings:['Paramètres','Compte, sécurité, notifications & RGPD.'],
+  support:['Support','Une question ? On est là.'],
+  admin:['Admin','Vue interne — utilisateurs, paiements & logs.'],
+};
+let current='dashboard';
+function route(id){
+  current=id;
+  document.querySelectorAll('.nlink').forEach(l=>l.classList.toggle('on',l.dataset.id===id));
+  const t=TITLES[id]||['',''];
+  $('#pageTitle').textContent=t[0];$('#pageSub').textContent=t[1];
+  $('#pageHost').innerHTML=(VIEWS[id]||(()=>'<div class="page">—</div>'))();
+  $('#side').classList.remove('open');
+  $('#pageHost').scrollTop=0;$('.main').scrollTop=0;
+  if(id==='assistant')initChat();
+}
+
+/* ============================================================ VIEWS ============================================================ */
+const VIEWS={};
+
+/* ---------- Dashboard ---------- */
+VIEWS.dashboard=()=>`<div class="page">
+  <div class="alert good" style="margin-bottom:20px"><span class="ai">✓</span><div><b>Vous êtes sur la bonne voie.</b> Il reste 2 documents à importer et 1 information à confirmer pour finaliser votre déclaration.</div></div>
+
+  <div class="grid g-main">
+    <div class="card cardpad">
+      <div class="ring-wrap">
+        <div class="ring" style="--p:72"><b>72%</b></div>
+        <div>
+          <h3 style="margin:0 0 4px;font-size:18px;letter-spacing:-.02em">Déclaration 2025</h3>
+          <p class="soft" style="margin:0;font-size:14px">Progression globale de votre dossier fiscal.</p>
+          <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+            <span class="chip good">7 complétés</span><span class="chip warn">2 à vérifier</span><span class="chip">3 manquants</span>
+          </div>
+          <button class="btn sm" style="margin-top:16px" onclick="route('assistant')">Continuer avec l'IA →</button>
+        </div>
+      </div>
+    </div>
+    <div class="card stat">
+      <div class="l">Impôt estimé</div>
+      <div class="v">1 284 €</div>
+      <div class="d" style="color:var(--good)">▼ 348 € d'économies détectées</div>
+      <div style="height:1px;background:var(--line-soft);margin:16px 0"></div>
+      <div class="l">Remboursement possible</div>
+      <div style="font-size:18px;font-weight:700;margin-top:4px">+ 132 € <span class="muted" style="font-weight:500;font-size:13px">(dons)</span></div>
     </div>
   </div>
 
-  <!-- RIGHT: design system legend -->
-  <aside class="legendrail">
-    <div class="legend">
-      <p class="legend-title">Design System · Deep Water &amp; Sunrise</p>
-      <div class="swatches">
-        <span class="sw" style="background:#0E4C4A" title="Sea"></span>
-        <span class="sw" style="background:#12776F" title="Sea bright"></span>
-        <span class="sw" style="background:#FF7A45" title="Sun"></span>
-        <span class="sw" style="background:#6FA9AF" title="Glacier"></span>
-        <span class="sw" style="background:#E7EBE3" title="Foam"></span>
-        <span class="sw" style="background:#0C1B1A" title="Ink"></span>
+  <div class="grid g-main" style="margin-top:18px">
+    <div class="card cardpad">
+      <div class="cardhd"><h3>Checklist intelligente</h3><span class="link" onclick="route('dossier')">Voir le dossier</span></div>
+      ${checkRow('done','Pièce d\'identité','Carte d\'identité · vérifiée')}
+      ${checkRow('done','Adresse fiscale','12 rue des Lilas, 69003 Lyon')}
+      ${checkRow('done','Salaires','Fiche de paie décembre · 32 400 €')}
+      ${checkRow('done','Dons aux associations','200 € · Croix-Rouge')}
+      ${checkRow('verify','Revenus fonciers','Montant à confirmer avec l\'IA')}
+      ${checkRow('verify','Personnes à charge','2 enfants — dates de naissance ?')}
+      ${checkRow('miss','Crédit immobilier','Attestation d\'intérêts manquante')}
+      ${checkRow('miss','Pension alimentaire','Aucun justificatif importé')}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card cardpad">
+        <div class="cardhd"><h3>Documents récents</h3><span class="link" onclick="route('documents')">Tous</span></div>
+        ${docRow('pdf','PDF','Fiche_paie_dec.pdf','Traité · OCR 98%')}
+        ${docRow('pdf','PDF','Avis_imposition_2024.pdf','Traité · OCR 96%')}
+        ${docRow('img','JPG','Recu_don_croixrouge.jpg','Traité · OCR 91%')}
       </div>
-      <p><span class="k">Océan</span> pour la confiance et la marque. <span class="k">Sunrise</span> pour l'action, rare et précieux. Neutres biaisés vert-mer — choisis, pas hérités.</p>
-      <p><span class="k">Typo</span> : sans système (qualité SF) pour l'interface, serif de carnet pour raconter l'aventure.</p>
-      <p style="margin-top:16px"><span class="k">5 écrans clés</span> · navigation réelle via la barre d'onglets. Tout est cliquable.</p>
-      <div class="hint">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11.5 5.5 8 4 9.5 9 15l11-11-1.5-1.5z"/></svg>
-        Touche les onglets, filtres, sports et boutons « Rejoindre ».
+      <div class="card cardpad">
+        <div class="cardhd"><h3>Dernière conversation</h3><span class="link" onclick="route('assistant')">Reprendre</span></div>
+        <p class="soft" style="font-size:13.5px;margin:0 0 12px">« Parfait. Ce don vous donne droit à une réduction de 132 €. Je l'ajoute à votre dossier. »</p>
+        <div class="ai-ava" style="margin:0"><span class="g">✦</span> Assistant TaxPilot · il y a 2 h</div>
       </div>
     </div>
-  </aside>
-</div>
+  </div>
+</div>`;
 
-<script>
-/* ============================================================
-   Content data (grounded in French Polynesia)
-   ============================================================ */
-const AV = {
-  face: (seed,c1,c2)=>`data:image/svg+xml;utf8,`+encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><defs><linearGradient id='a' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c1}'/><stop offset='1' stop-color='${c2}'/></linearGradient></defs><rect width='120' height='120' fill='url(#a)'/><circle cx='60' cy='47' r='22' fill='rgba(255,255,255,.9)'/><path d='M18 118c0-26 19-40 42-40s42 14 42 40z' fill='rgba(255,255,255,.9)'/></svg>`)
-};
-// Postcard-style scenery: each variant carries its OWN full tonal range
-// (bright sky → deep foreground) so it reads as a landscape on light AND dark cards.
-const scenery = (seed, from, to, kind)=>{
-  const grad = (id,stops)=>`<linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">${stops.map(([o,c])=>`<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient>`;
-  let defs='', body='';
-  if(kind==='mountain'){
-    defs = grad('sky',[[0,'#CFE7DE'],[0.55,'#8FC2BE'],[1,'#6FA9AF']]);
-    body = `<rect width="400" height="260" fill="url(#sky)"/>`
-      + `<circle cx="312" cy="58" r="24" fill="#FFF3D6"/>`
-      + `<path d="M-10 200 L70 118 L140 176 L210 96 L300 168 L400 120 V260 H-10Z" fill="#3E8E7E"/>`
-      + `<path d="M-10 260 L60 150 L150 208 L250 128 L340 196 L400 168 V260Z" fill="#1F6A5C"/>`
-      + `<path d="M-10 260 L90 196 L200 236 L320 190 L400 226 V260Z" fill="#0E4C4A"/>`;
-  } else if(kind==='flat'){ // warm sunset over lagoon (pêche)
-    defs = grad('sky',[[0,'#FFE0A8'],[0.5,'#FFB27A'],[1,'#E97C4E']]);
-    body = `<rect width="400" height="260" fill="url(#sky)"/>`
-      + `<circle cx="210" cy="150" r="30" fill="#FFF0CE"/>`
-      + `<rect y="168" width="400" height="92" fill="#C85E38"/>`
-      + `<path d="M0 176 Q100 166 200 176 T400 176 V260 H0Z" fill="#A94A2C"/>`
-      + `<path d="M150 176 h120 M170 190 h80 M185 204 h50" stroke="rgba(255,240,206,.5)" stroke-width="3" fill="none"/>`;
-  } else { // wave / ocean (surf) — default
-    defs = grad('sky',[[0,'#BFEAE4'],[0.4,'#5FBFC0'],[1,'#0E6B66']]);
-    body = `<rect width="400" height="260" fill="url(#sky)"/>`
-      + `<circle cx="320" cy="56" r="22" fill="#FFF3D6"/>`
-      + `<path d="M-10 150 Q80 122 170 150 T360 150 T520 150 V260 H-10Z" fill="#0F7A72"/>`
-      + `<path d="M-10 188 Q90 158 190 188 T380 188 T560 188 V260 H-10Z" fill="#0B4E4A"/>`
-      + `<path d="M40 132 q40 -16 80 0 M170 138 q40 -16 80 0" stroke="rgba(255,255,255,.55)" stroke-width="3" fill="none" stroke-linecap="round"/>`;
-  }
-  return `data:image/svg+xml,`+encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><defs>${defs}</defs>${body}</svg>`);
-};
-
-const A_TEAL="#0E4C4A", A_SEA="#12776F", A_SUN="#FF7A45", A_GLA="#6FA9AF", A_SAND="#d8a15f", A_NIGHT="#123a52";
-
-const people = {
-  manea:  AV.face(1, "#12776F", "#0E4C4A"),
-  leilani:AV.face(2, "#FF9B6B", "#F0913B"),
-  teiki:  AV.face(3, "#4a90a4", "#123a52"),
-  hina:   AV.face(4, "#6FA9AF", "#12776F"),
-  moana:  AV.face(5, "#FFB27A", "#FF7A45"),
-  raihau: AV.face(6, "#2e7d6f", "#0e4c4a"),
-  vaite:  AV.face(7, "#8bb8bd", "#4a90a4"),
-};
-
-/* ============================================================
-   Screen renderers
-   ============================================================ */
-function screenHome(){
-  return `
-  <section class="screen" data-screen="home" id="s-home">
-    <div class="topbar">
-      <div class="greet">
-        <span class="eyebrow">Mardi · Teahupo'o</span>
-        <div class="name">Ia ora na, Manea 🤙</div>
-      </div>
-      <span class="spacer"></span>
-      <button class="iconbtn tap" onclick="notifSheet()" aria-label="Notifications">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
-        <span id="notifDot" style="position:absolute;top:8px;right:9px;width:8px;height:8px;background:var(--sun);border-radius:50%;border:2px solid var(--surface)"></span>
-      </button>
-    </div>
-
-    <div class="conditions">
-      <div class="cond tap" onclick="conditionsSheet()">
-        <div class="lbl">Houle</div><div class="big">1,6 m</div>
-        <div class="sub">SO · 14 s</div><div class="bar"><i style="width:72%"></i></div>
-      </div>
-      <div class="cond tap" onclick="conditionsSheet()">
-        <div class="lbl">Vent</div><div class="big">8 nds</div>
-        <div class="sub">Offshore · idéal</div><div class="bar"><i style="width:35%"></i></div>
-      </div>
-      <div class="cond tap" onclick="conditionsSheet()">
-        <div class="lbl">Marée</div><div class="big">↑ 1,1 m</div>
-        <div class="sub">Montante · 15 h 20</div><div class="bar"><i style="width:55%"></i></div>
-      </div>
-      <div class="cond tap" onclick="conditionsSheet()">
-        <div class="lbl">Eau</div><div class="big">27°</div>
-        <div class="sub">Boardshort</div><div class="bar"><i style="width:88%"></i></div>
-      </div>
-    </div>
-
-    <div class="sec"><span class="h-md">Aventures près de toi</span><a onclick="go('map')">Voir la carte</a></div>
-    <div id="homeFeed"></div>
-
-    <div class="sec"><span class="h-md">Ta tribu bouge</span><a onclick="go('journal')">Le carnet</a></div>
-    <div class="tribe">
-      ${['moana','teiki','hina','vaite','leilani','raihau'].map(p=>`
-        <div class="p tap" onclick="profileSheet('${p}')"><div class="ring"><img src="${people[p]}" alt=""></div><div class="nm">${p[0].toUpperCase()+p.slice(1)}</div></div>`).join('')}
-    </div>
-  </section>`;
+function checkRow(state,title,sub){
+  const map={done:['✓','done'],verify:['!','verify'],miss:['+','miss']};
+  const [ic,cls]=map[state];
+  return `<div class="check"><div class="box ${cls}">${ic}</div><div class="tx"><b>${title}</b><span>${sub}</span></div>
+    <span class="chip ${state==='done'?'good':state==='verify'?'warn':''}">${state==='done'?'Complété':state==='verify'?'À vérifier':'Manquant'}</span></div>`;
+}
+function docRow(kind,tag,name,sub){
+  return `<div class="doc" onclick="route('documents')"><div class="ic ${kind}">${tag}</div><div class="tx"><b>${name}</b><span>${sub}</span></div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>`;
 }
 
-function screenMap(){
-  return `
-  <section class="screen mapscreen" data-screen="map" id="s-map">
-    <div class="mapcanvas">
-      <svg viewBox="0 0 390 780" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9FC7C9"/><stop offset="1" stop-color="#7BAFB4"/></linearGradient>
-          <linearGradient id="seaD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d2b2a"/><stop offset="1" stop-color="#0a2321"/></linearGradient>
-          <linearGradient id="land" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dfe9d9"/><stop offset="1" stop-color="#c7dcc4"/></linearGradient>
-        </defs>
-        <rect class="mapsea" width="390" height="780" fill="url(#sea)"/>
-        <rect class="mapsea-d" width="390" height="780" fill="url(#seaD)"/>
-        <g opacity=".5" stroke="#ffffff" stroke-width="1" fill="none">
-          <path d="M-10 120 Q120 90 260 120 T520 120"/><path d="M-10 260 Q120 230 260 260 T520 260"/>
-          <path d="M-10 420 Q120 390 260 420 T520 420"/><path d="M-10 600 Q120 570 260 600 T520 600"/>
-        </g>
-        <!-- island (Tahiti-ish) -->
-        <path d="M60 300 C70 250 120 210 175 215 C235 220 285 250 300 305 C320 375 300 440 250 470 C240 520 200 545 150 525 C95 505 70 450 70 400 C55 375 50 335 60 300 Z" fill="url(#land)" stroke="rgba(14,76,74,.18)" stroke-width="1.5"/>
-        <path d="M150 300 l25 40 l-15 45 l30 25 l-40 30" fill="none" stroke="rgba(14,76,74,.22)" stroke-width="2" stroke-linejoin="round"/>
-        <circle cx="185" cy="360" r="4" fill="rgba(14,76,74,.3)"/>
-        <text x="150" y="405" font-size="11" fill="rgba(12,27,26,.4)" font-family="sans-serif" font-weight="600">Tahiti Nui</text>
-      </svg>
+/* ---------- Assistant ---------- */
+VIEWS.assistant=()=>`<div class="chatpage">
+  <div class="chatscroll" id="chatScroll"></div>
+  <div class="suggest" id="suggest">
+    <div class="s" onclick="quickAsk(this)">Ai-je droit à un crédit d'impôt ?</div>
+    <div class="s" onclick="quickAsk(this)">J'ai deux enfants à charge</div>
+    <div class="s" onclick="quickAsk(this)">Comment déclarer mes revenus fonciers ?</div>
+  </div>
+  <div class="chatbar">
+    <div class="in">
+      <textarea id="chatInput" rows="1" placeholder="Écrivez à votre assistant fiscal…" oninput="autogrow(this)" onkeydown="chatKey(event)"></textarea>
+      <button class="sendbtn" onclick="sendChat()" aria-label="Envoyer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
     </div>
+  </div>
+</div>`;
 
-    <div class="map-overlay-top">
-      <div class="searchbar">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
-        Rechercher un spot, une sortie…
-      </div>
-      <div class="map-chips" id="mapChips">
-        <button class="chip" data-filter="adv" aria-pressed="true" onclick="toggleChip(this)"><span class="ic">🌊</span> Sorties</button>
-        <button class="chip" data-filter="spot" aria-pressed="true" onclick="toggleChip(this)"><span class="ic">📍</span> Spots</button>
-        <button class="chip" data-filter="user" aria-pressed="true" onclick="toggleChip(this)"><span class="ic">🧭</span> Aventuriers</button>
-        <button class="chip" data-filter="today" aria-pressed="false" onclick="toggleChip(this)">Aujourd'hui</button>
-        <button class="chip" data-filter="level" aria-pressed="false" onclick="toggleChip(this)">Mon niveau</button>
-      </div>
-    </div>
-
-    <!-- pins -->
-    <div class="pin adv tap" data-type="adv" data-today="1" style="left:52%;top:46%" onclick="mapPin('a1')">
-      <div class="head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 16c3 0 3-3 6-3s3 3 6 3 3-3 4-3"/><path d="M14 4c3 3 4 8 1 12"/></svg></div>
-      <span class="lbl">Surf · 2 h</span>
-    </div>
-    <div class="pin spot tap" data-type="spot" style="left:66%;top:62%" onclick="spotSheet('reef')">
-      <div class="head"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></div>
-      <span class="lbl">Reef pass</span>
-    </div>
-    <div class="pin adv tap" data-type="adv" data-today="0" style="left:36%;top:36%" onclick="mapPin('a2')">
-      <div class="head"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M4 20 L11 7 L15 14 L18 9 L21 20 Z"/></svg></div>
-      <span class="lbl">Rando · Sam</span>
-    </div>
-    <div class="pin user tap" data-type="user" style="left:47%;top:56%" onclick="profileSheet('teiki')">
-      <div class="head"><img src="${people.teiki}" alt=""></div>
-    </div>
-    <div class="pin user tap" data-type="user" style="left:58%;top:38%" onclick="profileSheet('hina')">
-      <div class="head"><img src="${people.hina}" alt=""></div>
-    </div>
-
-    <!-- mini sheet -->
-    <div class="card mapsheet tap" id="mapsheet" onclick="if(window._mapSheetId)advDetail(window._mapSheetId)">
-      <img class="thumb" id="sheetThumb" src="" alt="">
-      <div style="flex:1;min-width:0">
-        <div class="row" style="gap:7px"><span class="pill sun" id="sheetTag">Surf</span><span class="tag" id="sheetWhen">Départ 8 h 30</span></div>
-        <div class="h-md" id="sheetTitle" style="margin-top:6px;font-size:16px">Session matinale</div>
-        <div class="muted" id="sheetSub" style="font-size:12.5px;margin-top:2px">Teahupo'o · 3/5 places</div>
-      </div>
-      <button class="btn sm sun" style="flex:none">Voir</button>
-    </div>
-  </section>`;
-}
-
-function screenCreate(){
-  return `
-  <section class="screen create" data-screen="create" id="s-create">
-    <div class="topbar"><div class="greet"><span class="eyebrow">Nouvelle sortie</span><div class="name">Crée ton aventure</div></div></div>
-
-    <div class="field">
-      <label>Quel sport ?</label>
-      <div class="sportgrid" id="sportGrid">
-        ${[['🏄','Surf',1],['🎣','Pêche',0],['🥾','Rando',0],['🏂','Snow',0],['🪁','Kite',0],['🤿','Plongée',0]].map(([e,n,on])=>
-          `<button class="sportopt" aria-pressed="${on?'true':'false'}" onclick="pickSport(this)"><span class="em">${e}</span>${n}</button>`).join('')}
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Quand ?</label>
-      <button class="inputline tap" style="width:100%" onclick="dateSheet()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sea-bright)" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 9h18M8 3v4M16 3v4"/></svg><span class="val" id="cWhen">Demain · 6 h 30</span><span class="spacer"></span><span class="muted" style="font-size:13px">Modifier</span></button>
-    </div>
-
-    <div class="field">
-      <label>Où ?</label>
-      <button class="inputline tap" style="width:100%" onclick="placeSheet()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sun)" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" stroke-linejoin="round"/></svg><span class="val" id="cPlace">Teahupo'o — Reef pass</span><span class="spacer"></span><span class="muted" style="font-size:13px">Modifier</span></button>
-    </div>
-
-    <div class="field">
-      <label>Combien de places ?</label>
-      <div class="stepper">
-        <button onclick="stepPlaces(-1)" aria-label="moins">−</button>
-        <span class="count" id="placesCount">5</span>
-        <button onclick="stepPlaces(1)" aria-label="plus">+</button>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Décris la sortie</label>
-      <textarea class="inputline" id="cDesc" placeholder="Niveau requis, matériel, point de rendez-vous… Sois clair, ça rassure ta tribu.">Session tranquille au line-up. Niveau confirmé (reef, courant). RDV parking PK0, on check la houle ensemble ☕</textarea>
-    </div>
-
-    <div class="field">
-      <label>Visibilité</label>
-      <div class="privacy" id="privacy">
-        <button class="opt" aria-pressed="true" onclick="pickPrivacy(this)">🌍 Publique</button>
-        <button class="opt" aria-pressed="false" onclick="pickPrivacy(this)">🫂 Ma tribu</button>
-        <button class="opt" aria-pressed="false" onclick="pickPrivacy(this)">🔒 Sur invit.</button>
-      </div>
-    </div>
-
-    <button class="btn sun" style="margin-top:6px;height:54px" onclick="publishAdv(this)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
-      Publier l'aventure
-    </button>
-    <p class="muted" style="text-align:center;font-size:12px;margin:10px 0 0">Ta tribu proche recevra une notification. Tu restes maître des participants.</p>
-  </section>`;
-}
-
-function screenPassport(){
-  return `
-  <section class="screen" data-screen="passport" id="s-passport">
-    <div class="topbar">
-      <div class="greet"><span class="eyebrow">Passeport aventurier</span><div class="name">Ton identité outdoor</div></div>
-      <span class="spacer"></span>
-      <button class="iconbtn" onclick="go('settings')" aria-label="Réglages"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke-linecap="round"/></svg></button>
-    </div>
-
-    <div class="passport">
-      <div class="bg"></div><div class="grain"></div>
-      <div class="inner">
-        <div class="pp-top">
-          <span class="pp-brand">Outdoor Freedom · Passeport</span>
-          <span class="pill" style="background:rgba(255,255,255,.16);color:#fff">✦ Premium</span>
-        </div>
-        <div class="pp-id">
-          <img src="${people.manea}" alt="Manea">
-          <div>
-            <div class="nm">Manea T.</div>
-            <div class="lo"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" fill="none" stroke="currentColor" stroke-width="2"/></svg> Papara, Tahiti</div>
-          </div>
-        </div>
-        <p class="pp-bio">« Né dans le lagon. Le surf le matin, la pêche au coucher. Toujours partant pour montrer les meilleurs spots. »</p>
-        <div class="pp-stats">
-          <div class="s"><div class="v">128</div><div class="l">Sorties</div></div>
-          <div class="s"><div class="v">34</div><div class="l">Tribu</div></div>
-          <div class="s"><div class="v">4,9</div><div class="l">Fiabilité</div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sec"><span class="h-md">Sports &amp; niveau</span></div>
-    <div class="card" style="padding:16px 16px 6px">
-      <div class="sportlvl">
-        <div class="lvl-row"><span class="em">🏄</span><span class="nm">Surf</span><div class="track"><i style="width:88%"></i></div><span class="lv">Expert</span></div>
-        <div class="lvl-row"><span class="em">🎣</span><span class="nm">Pêche</span><div class="track"><i style="width:72%"></i></div><span class="lv">Confirmé</span></div>
-        <div class="lvl-row"><span class="em">🥾</span><span class="nm">Rando</span><div class="track"><i style="width:54%"></i></div><span class="lv">Intermédiaire</span></div>
-        <div class="lvl-row"><span class="em">🤿</span><span class="nm">Plongée</span><div class="track"><i style="width:30%"></i></div><span class="lv">Débutant</span></div>
-      </div>
-    </div>
-
-    <div class="sec"><span class="h-md">Badges</span><a onclick="badgeSheet()">12 obtenus</a></div>
-    <div class="badges">
-      <div class="badge tap" onclick="badgeSheet('aubes')"><div class="medal">🌅</div><div class="cap">100 aubes</div></div>
-      <div class="badge tap" onclick="badgeSheet('reef')"><div class="medal">🌊</div><div class="cap">Reef master</div></div>
-      <div class="badge tap" onclick="badgeSheet('guide')"><div class="medal">🧭</div><div class="cap">Guide local</div></div>
-      <div class="badge tap" onclick="badgeSheet('fiable')"><div class="medal">🤝</div><div class="cap">Fiable ×50</div></div>
-      <div class="badge tap" onclick="badgeSheet('sommet')"><div class="medal">🏔️</div><div class="cap">Sommet 2k</div></div>
-      <div class="badge locked tap" onclick="badgeSheet('neige')"><div class="medal">❄️</div><div class="cap">1re neige</div></div>
-      <div class="badge locked tap" onclick="badgeSheet('kite')"><div class="medal">🪁</div><div class="cap">Kite 25 nds</div></div>
-      <div class="badge locked tap" onclick="badgeSheet('globe')"><div class="medal">🌍</div><div class="cap">Globe-trotter</div></div>
-    </div>
-
-    <div class="sec"><span class="h-md">Disponibilités</span></div>
-    <div class="card" style="padding:14px">
-      <div class="avail" id="availRow">
-        ${[['Lun',0],['Mar',1],['Mer',0],['Jeu',0],['Ven',1],['Sam',1],['Dim',1]].map(([d,on])=>`<div class="d tap ${on?'on':''}" onclick="toggleAvail(this)">${d[0]}</div>`).join('')}
-      </div>
-      <p class="muted" style="font-size:12.5px;margin:12px 0 0">Touche un jour pour l'activer. Ta tribu voit tes créneaux avant de proposer une sortie.</p>
-    </div>
-
-    <button class="btn ghost" style="margin-top:16px" onclick="editProfileSheet()">Modifier mon passeport</button>
-  </section>`;
-}
-
-function screenJournal(){
-  return `
-  <section class="screen" data-screen="journal" id="s-journal">
-    <div class="topbar"><div class="greet"><span class="eyebrow">Le carnet</span><div class="name">Vos aventures</div></div>
-      <span class="spacer"></span>
-      <button class="iconbtn tap" aria-label="Filtrer" onclick="filterSheet()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h18M6 12h12M10 19h4"/></svg></button>
-    </div>
-
-    <article class="card entry tap" onclick="storySheet('surf')">
-      <div class="ph" style="background:center/cover url('${scenery(21,'#1a86a8','#0b3d47','wave')}')">
-        <span class="stamp pill" style="background:rgba(4,16,15,.5);color:#fff;backdrop-filter:blur(6px)">🏄 Surf</span>
-      </div>
-      <div class="txt">
-        <div class="meta"><img class="avatar" src="${people.leilani}" width="30" height="30" alt=""><div><span class="n">Leilani</span> · <span class="d">Teahupo'o · hier</span></div></div>
-        <h3>Le mur d'eau, enfin dompté</h3>
-        <p>On est arrivés au lever du jour, l'océan encore violet. Teiki a pris la première, moi j'ai hésité — puis la houle a parlé. Trois heures plus tard, les bras morts et le sourire idiot. Merci la tribu d'avoir insisté.</p>
-        <div class="foot">
-          <span class="item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4"/></svg> Reef pass</span>
-          <span class="item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1A4 4 0 0 1 16 11" stroke-linecap="round" stroke-linejoin="round"/></svg> 4 aventuriers</span>
-          <span class="item sport"><b style="color:var(--sea-bright)">Chapitre 128</b></span>
-        </div>
-      </div>
-    </article>
-
-    <article class="card entry tap" onclick="storySheet('peche')">
-      <div class="ph" style="background:center/cover url('${scenery(22,'#e0a25a','#a85a2f','flat')}')">
-        <span class="stamp pill" style="background:rgba(4,16,15,.5);color:#fff;backdrop-filter:blur(6px)">🎣 Pêche</span>
-      </div>
-      <div class="txt">
-        <div class="meta"><img class="avatar" src="${people.teiki}" width="30" height="30" alt=""><div><span class="n">Teiki</span> · <span class="d">Lagon de Moorea · 3 j</span></div></div>
-        <h3>Le coucher de soleil valait le mahi-mahi</h3>
-        <p>Pas une seule prise pendant deux heures. On allait rentrer quand la ligne a plié d'un coup. Un mahi-mahi magnifique — relâché après la photo. Certains souvenirs pèsent plus que le poisson.</p>
-        <div class="foot">
-          <span class="item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4"/></svg> Moorea</span>
-          <span class="item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" stroke-linecap="round"/></svg> avec Manea</span>
-          <span class="item sport"><b style="color:var(--sea-bright)">Chapitre 127</b></span>
-        </div>
-      </div>
-    </article>
-
-    <p class="nolikes">Pas de likes, pas de compteurs. Ici on garde ce qu'on a vécu. 🌱</p>
-  </section>`;
-}
-
-function screenChat(){
-  return `
-  <section class="screen" data-screen="chat" id="s-chat">
-    <div class="chat">
-      <div class="chat-head">
-        <button class="iconbtn" onclick="go('home')" style="box-shadow:none;border:none;background:var(--surface-3)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-        <img class="avatar" src="${people.leilani}" width="38" height="38" alt="" id="chatAvatar">
-        <div style="flex:1"><div style="font-weight:700;font-size:15px" id="chatTitle">Session matinale · Teahupo'o</div><div class="muted" style="font-size:12px" id="chatMembers">Leilani, Teiki, Moana · 4 membres</div></div>
-        <button class="iconbtn tap" onclick="advDetail(window._chatAdv||'a1')" style="box-shadow:none;background:var(--surface-3);border:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg></button>
-      </div>
-      <div class="chat-scroll" id="chatScroll">
-        <div class="msg pinned" id="chatPinned">📍 <b>RDV</b> demain 6 h 30 · Parking PK0. Houle 1,6 m SO, offshore léger. Emmenez de l'eau ☀️</div>
-        <div class="daysep">Aujourd'hui</div>
-        <div class="msg them"><div class="au">Leilani</div>La houle rentre bien pour demain, ça va être propre 🤙</div>
-        <div class="msg them"><div class="au">Teiki</div>Je ramène la GoPro. Quelqu'un a de la wax 3X ?</div>
-        <div class="msg me">J'en ai deux pains, je gère 👊</div>
-        <div class="msg them"><div class="au">Moana</div>Parfait. On check le line-up ensemble avant de se lancer, le courant est fort à marée montante.</div>
-        <div class="msg me">Ça marche. À demain la tribu 🌊</div>
-      </div>
-      <form class="chat-input" onsubmit="event.preventDefault();sendMsg()">
-        <input class="chat-real" id="chatInput" placeholder="Message à la tribu…" autocomplete="off">
-        <button class="iconbtn tap" type="submit" style="background:var(--sea);color:#fff;border:none" aria-label="Envoyer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
-      </form>
-    </div>
-  </section>`;
-}
-
-function screenSettings(){
-  return `
-  <section class="screen" data-screen="settings" id="s-settings">
-    <div class="chat-head" style="border:none;padding:8px 0 14px">
-      <button class="iconbtn" onclick="go('passport')" style="box-shadow:none;background:var(--surface-3);border:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="name" style="font-size:20px;font-weight:700">Réglages</div>
-    </div>
-    ${[
-      ['🔔','Notifications','Sorties, messages, tribu','notifPrefsSheet()'],
-      ['🛡️','Confidentialité & RGPD','Données, localisation, export','privacySheet()'],
-      ['🚫','Bloqués & signalements','Gérer la sécurité','blockedSheet()'],
-      ['✦','Passer Premium','Carte, filtres illimités, badges',"go('premium')"],
-      ['🌓','Apparence','Système · Clair · Sombre','appearanceSheet()'],
-      ['❓','Aide & contact','FAQ, nous écrire','helpSheet()'],
-    ].map(([e,t,s,fn])=>`
-      <button class="card tap" style="width:100%;text-align:left;display:flex;align-items:center;gap:13px;padding:15px;margin-bottom:10px" onclick="${fn}">
-        <span style="font-size:20px;width:26px;text-align:center">${e}</span>
-        <span style="flex:1"><b style="display:block;font-size:15px">${t}</b><span class="muted" style="font-size:12.5px">${s}</span></span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>
-      </button>`).join('')}
-    <p class="muted" style="text-align:center;font-size:12px;margin-top:14px">Outdoor Freedom · v0.1 (prototype)</p>
-  </section>`;
-}
-
-function screenPremium(){
-  return `
-  <section class="screen" data-screen="premium" id="s-premium">
-    <div class="chat-head" style="border:none;padding:8px 0 14px">
-      <button class="iconbtn" onclick="go('settings')" style="box-shadow:none;background:var(--surface-3);border:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="name" style="font-size:20px;font-weight:700">Freedom Premium</div>
-    </div>
-    <div class="passport" style="box-shadow:var(--shadow)">
-      <div class="bg" style="background:radial-gradient(120% 120% at 80% -20%,#FF9B6B,transparent 55%),linear-gradient(155deg,#FF7A45,#c94e28)"></div>
-      <div class="inner" style="text-align:center;padding:26px 20px">
-        <div style="font-size:34px">✦</div>
-        <div style="font-size:22px;font-weight:750;margin-top:6px">Vis plus, organise moins.</div>
-        <p style="opacity:.9;font-size:14px;margin:8px 0 0">Le nécessaire reste gratuit. Premium enlève les frictions des aventuriers actifs.</p>
-      </div>
-    </div>
-    <div class="card" style="padding:6px 16px;margin-top:14px">
-      ${[
-        ['Carte complète','Filtres illimités, spots & conditions détaillés'],
-        ['Aventures illimitées','Crée autant de sorties que tu veux'],
-        ['Passeport signature','Bio étendue, badges rares, thème carte'],
-        ['Priorité','Ta sortie remonte auprès de la tribu locale'],
-      ].map(([t,s],i,a)=>`
-        <div style="display:flex;gap:12px;align-items:center;padding:13px 0;${i<a.length-1?'border-bottom:1px solid var(--line)':''}">
-          <span style="width:24px;height:24px;border-radius:50%;background:var(--sun-soft);color:var(--sun);display:grid;place-items:center;flex:none"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg></span>
-          <span style="flex:1"><b style="display:block;font-size:14.5px">${t}</b><span class="muted" style="font-size:12.5px">${s}</span></span>
-        </div>`).join('')}
-    </div>
-    <div class="row" style="gap:10px;margin-top:14px" id="planRow">
-      <button class="btn ghost tap" data-plan="Mensuel" aria-pressed="false" style="flex-direction:column;height:auto;padding:14px;border:2px solid transparent" onclick="pickPlan(this)"><b>Mensuel</b><span class="muted" style="font-size:12px">7,99 € / mois</span></button>
-      <button class="btn ghost tap" data-plan="Annuel" aria-pressed="true" style="flex-direction:column;height:auto;padding:14px;position:relative;border:2px solid var(--sun)" onclick="pickPlan(this)"><span class="pill sun" style="position:absolute;top:-10px;right:10px">-40%</span><b>Annuel</b><span class="muted" style="font-size:12px">4,90 € / mois</span></button>
-    </div>
-    <button class="btn sun tap" style="margin-top:14px;height:52px" onclick="subscribePremium()">Démarrer l'essai gratuit de 7 jours</button>
-    <p class="muted" style="text-align:center;font-size:11.5px;margin-top:12px">Sans engagement · Annulable à tout moment</p>
-  </section>`;
-}
-
-/* ============================================================
-   Data model
-   ============================================================ */
-const profiles = {
-  manea:  {name:'Manea T.', loc:'Papara, Tahiti', out:'128', rel:'4,9', tags:['🏄 Surf · Expert','🎣 Pêche · Confirmé','🥾 Rando'], bio:"Né dans le lagon. Le surf le matin, la pêche au coucher. Toujours partant pour montrer les meilleurs spots."},
-  leilani:{name:'Leilani', loc:"Teahupo'o", out:'96', rel:'4,8', tags:['🏄 Surf · Expert'], bio:"À l'eau au premier rayon. Le reef n'a plus de secret."},
-  teiki:  {name:'Teiki', loc:'Papara', out:'74', rel:'4,7', tags:['🏄 Surf · Confirmé','🎣 Pêche'], bio:"La GoPro toujours prête. On repart jamais sans une image."},
-  hina:   {name:'Hina', loc:'Moorea', out:'52', rel:'4,9', tags:['🥾 Rando','🏂 Snow'], bio:"Multi-outdoor, partout où il y a du relief et du vent."},
-  moana:  {name:'Moana', loc:"Teahupo'o", out:'61', rel:'4,6', tags:['🏄 Surf · Confirmé'], bio:"Connaît chaque courant du reef. Sécurité d'abord."},
-  raihau: {name:'Raihau', loc:'Pirae', out:'140', rel:'5,0', tags:['🥾 Rando · Guide'], bio:"Guide de montagne diplômé. Le sommet se mérite, en sécurité."},
-  vaite:  {name:'Vaite', loc:'Papeete', out:'48', rel:'4,8', tags:['🥾 Rando','🤿 Plongée'], bio:"Curieuse de tout, sous l'eau comme au sommet."},
-  me:     {name:'Toi', loc:'', out:'—', rel:'—', tags:[], bio:''},
-};
-const sceneryFor = a => scenery(1,'','',a.kind);
-let ADV = [
-  {id:'a1', sport:'Surf', emoji:'🏄', kind:'wave', title:"Session matinale · Teahupo'o",
-   place:"Teahupo'o · PK0 — Reef pass", meta:'PK0 · Reef pass — niveau confirmé', level:'Confirmé',
-   host:'leilani', when:'Départ dans 2 h', dot:'#7CFFB0',
-   taken:3, total:5, members:['leilani','teiki','moana'], note:'Teiki, Moana + toi ?',
-   desc:"Session tranquille au line-up. Niveau confirmé exigé (reef peu profond, courant fort à marée montante). RDV parking PK0, on check la houle ensemble ☕", joined:false, cond:true},
-  {id:'a2', sport:'Rando', emoji:'🥾', kind:'mountain', title:'Ascension du Mont Aorai',
-   place:'Mont Aorai · 2 066 m', meta:'2 066 m · 12 km · dénivelé 1 400 m — endurant', level:'Endurant',
-   host:'raihau', when:'Samedi · 6 h 00', dot:'#FFD27C',
-   taken:5, total:8, members:['raihau','hina','vaite'], note:'+ 3 aventuriers',
-   desc:"Départ avant l'aube pour attraper le lever de soleil au sommet. Bonnes chaussures, 2 L d'eau, coupe-vent. Rythme soutenu mais on attend tout le monde.", joined:false, cond:false},
+const CHAT0=[
+  {who:'them',t:'Bonjour Camille 👋 Je suis votre assistant TaxPilot. J\'ai déjà lu vos documents importés. Commençons par vérifier vos <b>revenus 2025</b> : votre salaire net imposable est de <b>32 400 €</b>, c\'est bien ça ?',conf:['high','Confiance élevée · extrait de votre fiche de paie']},
+  {who:'me',t:'Oui c\'est correct.'},
+  {who:'them',t:'Parfait ✓ J\'ai aussi vu un reçu de don de <b>200 €</b> à la Croix-Rouge. Cela ouvre droit à une réduction d\'impôt de <b>132 €</b> (66 %). Je l\'ajoute à votre dossier.',conf:['high','Confiance élevée · règle fiscale vérifiée (art. 200 CGI)']},
+  {who:'them',t:'Avez-vous perçu des <b>revenus fonciers</b> en 2025 (loyers) ? Je n\'ai pas trouvé de document à ce sujet.',conf:['low','Information manquante · je préfère vous demander plutôt que de deviner']},
 ];
-let NOTIFS = [
-  {icon:'🌊', t:"<b>Leilani</b> t'a invité à une session à Teahupo'o.", tm:'il y a 20 min', unread:true},
-  {icon:'💬', t:"<b>Teiki</b> a écrit dans <b>Session matinale</b>.", tm:'il y a 1 h', unread:true},
-  {icon:'🧭', t:"<b>Hina</b> a rejoint ta tribu.", tm:'hier', unread:false},
-];
-
-/* ============================================================
-   App shell : screens, sheet, toast, router
-   ============================================================ */
-const viewport = document.getElementById('viewport');
-viewport.innerHTML = [screenHome(),screenMap(),screenCreate(),screenJournal(),screenPassport(),screenChat(),screenSettings(),screenPremium()].join('');
-
-const sheetHost = document.getElementById('sheetHost');
-const sheetBody = document.getElementById('sheetBody');
-const toastHost = document.getElementById('toastHost');
-function sheet(html){ sheetBody.innerHTML=html; sheetHost.classList.add('show'); sheetHost.setAttribute('aria-hidden','false'); document.getElementById('sheetPanel').scrollTop=0; }
-function closeSheet(){ sheetHost.classList.remove('show'); sheetHost.setAttribute('aria-hidden','true'); }
-function toast(msg, icon){
-  const t=document.createElement('div'); t.className='toast';
-  t.innerHTML=(icon?`<span class="ic">${icon==='check'?'✓':icon}</span>`:'')+`<span>${msg}</span>`;
-  toastHost.appendChild(t);
-  requestAnimationFrame(()=>t.classList.add('show'));
-  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),320); }, 2400);
+function initChat(){
+  const s=$('#chatScroll');if(!s)return;s.innerHTML='';
+  CHAT0.forEach(m=>addMsg(m.who,m.t,m.conf,true));
+  s.scrollTop=s.scrollHeight;
 }
-function go(name){
-  closeSheet();
-  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.dataset.screen===name));
-  document.querySelectorAll('.tab[data-go]').forEach(t=>t.classList.toggle('active', t.dataset.go===name));
-  const sc = document.getElementById('s-'+name); if(sc) sc.scrollTop=0;
-  if(name!=='map'){ const sh=document.getElementById('mapsheet'); if(sh) sh.classList.remove('show'); }
+function confMeta(level){
+  return {high:['var(--good)','Confiance élevée'],med:['var(--warn)','Confiance moyenne'],low:['var(--ink-mute)','À confirmer']}[level]||['var(--good)','Confiance élevée'];
 }
-document.querySelectorAll('.tab[data-go]').forEach(t=>t.addEventListener('click',()=>go(t.dataset.go)));
-function enterApp(){ document.getElementById('intro').classList.add('hide'); }
-
-/* ---------- Home feed (data-driven) ---------- */
-function renderFeed(){ const el=document.getElementById('homeFeed'); if(el) el.innerHTML=ADV.map(advCard).join(''); }
-function advCard(a){
-  const pct=Math.round(a.taken/a.total*100);
-  const avs=a.members.slice(0,3).map(m=>`<img class="avatar" src="${people[m]||people.manea}" width="26" height="26" alt="">`).join('');
-  const btn = a.joined
-    ? `<button class="btn sm tap" style="background:var(--good)" onclick="event.stopPropagation();openChat('${a.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg> Chat</button>`
-    : `<button class="btn sm sun tap" onclick="event.stopPropagation();joinAdv('${a.id}')">Rejoindre</button>`;
-  return `<article class="card adv tap" onclick="advDetail('${a.id}')">
-    <div class="hero" style="background:center/cover url('${sceneryFor(a)}')">
-      <div class="grad"></div>
-      <div class="top"><span class="badge-live"><span class="dot" style="background:${a.dot}"></span> ${a.when}</span><span class="pill sun" style="background:rgba(255,255,255,.16);color:#fff">${a.sport}</span></div>
-      <div class="cap"><h3>${a.title}</h3><div class="meta">${a.meta}</div></div>
-    </div>
-    <div class="body">
-      <div class="row"><div class="who"><img class="avatar" src="${people[a.host]}" width="30" height="30" alt=""><div class="n"><b>${profiles[a.host].name.split(' ')[0]}</b> organise</div></div><span class="spacer"></span><span class="slots">${a.taken}/${a.total} places</span></div>
-      <div class="progress"><i style="width:${pct}%"></i></div>
-      <div class="row" style="margin-top:13px"><div class="stackav">${avs}</div><span class="tag">${a.note}</span><span class="spacer"></span>${btn}</div>
-    </div>
-  </article>`;
+function addMsg(who,t,conf,instant){
+  const s=$('#chatScroll');if(!s)return;
+  if(who==='them'){const a=document.createElement('div');a.className='ai-ava';a.innerHTML='<span class="g">✦</span> Assistant TaxPilot';s.appendChild(a);}
+  const b=document.createElement('div');b.className='bubble '+who;b.innerHTML=t;
+  if(conf){const[col]=confMeta(conf[0]);b.innerHTML+=`<div class="conf"><span class="conf-dot" style="background:${col}"></span><span style="color:${col}">${conf[1]}</span></div>`;}
+  s.appendChild(b);s.scrollTop=s.scrollHeight;
 }
-
-/* ---------- Adventure detail sheet ---------- */
-function advDetail(id){
-  const a=ADV.find(x=>x.id===id); if(!a) return;
-  const parts=a.members.map(m=>{
-    const pf=profiles[m]||profiles.me; const img=people[m]||people.manea;
-    return `<div class="prow tap" onclick="${m==='me'?'':`profileSheet('${m}')`}"><img class="avatar" src="${img}" width="40" height="40" alt=""><div><div class="nm">${pf.name}${m===a.host?' · organise':''}</div><div class="rl">${(pf.tags&&pf.tags[0])||'C\'est toi'}</div></div></div>`;
-  }).join('');
-  const cond = a.cond ? `<div class="sheet-sec">Conditions au spot</div><div class="mini"><div class="b"><div class="v">1,6 m</div><div class="l">Houle</div></div><div class="b"><div class="v">8 nds</div><div class="l">Vent</div></div><div class="b"><div class="v">27°</div><div class="l">Eau</div></div></div>`:'';
-  const left=a.total-a.taken;
-  const action = a.joined
-    ? `<button class="btn ghost tap" style="flex:1" onclick="joinAdv('${a.id}')">Quitter</button><button class="btn tap" style="flex:1.4" onclick="openChat('${a.id}')">Ouvrir le chat</button>`
-    : `<button class="btn sun tap" style="flex:1" onclick="joinAdv('${a.id}')">Rejoindre${left>0?` — ${left} place${left>1?'s':''}`:''}</button>`;
-  sheet(`
-    <div class="sheet-hero" style="background:center/cover url('${sceneryFor(a)}')"><div class="g"></div>
-      <div class="cap"><span class="badge-live"><span class="dot" style="background:${a.dot}"></span> ${a.when}</span></div></div>
-    <div class="chiprow" style="margin-top:12px"><span class="pill sea">${a.emoji} ${a.sport}</span><span class="pill">Niveau ${a.level}</span><span class="pill">${a.taken}/${a.total} places</span></div>
-    <div class="sheet-title">${a.title}</div>
-    <div class="sheet-sub">📍 ${a.place}</div>
-    <div class="sheet-sec">L'organisateur en dit</div>
-    <div class="sheet-desc">${a.desc}</div>
-    ${cond}
-    <div class="sheet-sec">Qui vient (${a.members.length})</div>
-    <div class="plist">${parts}</div>
-    <div class="sheet-actions">${action}</div>
-    <button class="btn ghost tap" style="margin-top:10px;height:42px;font-size:12.5px;color:var(--ink-mute)" onclick="reportSheet()">Signaler cette sortie</button>
-  `);
-}
-function joinAdv(id){
-  const a=ADV.find(x=>x.id===id); if(!a) return;
-  if(!a.joined){
-    a.joined=true; if(!a.members.includes('me')) a.members=[...a.members,'me']; a.taken=Math.min(a.total,a.taken+1);
-    a.note='Toi + '+(a.members.length-1)+' autres';
-    toast("Tu as rejoint l'aventure",'check');
-    pushNotif('🎉', `Bienvenue dans <b>${a.title.split('·')[0].trim()}</b> — ouvre le chat pour dire bonjour.`);
-  } else {
-    a.joined=false; a.members=a.members.filter(m=>m!=='me'); a.taken=Math.max(0,a.taken-1);
-    toast("Tu as quitté l'aventure");
-  }
-  renderFeed();
-  if(sheetHost.classList.contains('show')) advDetail(id);
-}
-function openChat(id){
-  const a=ADV.find(x=>x.id===id)||ADV[0]; window._chatAdv=id; closeSheet();
-  document.getElementById('chatTitle').textContent=a.title;
-  document.getElementById('chatMembers').textContent=a.members.map(m=>(profiles[m]||profiles.me).name.split(' ')[0]).join(', ')+' · '+a.members.length+' membres';
-  document.getElementById('chatAvatar').src=people[a.host];
-  document.getElementById('chatPinned').innerHTML=`📍 <b>RDV</b> ${a.when} · ${a.place}. Sois à l'heure 🤙`;
-  go('chat');
-}
-
-/* ---------- Map ---------- */
-function toggleChip(c){
-  c.setAttribute('aria-pressed', c.getAttribute('aria-pressed')==='true'?'false':'true');
-  if(c.dataset.filter==='level') toast(c.getAttribute('aria-pressed')==='true'?'Filtré sur ton niveau':'Filtre niveau retiré');
-  filterMap();
-}
-function filterMap(){
-  const on = t => document.querySelector(`.chip[data-filter="${t}"]`)?.getAttribute('aria-pressed')==='true';
-  const today=on('today');
-  document.querySelectorAll('.pin').forEach(p=>{
-    let vis = on(p.dataset.type);
-    if(vis && p.dataset.type==='adv' && today && p.dataset.today==='0') vis=false;
-    p.style.display = vis?'':'none';
-  });
-}
-function mapPin(id){
-  const a=ADV.find(x=>x.id===id); if(!a) return;
-  window._mapSheetId=id;
-  document.getElementById('sheetThumb').src=sceneryFor(a);
-  document.getElementById('sheetTag').textContent=`${a.emoji} ${a.sport}`;
-  document.getElementById('sheetWhen').textContent=a.when;
-  document.getElementById('sheetTitle').textContent=a.title.split('·')[0].trim();
-  document.getElementById('sheetSub').textContent=`${a.place.split('·')[0].trim()} · ${a.taken}/${a.total} places`;
-  document.getElementById('mapsheet').classList.add('show');
-}
-function spotSheet(){
-  sheet(`
-    <div class="sheet-hero" style="background:center/cover url('${scenery(1,'','','wave')}')"><div class="g"></div><div class="cap"><span class="badge-live">📍 Spot légendaire</span></div></div>
-    <div class="chiprow" style="margin-top:12px"><span class="pill sea">🏄 Surf</span><span class="pill">Gauche · Reef</span><span class="pill">Expert</span></div>
-    <div class="sheet-title">Reef pass · PK0 — Teahupo'o</div>
-    <div class="sheet-sub">📍 Presqu'île de Tahiti</div>
-    <div class="sheet-sec">Conditions du jour</div>
-    <div class="mini"><div class="b"><div class="v">1,6 m</div><div class="l">Houle</div></div><div class="b"><div class="v">8 nds</div><div class="l">Vent</div></div><div class="b"><div class="v">14 s</div><div class="l">Période</div></div></div>
-    <div class="sheet-sec">À savoir</div>
-    <div class="sheet-desc">L'une des vagues les plus lourdes du monde. Reef peu profond, courant fort à marée montante. Réservé aux surfeurs experts accompagnés.</div>
-    <div class="sheet-actions"><button class="btn tap" style="flex:1" onclick="closeSheet();go('create');toast('Crée une sortie sur ce spot')">Organiser une sortie ici</button></div>
-  `);
-}
-function profileSheet(key){
-  const p=profiles[key]; if(!p) return;
-  sheet(`
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 0 2px">
-      <img class="avatar" src="${people[key]}" width="88" height="88" alt="" style="box-shadow:0 0 0 4px var(--surface-3)">
-      <div class="sheet-title" style="margin:14px 0 2px">${p.name}</div>
-      <div class="sheet-sub">📍 ${p.loc}</div>
-    </div>
-    <div class="mini" style="margin-top:8px"><div class="b"><div class="v">${p.out}</div><div class="l">Sorties</div></div><div class="b"><div class="v">${p.rel}</div><div class="l">Fiabilité</div></div><div class="b"><div class="v">${p.tags.length}</div><div class="l">Sports</div></div></div>
-    <div class="sheet-sec">Sports pratiqués</div>
-    <div class="chiprow">${p.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div>
-    ${p.bio?`<div class="sheet-sec">Bio</div><div class="sheet-desc" style="font-family:var(--ff-serif);font-style:italic">« ${p.bio} »</div>`:''}
-    <div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="toast('Message envoyé à ${p.name.split(' ')[0]}','check')">Message</button><button class="btn tap" style="flex:1" onclick="closeSheet();go('create');toast('Propose une sortie à ${p.name.split(' ')[0]}')">Proposer une sortie</button></div>
-  `);
-}
-
-/* ---------- Create ---------- */
-function pickSport(el){ el.parentElement.querySelectorAll('.sportopt').forEach(o=>o.setAttribute('aria-pressed','false')); el.setAttribute('aria-pressed','true'); }
-function pickPrivacy(el){ el.parentElement.querySelectorAll('.opt').forEach(o=>o.setAttribute('aria-pressed','false')); el.setAttribute('aria-pressed','true'); }
-let places=5;
-function stepPlaces(d){ places=Math.max(1,Math.min(20,places+d)); document.getElementById('placesCount').textContent=places; }
-function optionSheet(title, opts, targetId){
-  const cur=document.getElementById(targetId).textContent;
-  sheet(`<div class="sheet-title" style="margin-top:6px">${title}</div><div class="optlist" style="margin-top:14px">${opts.map(o=>`<button class="optbtn tap" aria-pressed="${o===cur?'true':'false'}" onclick="setOption('${targetId}',this)"><span>${o}</span><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg></span></button>`).join('')}</div>`);
-}
-function setOption(targetId, btn){ document.getElementById(targetId).textContent=btn.querySelector('span').textContent; closeSheet(); toast('Mis à jour','check'); }
-function dateSheet(){ optionSheet('Quand pars-tu ?', ["Aujourd'hui · 16 h 00","Demain · 6 h 30","Demain · 16 h 00","Samedi · 6 h 00","Dimanche · 7 h 00"], 'cWhen'); }
-function placeSheet(){ optionSheet('Où ça ?', ["Teahupo'o — Reef pass","Papara — Beach break","Mont Aorai — 2 066 m","Lagon de Moorea","Presqu'île — Vairao"], 'cPlace'); }
-function publishAdv(btn){
-  const sportBtn=document.querySelector('#sportGrid .sportopt[aria-pressed="true"]');
-  const sport = sportBtn?sportBtn.textContent.trim():'Surf';
-  const map={'Surf':['🏄','wave'],'Pêche':['🎣','flat'],'Rando':['🥾','mountain'],'Snow':['🏂','mountain'],'Kite':['🪁','wave'],'Plongée':['🤿','flat']};
-  const [emoji,kind]=map[sport]||['🏄','wave'];
-  const when=document.getElementById('cWhen').textContent;
-  const place=document.getElementById('cPlace').textContent;
-  const desc=(document.getElementById('cDesc').value||'Sortie entre passionnés.').trim();
-  const spotName=place.split('—')[0].split('·')[0].trim();
-  ADV.unshift({id:'u'+Date.now(), sport, emoji, kind, title:`${sport} · ${spotName}`, place, meta:place,
-    level:'Ouvert', host:'manea', when, dot:'#7CFFB0', taken:1, total:places, members:['manea'],
-    note:'Toi · organise', desc, joined:true, cond:kind==='wave'});
-  pushNotif('📣', `Ta sortie <b>${sport} · ${spotName}</b> est en ligne. Ta tribu proche est prévenue.`);
-  renderFeed();
-  btn.style.background='var(--good)';
-  btn.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg> Publiée !';
+function autogrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+function quickAsk(el){$('#chatInput').value=el.textContent;sendChat();}
+function sendChat(){
+  const inp=$('#chatInput');const v=(inp.value||'').trim();if(!v)return;
+  addMsg('me',v);inp.value='';autogrow(inp);
+  const s=$('#chatScroll');
+  const typing=document.createElement('div');typing.className='ai-ava';typing.id='typing';typing.innerHTML='<span class="g">✦</span> écrit…';s.appendChild(typing);s.scrollTop=s.scrollHeight;
   setTimeout(()=>{
-    btn.style.background='';
-    btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg> Publier l\'aventure';
-    go('home'); toast('Ton aventure est en ligne ✦','check');
-  }, 900);
+    const rep=aiReply(v);document.getElementById('typing')?.remove();
+    addMsg('them',rep.t,rep.conf);
+  },900);
+}
+function aiReply(q){
+  const l=q.toLowerCase();
+  if(l.includes('enfant')||l.includes('charge'))return{t:'Excellent, cela compte ! Chaque enfant à charge augmente votre nombre de <b>parts fiscales</b> et peut réduire votre impôt. Pouvez-vous me donner leurs <b>dates de naissance</b> ? J\'en ai besoin pour vérifier les majorations applicables.',conf:['med','Confiance moyenne · je dois confirmer les dates']};
+  if(l.includes('foncier')||l.includes('loyer')||l.includes('locati'))return{t:'Pour les revenus fonciers, deux régimes existent : le <b>micro-foncier</b> (abattement 30 %, si loyers &lt; 15 000 €) et le <b>régime réel</b> (déduction des charges). Quel montant de loyers avez-vous perçu en 2025 ? Je vous dirai le régime le plus avantageux.',conf:['high','Confiance élevée · règles à jour 2025']};
+  if(l.includes('crédit')||l.includes('credit')||l.includes('réduction')||l.includes('impot')||l.includes('impôt'))return{t:'D\'après votre profil, plusieurs dispositifs peuvent s\'appliquer : <b>dons</b> (déjà pris en compte : 132 €), <b>frais de garde d\'enfants</b>, <b>emploi à domicile</b>, et <b>intérêts d\'emprunt</b> selon les cas. Avez-vous eu des frais de garde ou employé quelqu\'un à domicile en 2025 ?',conf:['med','Confiance moyenne · dépend de vos justificatifs']};
+  return{t:'Bonne question. Pour vous répondre précisément et sans rien inventer, j\'ai besoin d\'un peu plus de contexte. Pouvez-vous préciser votre situation, ou importer le document concerné ? Je m\'appuie uniquement sur des sources vérifiables.',conf:['low','À confirmer · je ne devine jamais un montant']};
 }
 
-/* ---------- Notifications ---------- */
-function pushNotif(icon,t){ NOTIFS.unshift({icon,t,tm:"à l'instant",unread:true}); const d=document.getElementById('notifDot'); if(d) d.style.display=''; }
-function notifSheet(){
-  sheet(`<div class="sheet-title" style="margin-top:6px">Notifications</div>${NOTIFS.map(n=>`<div class="notif ${n.unread?'unread':''}"><div class="ico">${n.icon}</div><div class="c"><div class="t">${n.t}</div><div class="tm">${n.tm}</div></div></div>`).join('')}<button class="btn ghost tap" style="margin-top:16px" onclick="closeSheet()">Tout marquer comme lu</button>`);
-  NOTIFS.forEach(n=>n.unread=false); const d=document.getElementById('notifDot'); if(d) d.style.display='none';
-}
-function conditionsSheet(){
-  sheet(`<div class="sheet-title" style="margin-top:6px">Conditions · Teahupo'o</div><div class="sheet-sub">Mardi · mise à jour il y a 10 min</div>
-    <div class="sheet-sec">Aujourd'hui</div>
-    <div class="mini"><div class="b"><div class="v">1,6 m</div><div class="l">Houle SO</div></div><div class="b"><div class="v">8 nds</div><div class="l">Vent</div></div><div class="b"><div class="v">27°</div><div class="l">Eau</div></div></div>
-    <div class="mini" style="margin-top:9px"><div class="b"><div class="v">14 s</div><div class="l">Période</div></div><div class="b"><div class="v">↑ 1,1 m</div><div class="l">Marée</div></div><div class="b"><div class="v">6:12</div><div class="l">Lever</div></div></div>
-    <div class="sheet-sec">Verdict</div>
-    <div class="sheet-desc">Conditions idéales : houle propre, vent offshore léger. Attention au courant à marée montante (15 h 20).</div>
-    <div class="sheet-actions"><button class="btn tap" style="flex:1" onclick="closeSheet();go('create')">Organiser une session</button></div>`);
-}
-
-/* ---------- Passport ---------- */
-const BADGES={aubes:['🌅','100 aubes','Surfer 100 sessions au lever du jour.',true],reef:['🌊','Reef master','20 sessions sur un spot de reef expert.',true],guide:['🧭','Guide local','Faire découvrir un spot à 10 aventuriers.',true],fiable:['🤝','Fiable ×50','50 sorties honorées sans annulation de dernière minute.',true],sommet:['🏔️','Sommet 2k','Atteindre un sommet de plus de 2 000 m.',true],neige:['❄️','1re neige','Faire ta première sortie snow ou ski.',false],kite:['🪁','Kite 25 nds','Naviguer par plus de 25 nœuds de vent.',false],globe:['🌍','Globe-trotter','Vivre des aventures dans 3 régions différentes.',false]};
-function badgeSheet(key){
-  if(!key){
-    sheet(`<div class="sheet-title" style="margin-top:6px">Badges · 12 obtenus</div><div class="sheet-desc">Les badges récompensent l'expérience réelle, jamais les likes. Ils renforcent la confiance dans ta tribu.</div><div class="badges" style="margin-top:16px">${Object.keys(BADGES).map(k=>{const b=BADGES[k];return `<div class="badge ${b[3]?'':'locked'} tap" onclick="badgeSheet('${k}')"><div class="medal">${b[0]}</div><div class="cap">${b[1]}</div></div>`;}).join('')}</div>`);
-    return;
-  }
-  const b=BADGES[key];
-  sheet(`<div style="text-align:center;padding:14px 0 4px"><div style="font-size:60px;${b[3]?'':'filter:grayscale(1);opacity:.5'}">${b[0]}</div><div class="sheet-title" style="margin:8px 0 2px">${b[1]}</div><div class="sheet-sub">${b[3]?'✓ Obtenu':'🔒 À débloquer'}</div></div><div class="sheet-sec">Comment l'obtenir</div><div class="sheet-desc">${b[2]}</div><div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="badgeSheet()">Voir tous les badges</button></div>`);
-}
-function toggleAvail(el){ el.classList.toggle('on'); toast(el.classList.contains('on')?'Créneau ajouté':'Créneau retiré'); }
-function editProfileSheet(){
-  const nm=(document.querySelector('#s-passport .pp-id .nm')||{}).textContent||'Manea T.';
-  const bio=((document.querySelector('#s-passport .pp-bio')||{}).textContent||'').replace(/^«\s*/,'').replace(/\s*»$/,'');
-  sheet(`<div class="sheet-title" style="margin-top:6px">Modifier le passeport</div>
-    <label class="tlabel">Nom affiché</label><input class="tinput" id="edName" value="${nm.replace(/"/g,'&quot;')}">
-    <label class="tlabel">Bio</label><textarea class="tinput" id="edBio">${bio}</textarea>
-    <label class="tlabel">Ville</label><input class="tinput" id="edCity" value="Papara, Tahiti">
-    <div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="closeSheet()">Annuler</button><button class="btn tap" style="flex:1" onclick="saveProfile()">Enregistrer</button></div>`);
-}
-function saveProfile(){
-  const n=document.getElementById('edName').value.trim();
-  const b=document.getElementById('edBio').value.trim();
-  const c=document.getElementById('edCity').value.trim();
-  if(n) document.querySelector('#s-passport .pp-id .nm').textContent=n;
-  if(b) document.querySelector('#s-passport .pp-bio').textContent='« '+b+' »';
-  const lo=document.querySelector('#s-passport .pp-id .lo');
-  if(lo&&c) lo.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z" fill="none" stroke="currentColor" stroke-width="2"/></svg> ${c}`;
-  closeSheet(); toast('Passeport mis à jour','check');
-}
-
-/* ---------- Journal ---------- */
-const STORIES={
-  surf:{sport:'🏄 Surf',who:'leilani',loc:"Teahupo'o · hier",kind:'wave',title:"Le mur d'eau, enfin dompté",body:"On est arrivés au lever du jour, l'océan encore violet. Teiki a pris la première, moi j'ai hésité — puis la houle a parlé.\n\nTrois heures plus tard, les bras morts et le sourire idiot. Merci la tribu d'avoir insisté. Sans eux, je serais restée sur le sable.",chap:'Chapitre 128',members:'4 aventuriers'},
-  peche:{sport:'🎣 Pêche',who:'teiki',loc:'Lagon de Moorea · il y a 3 jours',kind:'flat',title:'Le coucher de soleil valait le mahi-mahi',body:"Pas une seule prise pendant deux heures. On allait rentrer quand la ligne a plié d'un coup.\n\nUn mahi-mahi magnifique — relâché après la photo. Certains souvenirs pèsent plus que le poisson.",chap:'Chapitre 127',members:'avec Manea'},
-};
-function storySheet(key){
-  const s=STORIES[key]; if(!s) return;
-  sheet(`<div class="sheet-hero" style="background:center/cover url('${scenery(1,'','',s.kind)}')"><div class="g"></div><div class="cap"><span class="badge-live">${s.sport}</span></div></div>
-    <div class="prow" style="margin-top:8px"><img class="avatar" src="${people[s.who]}" width="36" height="36" alt=""><div><div class="nm">${profiles[s.who].name}</div><div class="rl">${s.loc}</div></div></div>
-    <div class="sheet-title" style="font-family:var(--ff-serif);font-weight:600">${s.title}</div>
-    <div class="sheet-desc" style="font-family:var(--ff-serif);font-size:15.5px;white-space:pre-line">${s.body}</div>
-    <div class="sheet-sec">${s.chap} · ${s.members}</div>
-    <div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="toast('Souvenir gardé','check')">Garder ce souvenir</button></div>`);
-}
-function filterSheet(){
-  const seg=(arr)=>arr.map((s,i)=>`<button class="chip tap" aria-pressed="${i===0?'true':'false'}" onclick="this.parentElement.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));this.setAttribute('aria-pressed','true')">${s}</button>`).join('');
-  sheet(`<div class="sheet-title" style="margin-top:6px">Filtrer le carnet</div>
-    <label class="tlabel">Par sport</label><div class="chiprow">${seg(['Tous','🏄 Surf','🎣 Pêche','🥾 Rando','🏂 Snow'])}</div>
-    <label class="tlabel">Période</label><div class="chiprow">${seg(['Tout','Cette semaine','Ce mois','Cette année'])}</div>
-    <div class="sheet-actions"><button class="btn tap" style="flex:1" onclick="closeSheet();toast('Filtres appliqués','check')">Appliquer</button></div>`);
-}
-
-/* ---------- Settings sub-sheets ---------- */
-function switchRow(label,sub,on){ return `<div class="setrow"><div class="tx"><b>${label}</b><span>${sub}</span></div><div class="switch" role="switch" aria-checked="${on?'true':'false'}" tabindex="0" onclick="toggleSwitch(this)"></div></div>`; }
-function toggleSwitch(el){ el.setAttribute('aria-checked', el.getAttribute('aria-checked')==='true'?'false':'true'); }
-function notifPrefsSheet(){
-  sheet(`<div class="sheet-title" style="margin-top:6px">Notifications</div><div style="margin-top:6px">
-    ${switchRow('Sorties près de moi','Quand une aventure est créée dans ta zone',true)}
-    ${switchRow('Messages','Nouveaux messages de tes tribus',true)}
-    ${switchRow('Nouveaux membres','Quand quelqu’un rejoint ta sortie',true)}
-    ${switchRow('Résumé hebdo','Les meilleures conditions de la semaine',false)}
-    </div><button class="btn tap" style="margin-top:18px" onclick="closeSheet();toast('Préférences enregistrées','check')">Enregistrer</button>`);
-}
-function privacySheet(){
-  sheet(`<div class="sheet-title" style="margin-top:6px">Confidentialité &amp; RGPD</div><div style="margin-top:6px">
-    ${switchRow('Position approximative','On ne partage jamais ta position exacte',true)}
-    ${switchRow('Profil visible sur la carte','Les aventuriers proches peuvent te voir',true)}
-    ${switchRow('Autoriser les invitations','Recevoir des propositions de sorties',true)}
+/* ---------- Documents ---------- */
+VIEWS.documents=()=>`<div class="page">
+  <div class="drop" onclick="fakeUpload()">
+    <div class="di"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>
+    <b style="font-size:16px">Glissez vos documents ici</b>
+    <p class="soft" style="margin:6px 0 14px;font-size:14px">PDF, JPEG, PNG, HEIC — ou <span style="color:var(--brand-600);font-weight:600">parcourir</span></p>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <span class="chip">📄 Fiche de paie</span><span class="chip">🧾 Avis d'imposition</span><span class="chip">🎁 Reçu de don</span><span class="chip">🏠 Attestation de prêt</span>
     </div>
-    <div class="sheet-sec">Tes données</div>
-    <button class="optbtn tap" onclick="toast('Export envoyé par email','check')"><span class="em">📥</span> Exporter mes données</button>
-    <button class="optbtn tap" style="margin-top:9px;color:var(--crit);border-color:color-mix(in srgb,var(--crit) 30%,transparent)" onclick="confirmSheet('Supprimer ton compte ?','Cette action est définitive : tes aventures et ton carnet seront effacés.','Supprimer',function(){toast('Compte programmé pour suppression');})"><span class="em">🗑️</span> Supprimer mon compte</button>`);
-}
-function blockedSheet(){
-  sheet(`<div class="sheet-title" style="margin-top:6px">Bloqués &amp; signalements</div>
-    <div class="sheet-sec">Personnes bloquées</div>
-    <div class="setrow"><div class="tx"><b>Personne n'est bloqué</b><span>Tu peux bloquer depuis n'importe quel profil</span></div></div>
-    <div class="sheet-sec">Sécurité</div>
-    <div class="sheet-desc">Signale une sortie ou un message inapproprié depuis le bouton « Signaler ». Notre équipe intervient sous 24 h, en toute confidentialité.</div>`);
-}
-function appearanceSheet(){
-  const cur=document.documentElement.getAttribute('data-theme');
-  const opt=(v,l)=>`<button class="optbtn tap" aria-pressed="${(v==='system'&&!cur)||cur===v?'true':'false'}" onclick="setTheme('${v}');appearanceSheet()"><span>${l}</span><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l4 4 10-10"/></svg></span></button>`;
-  sheet(`<div class="sheet-title" style="margin-top:6px">Apparence</div><div class="optlist" style="margin-top:14px">${opt('system','🌓 Système')}${opt('light','☀️ Clair')}${opt('dark','🌙 Sombre')}</div>`);
-}
-function helpSheet(){
-  const q=['Comment rejoindre une aventure ?','Comment fonctionne le score de fiabilité ?','Que voit-on de ma position ?','Comment passer Premium ?'];
-  sheet(`<div class="sheet-title" style="margin-top:6px">Aide &amp; contact</div><div class="sheet-sec">Questions fréquentes</div>
-    ${q.map(x=>`<button class="optbtn tap" style="margin-bottom:9px" onclick="toast('Réponse ouverte')"><span>${x}</span><span class="ck" style="opacity:1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></span></button>`).join('')}
-    <button class="btn tap" style="margin-top:8px" onclick="closeSheet();toast('Formulaire de contact ouvert')">Nous écrire</button>`);
-}
-function confirmSheet(title,msg,label,cb){
-  sheet(`<div class="sheet-title" style="margin-top:6px">${title}</div><div class="sheet-desc">${msg}</div><div class="sheet-actions"><button class="btn ghost tap" style="flex:1" onclick="closeSheet()">Annuler</button><button class="btn tap" style="flex:1;background:var(--crit)" onclick="closeSheet();(${cb.toString()})()">${label}</button></div>`);
-}
-function reportSheet(){ confirmSheet('Signaler cette sortie ?','Notre équipe examinera ce signalement de façon confidentielle.','Signaler',function(){toast('Signalement envoyé, merci');}); }
+    <button class="btn sm" style="margin-top:16px" onclick="event.stopPropagation();scanMobile()">📱 Scanner avec mon mobile</button>
+  </div>
 
-/* ---------- Premium ---------- */
-function pickPlan(btn){ document.querySelectorAll('#planRow [data-plan]').forEach(b=>{b.setAttribute('aria-pressed','false');b.style.border='2px solid transparent';}); btn.setAttribute('aria-pressed','true'); btn.style.border='2px solid var(--sun)'; }
-function subscribePremium(){ const plan=(document.querySelector('#planRow [data-plan][aria-pressed="true"]')||{}).dataset; toast('Bienvenue en Premium ✦ — essai '+((plan&&plan.plan)||'annuel').toLowerCase()+' activé','check'); go('passport'); }
+  <h3 style="margin:26px 0 12px;font-size:16px">Extraction OCR — <span class="muted" style="font-weight:500">Fiche_paie_dec.pdf</span></h3>
+  <div class="card cardpad">
+    <div class="alert good" style="margin-bottom:16px"><span class="ai">✓</span><div>Document analysé. Vérifiez et corrigez les champs avant de valider — chaque champ indique la confiance de l'OCR.</div></div>
+    <div class="extract">
+      <div class="er"><div>Champ</div><div>Valeur extraite</div><div>Confiance</div></div>
+      ${exRow('Nom & prénom','Camille Lefevre',98)}
+      ${exRow('Employeur','Nexity SA',97)}
+      ${exRow('Salaire net imposable','32 400 €',96)}
+      ${exRow('Retenue à la source','2 916 €',88)}
+      ${exRow('Adresse','12 rue des Lilas, 69003 Lyon',72)}
+      ${exRow('Période','Décembre 2025',94)}
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+      <button class="btn ghost sm" onclick="toast('Modifications enregistrées',true)">Enregistrer le brouillon</button>
+      <button class="btn sm" onclick="toast('Données validées & ajoutées au dossier ✓',true)">Valider & ajouter au dossier</button>
+    </div>
+  </div>
 
-/* ---------- Chat ---------- */
-function sendMsg(){
-  const inp=document.getElementById('chatInput'); const v=(inp.value||'').trim(); if(!v) return;
-  const s=document.getElementById('chatScroll');
-  const m=document.createElement('div'); m.className='msg me'; m.textContent=v; s.appendChild(m);
-  inp.value=''; s.scrollTop=s.scrollHeight;
-  setTimeout(()=>{ const r=document.createElement('div'); r.className='msg them'; r.innerHTML='<div class="au">Leilani</div>Bien reçu ! 🤙'; s.appendChild(r); s.scrollTop=s.scrollHeight; }, 1000);
+  <h3 style="margin:26px 0 12px;font-size:16px">Tous mes documents <span class="muted" style="font-weight:500">(6)</span></h3>
+  <div class="card cardpad">
+    ${docRow2('pdf','PDF','Fiche_paie_dec.pdf','2,1 Mo · 12 janv.','Traité','good')}
+    ${docRow2('pdf','PDF','Avis_imposition_2024.pdf','480 Ko · 10 janv.','Traité','good')}
+    ${docRow2('img','JPG','Recu_don_croixrouge.jpg','1,4 Mo · 10 janv.','OCR 91%','warn')}
+    ${docRow2('pdf','PDF','Attestation_prets_2024.pdf','320 Ko · 9 janv.','En attente','warn')}
+    ${docRow2('img','PNG','Justif_domicile.png','2,8 Mo · 8 janv.','Traité','good')}
+    ${docRow2('img','HEIC','Piece_identite.heic','3,1 Mo · 8 janv.','Traité','good')}
+  </div>
+</div>`;
+
+function exRow(k,v,conf){
+  const col=conf>=90?'var(--good)':conf>=80?'var(--warn)':'var(--crit)';
+  return `<div class="er"><div class="k">${k}</div><div><input value="${v}" onchange="toast('« ${k} » corrigé',true)"></div>
+    <div class="confbar"><div class="track"><div class="fill" style="width:${conf}%;background:${col}"></div></div><span style="color:${col}">${conf}%</span></div></div>`;
+}
+function docRow2(kind,tag,name,meta,status,cls){
+  return `<div class="doc" onclick="toast('Aperçu : ${name}')"><div class="ic ${kind}">${tag}</div>
+    <div class="tx"><b>${name}</b><span>${meta}</span></div>
+    <span class="chip ${cls==='good'?'good':'warn'}">${status}</span>
+    <button class="iconbtn" style="width:32px;height:32px" onclick="event.stopPropagation();toast('Options du document')" aria-label="Options"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></button></div>`;
+}
+function fakeUpload(){toast('Import en cours… OCR lancé ✦');setTimeout(()=>toast('Document analysé — vérifiez les champs',true),1400);}
+function scanMobile(){toast('📱 Lien de scan envoyé sur votre mobile');}
+
+/* ---------- Dossier fiscal ---------- */
+VIEWS.dossier=()=>`<div class="page">
+  <div class="tabs" id="dossierTabs">
+    ${['Identité','Foyer fiscal','Revenus','Charges & crédits','Documents'].map((t,i)=>`<button class="${i===0?'on':''}" onclick="dossierTab(this,${i})">${t}</button>`).join('')}
+  </div>
+  <div id="dossierBody">${dossierPane(0)}</div>
+</div>`;
+function dossierTab(btn,i){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');$('#dossierBody').innerHTML=dossierPane(i);}
+function dossierPane(i){
+  if(i===0)return `<div class="card cardpad">
+    <div class="cardhd"><h3>Identité du déclarant</h3><span class="chip good">✓ Vérifié</span></div>
+    ${fieldRow('Nom & prénom','Camille Lefevre')}
+    ${fieldRow('Date de naissance','14/03/1990')}
+    ${fieldRow('Numéro fiscal','12 34 567 890 123')}
+    ${fieldRow('Adresse','12 rue des Lilas, 69003 Lyon')}
+    ${fieldRow('Situation','Marié·e')}
+    <div style="text-align:right;margin-top:16px"><button class="btn sm" onclick="toast('Identité enregistrée',true)">Enregistrer</button></div>
+  </div>`;
+  if(i===1)return `<div class="card cardpad">
+    <div class="cardhd"><h3>Composition du foyer</h3><span class="chip warn">À vérifier</span></div>
+    ${fieldRow('Nombre de parts','2,5')}
+    ${fieldRow('Conjoint','Julien Lefevre')}
+    ${fieldRow('Enfant 1','Léa — date de naissance ?')}
+    ${fieldRow('Enfant 2','Tom — date de naissance ?')}
+    <div class="alert warn" style="margin-top:16px"><span class="ai">!</span><div>L'IA a besoin des dates de naissance des enfants pour calculer les majorations de parts. <span style="text-decoration:underline;cursor:pointer" onclick="route('assistant')">Compléter avec l'IA →</span></div></div>
+  </div>`;
+  if(i===2)return `<div class="card cardpad">
+    <div class="cardhd"><h3>Revenus 2025</h3><span class="chip good">✓ Source vérifiée</span></div>
+    ${fieldRow('Salaire net imposable','32 400 €')}
+    ${fieldRow('Retenue à la source','2 916 €')}
+    ${fieldRow('Revenus fonciers','— (à confirmer)')}
+    ${fieldRow('Revenus de placements','1 250 €')}
+    <div style="height:1px;background:var(--line-soft);margin:16px 0"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><b>Total revenus imposables</b><b style="font-size:20px;letter-spacing:-.02em">33 650 €</b></div>
+  </div>`;
+  if(i===3)return `<div class="card cardpad">
+    <div class="cardhd"><h3>Charges, déductions & crédits</h3></div>
+    ${fieldRow('Dons aux associations','200 € → réduction 132 €')}
+    ${fieldRow('Frais de garde','— (à explorer avec l\'IA)')}
+    ${fieldRow('Emploi à domicile','—')}
+    ${fieldRow('Intérêts d\'emprunt','Attestation manquante')}
+    <div class="alert crit" style="margin-top:16px"><span class="ai">✕</span><div><b>Document manquant :</b> attestation d'intérêts d'emprunt. <span style="text-decoration:underline;cursor:pointer" onclick="route('documents')">Importer →</span></div></div>
+  </div>`;
+  return `<div class="card cardpad"><div class="cardhd"><h3>Documents rattachés</h3></div>
+    ${docRow('pdf','PDF','Fiche_paie_dec.pdf','Rattaché aux revenus')}
+    ${docRow('img','JPG','Recu_don_croixrouge.jpg','Rattaché aux dons')}
+    ${docRow('img','HEIC','Piece_identite.heic','Rattaché à l\'identité')}
+  </div>`;
+}
+function fieldRow(label,val){return `<div class="field"><label>${label}</label><input class="input val" value="${val}" onchange="toast('« ${label} » mis à jour',true)"></div>`;}
+
+/* ---------- History ---------- */
+VIEWS.history=()=>`<div class="page">
+  <div class="grid g2" style="margin-bottom:20px">
+    <div class="card cardpad">
+      <div class="cardhd"><h3>Mes déclarations</h3></div>
+      ${histCard('2025','En cours · 72%','warn','Déclaration en préparation')}
+      ${histCard('2024','Déposée le 22/05/2024','good','Impôt payé : 1 512 €')}
+      ${histCard('2023','Déposée le 18/05/2023','good','Impôt payé : 1 640 €')}
+    </div>
+    <div class="card cardpad">
+      <div class="cardhd"><h3>Journal d'audit</h3><span class="chip">RGPD</span></div>
+      <div class="tl">
+        <div class="tli"><b>Don ajouté au dossier</b><span class="tm">Aujourd'hui · 14:32 · par IA</span><p>Réduction d'impôt de 132 € (art. 200 CGI).</p></div>
+        <div class="tli"><b>Fiche de paie validée</b><span class="tm">Aujourd'hui · 14:20 · par vous</span><p>Salaire net imposable confirmé : 32 400 €.</p></div>
+        <div class="tli"><b>Document importé</b><span class="tm">12 janv. · 09:14 · par vous</span><p>Fiche_paie_dec.pdf · OCR 98%.</p></div>
+        <div class="tli"><b>Compte créé</b><span class="tm">8 janv. · 20:01</span><p>Bienvenue sur TaxPilot ✦</p></div>
+      </div>
+    </div>
+  </div>
+</div>`;
+function histCard(year,status,cls,sub){
+  return `<div class="doc" onclick="toast('Déclaration ${year}')" style="padding:15px"><div class="ic" style="background:var(--brand-050);color:var(--brand-600)">${year}</div>
+    <div class="tx"><b>Déclaration ${year}</b><span>${sub}</span></div><span class="chip ${cls}">${status}</span></div>`;
 }
 
-/* ---------- Theme ---------- */
-function setTheme(v){
-  const r=document.documentElement;
-  if(v==='system') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', v);
-  const tl=document.getElementById('themeLbl'); if(tl) tl.textContent=(v==='dark')?'Sombre':(v==='light'?'Clair':'Thème');
-  toast('Thème : '+(v==='system'?'système':v==='dark'?'sombre':'clair'),'check');
+/* ---------- Settings ---------- */
+VIEWS.settings=()=>`<div class="page">
+  <div class="tabs">
+    ${['Compte','Sécurité','Notifications','Abonnement','RGPD'].map((t,i)=>`<button class="${i===0?'on':''}" onclick="setTab(this,${i})">${t}</button>`).join('')}
+  </div>
+  <div id="setBody">${setPane(0)}</div>
+</div>`;
+function setTab(btn,i){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');$('#setBody').innerHTML=setPane(i);}
+function setPane(i){
+  if(i===0)return `<div class="card cardpad">
+    <div class="cardhd"><h3>Informations du compte</h3></div>
+    ${fieldRow('Nom affiché','Camille Lefevre')}
+    ${fieldRow('Email','camille@email.fr')}
+    ${fieldRow('Langue','Français')}
+    ${fieldRow('Pays fiscal','France 🇫🇷')}
+    <div style="text-align:right;margin-top:16px"><button class="btn sm" onclick="toast('Compte enregistré',true)">Enregistrer</button></div>
+  </div>`;
+  if(i===1)return `<div class="card cardpad">
+    <div class="cardhd"><h3>Sécurité</h3></div>
+    ${switchRow('Double authentification (2FA)','Renforce la sécurité de votre compte',true)}
+    ${switchRow('Alertes de connexion','Email à chaque nouvelle connexion',true)}
+    <div class="field"><label>Mot de passe</label><div><button class="btn ghost sm" onclick="toast('Email de réinitialisation envoyé',true)">Changer le mot de passe</button></div></div>
+    <div class="cardhd" style="margin-top:20px"><h3 style="font-size:15px">Appareils connectés</h3></div>
+    ${device('MacBook Pro · Lyon','Session actuelle',true)}
+    ${device('iPhone 15 · Lyon','Actif il y a 3 h',false)}
+    ${device('Chrome · Paris','Actif il y a 2 j',false)}
+  </div>`;
+  if(i===2)return `<div class="card cardpad">
+    <div class="cardhd"><h3>Notifications</h3></div>
+    ${switchRow('Rappel d\'échéance','Avant la date limite de déclaration',true)}
+    ${switchRow('Import terminé','Quand un document est analysé',true)}
+    ${switchRow('OCR terminé','Quand l\'extraction est prête à vérifier',true)}
+    ${switchRow('Abonnement & factures','Paiements et renouvellements',true)}
+    ${switchRow('Nouveautés produit','Astuces et fonctionnalités',false)}
+    <div style="text-align:right;margin-top:16px"><button class="btn sm" onclick="toast('Préférences enregistrées',true)">Enregistrer</button></div>
+  </div>`;
+  if(i===3)return `<div class="card cardpad">
+    <div class="cardhd"><h3>Abonnement</h3><span class="chip brand">Plan Déclaration</span></div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin:6px 0 4px"><span style="font-size:32px;font-weight:800;letter-spacing:-.03em">39 €</span><span class="muted">/ déclaration · essai actif</span></div>
+    <p class="soft" style="font-size:14px;margin:0 0 18px">Votre essai gratuit se termine le 15 août 2026. Aucun prélèvement d'ici là.</p>
+    <div class="grid g2" style="margin-bottom:16px">
+      ${invoiceRow('Facture #2026-014','Essai gratuit','0 €')}
+      ${invoiceRow('Facture #2025-208','Déclaration 2024','39 €')}
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn sm" onclick="toast('Redirection vers le portail Stripe…')">Gérer mon abonnement</button>
+      <button class="btn ghost sm" onclick="toast('Factures téléchargées')">Télécharger mes factures</button>
+    </div>
+  </div>`;
+  return `<div class="card cardpad">
+    <div class="cardhd"><h3>Données personnelles & RGPD</h3></div>
+    <p class="soft" style="font-size:14px;margin:0 0 18px">Vous contrôlez vos données. Hébergées en UE, chiffrées AES-256.</p>
+    <button class="btn ghost block" style="justify-content:flex-start;margin-bottom:10px" onclick="toast('Export RGPD généré — envoyé par email',true)">📥 Exporter toutes mes données (RGPD)</button>
+    <button class="btn ghost block" style="justify-content:flex-start;margin-bottom:10px" onclick="toast('Historique de traitement affiché')">📜 Voir l'historique des traitements</button>
+    <button class="btn ghost block" style="justify-content:flex-start;color:var(--crit);border-color:color-mix(in srgb,var(--crit) 30%,transparent)" onclick="confirmDelete()">🗑️ Supprimer définitivement mon compte</button>
+  </div>`;
 }
+function switchRow(label,sub,on){return `<div class="field"><div><label style="display:block">${label}</label><span class="muted" style="font-size:12.5px">${sub}</span></div>
+  <div style="justify-self:end"><div class="switch" role="switch" aria-checked="${on}" tabindex="0" onclick="tog(this)" style="width:44px;height:26px;border-radius:999px;background:${on?'var(--brand)':'var(--surface-3)'};position:relative;cursor:pointer;transition:background .2s">
+  <span style="position:absolute;top:3px;left:${on?'21px':'3px'};width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:var(--sh-1)"></span></div></div></div>`;}
+function tog(el){const on=el.getAttribute('aria-checked')==='true';el.setAttribute('aria-checked',!on);el.style.background=on?'var(--surface-3)':'var(--brand)';el.querySelector('span').style.left=on?'3px':'21px';}
+function device(name,meta,cur){return `<div class="doc" style="padding:12px"><div class="ic" style="background:var(--surface-2);color:var(--ink-soft)">🖥️</div><div class="tx"><b>${name}</b><span>${meta}</span></div>${cur?'<span class="chip good">Actuel</span>':'<button class="btn ghost sm" onclick="toast(\'Session déconnectée\',true)">Déconnecter</button>'}</div>`;}
+function invoiceRow(t,d,a){return `<div style="border:1px solid var(--line-soft);border-radius:12px;padding:14px"><div style="font-size:13px" class="muted">${t}</div><b style="display:block;margin:3px 0">${d}</b><span style="font-weight:700">${a}</span></div>`;}
+function confirmDelete(){toast('⚠️ Confirmation requise — email de sécurité envoyé');}
 
-/* ---------- Boot ---------- */
-renderFeed();
-go('home');
+/* ---------- Support ---------- */
+VIEWS.support=()=>`<div class="page">
+  <div class="grid g-main">
+    <div class="card cardpad">
+      <div class="cardhd"><h3>Poser une question</h3></div>
+      <label class="flabel">Sujet</label>
+      <input class="input" placeholder="Ex : Comment déclarer mes revenus fonciers ?">
+      <label class="flabel">Message</label>
+      <textarea class="input" rows="5" placeholder="Décrivez votre besoin…"></textarea>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button class="btn" onclick="toast('Message envoyé — réponse sous 24 h',true)">Envoyer</button>
+        <button class="btn ghost" onclick="route('assistant')">Demander à l'IA</button>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card cardpad">
+        <div class="cardhd"><h3>Aide rapide</h3></div>
+        ${faqLink('Comment fonctionne l\'OCR ?')}
+        ${faqLink('Mes données sont-elles sécurisées ?')}
+        ${faqLink('Comment annuler mon abonnement ?')}
+        ${faqLink('L\'IA peut-elle se tromper ?')}
+      </div>
+      <div class="card cardpad" style="text-align:center">
+        <div style="font-size:30px">💬</div>
+        <b style="display:block;margin:8px 0 4px">Support prioritaire</b>
+        <p class="soft" style="font-size:13.5px;margin:0 0 12px">Réponse en moins de 2 h avec le plan Famille.</p>
+        <button class="btn ghost sm" onclick="route('settings')">Passer à Famille</button>
+      </div>
+    </div>
+  </div>
+</div>`;
+function faqLink(q){return `<div class="doc" style="padding:12px" onclick="toast('Article ouvert')"><div class="tx"><b>${q}</b></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>`;}
 
-/* Theme toggle */
-const root=document.documentElement, tb=document.getElementById('themeBtn'), tl=document.getElementById('themeLbl');
-tb.addEventListener('click',()=>{
-  const cur = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-  const next = cur==='dark'?'light':'dark';
-  root.setAttribute('data-theme', next);
-  tl.textContent = next==='dark'?'Sombre':'Clair';
-});
+/* ---------- Admin ---------- */
+VIEWS.admin=()=>`<div class="page">
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
+    ${adminStat('Utilisateurs','8 412','▲ 6,2% ce mois','var(--good)')}
+    ${adminStat('MRR','24 380 €','▲ 3,1%','var(--good)')}
+    ${adminStat('Déclarations','12 049','▲ 214 aujourd\'hui','var(--good)')}
+    ${adminStat('Tickets ouverts','17','▼ 4 vs hier','var(--good)')}
+  </div>
+  <div class="card cardpad">
+    <div class="cardhd"><h3>Utilisateurs récents</h3><span class="link" onclick="toast('Export CSV')">Exporter</span></div>
+    <div style="overflow-x:auto">
+      <table class="tbl">
+        <thead><tr><th>Utilisateur</th><th>Plan</th><th>Statut</th><th>Documents</th><th>Inscrit</th><th></th></tr></thead>
+        <tbody>
+          ${adminUser('Camille Lefevre','camille@email.fr','Déclaration','Actif','good','6','8 janv.')}
+          ${adminUser('Marc Bonnet','marc@email.fr','Famille','Actif','good','11','7 janv.')}
+          ${adminUser('Sarah Amrani','sarah@email.fr','Découverte','Essai','warn','2','7 janv.')}
+          ${adminUser('Julien Roy','julien@email.fr','Déclaration','Actif','good','8','6 janv.')}
+          ${adminUser('Léa Martin','lea@email.fr','Découverte','Suspendu','crit','0','5 janv.')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card cardpad"><div class="cardhd"><h3>Logs système</h3></div>
+      ${logRow('OCR job #4821 terminé','info','il y a 2 min')}
+      ${logRow('Webhook Stripe · paiement reçu','good','il y a 8 min')}
+      ${logRow('Rate limit atteint · IP 92.x','warn','il y a 22 min')}
+      ${logRow('Tentative de connexion échouée','crit','il y a 1 h')}
+    </div>
+    <div class="card cardpad"><div class="cardhd"><h3>Configuration & rôles</h3></div>
+      ${switchRow('Nouveaux comptes','Autoriser les inscriptions',true)}
+      ${switchRow('Mode maintenance','Coupe l\'accès public',false)}
+      ${switchRow('Modèle IA · streaming','Réponses en temps réel',true)}
+      <div class="field"><label>Rôle par défaut</label><input class="input" value="user"></div>
+    </div>
+  </div>
+</div>`;
+function adminStat(l,v,d,c){return `<div class="card stat"><div class="l">${l}</div><div class="v">${v}</div><div class="d" style="color:${c}">${d}</div></div>`;}
+function adminUser(name,email,plan,status,cls,docs,date){
+  const init=name.split(' ').map(x=>x[0]).join('');
+  return `<tr onclick="toast('Fiche : ${name}')" style="cursor:pointer"><td><div style="display:flex;align-items:center;gap:10px"><span class="quote" style="all:unset;width:30px;height:30px;border-radius:50%;background:linear-gradient(140deg,var(--brand),#8AB0FF);color:#fff;display:grid;place-items:center;font-weight:700;font-size:11px">${init}</span><div><b style="font-size:13.5px">${name}</b><div class="muted" style="font-size:12px">${email}</div></div></div></td>
+  <td><span class="chip brand">${plan}</span></td><td><span class="chip ${cls}">${status}</span></td><td>${docs}</td><td class="muted">${date}</td>
+  <td><button class="iconbtn" style="width:30px;height:30px" onclick="event.stopPropagation();toast('Actions')" aria-label="Actions"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></button></td></tr>`;
+}
+function logRow(t,cls,tm){const col={info:'var(--info)',good:'var(--good)',warn:'var(--warn)',crit:'var(--crit)'}[cls];
+  return `<div style="display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid var(--line-soft)"><span style="width:8px;height:8px;border-radius:50%;background:${col};flex:none"></span><div style="flex:1;font-size:13.5px" class="mono">${t}</div><span class="muted" style="font-size:12px">${tm}</span></div>`;}
+
+/* ============================================================ BOOT ============================================================ */
+paintThemeBtns();
 </script>
